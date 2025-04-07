@@ -1,0 +1,12 @@
+db_host: 'localhost'
+db_port: '3306'
+db_name: 'intranet'
+db_user: 'intranet'
+db_pw: 'dsadddsddsadas'
+django_secret_key: sedascredddasdadasds
+debug_mode: True
+sqlite_mode: True
+email_sistema: 'dsdasdsdsada@sme.novafriburgo.rj.gov.br'
+email_pw: 'daddsadsds'
+hCAPTCHA_Public_Key: '62f84cbc-6c62-4340-ad04-2066a742fb44'
+hCAPTCHA_Secret_Key: 'ES_2aaf40fc5a7e40d5a5f73f2feb68c3f9'
