@@ -32,9 +32,9 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-
 from settings.settings import hCAPTCHA_PRIVATE_KEY, hCAPTCHA_PUBLIC_KEY
 import requests
+from django.contrib.auth.decorators import login_required
 
 def login_view(request):
     context = {}
@@ -82,7 +82,7 @@ def login_view(request):
                 return redirect(next_url)
             else:
                 print("URL não segura, redirecionando para a página inicial.")
-                return redirect('/')
+                return redirect('autenticacao:painel_administrativo')
         else:
             if User.objects.filter(username=username).exists():
                 msg = 'Login ou senha invalidos'
@@ -98,6 +98,7 @@ def login_view(request):
         context = {
             'hCAPTCHA': hCAPTCHA_PUBLIC_KEY,
         }   
+        
     return render(request, 'adm/new_login.html', context)
 
 def passwd_reset(request):
@@ -218,3 +219,98 @@ class PasswordResetCompleteView(PasswordContextMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['login_url'] = resolve_url(settings.LOGIN_URL)
         return context
+    
+
+#####################################################################
+'''
+Comentario sagaz
+'''
+#####################################################################
+
+# @login_required
+# def meio_autenticacao(request, next=None):
+#     user = request.user
+
+#     admin = Administrador.objects.filter(user=user)
+#     if admin.exists():
+#         return redirect('adm') 
+
+@login_required
+def painel_administrativo(request):
+    return render(request, 'adm/painel_administrativo.html')
+
+@login_required
+def administrador_listar(request):
+    context = {
+        'administradores': Administrador.objects.all()
+    }
+    return render(request, 'adm/administrador_listar.html', context)
+
+@login_required
+def administrador_cadastro(request):
+
+    if request.method == 'POST':
+        # form = administrador_form(request.POST)
+        username = request.POST['username']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        form = administrador_form(request.POST)
+        if not password1 == password2: 
+            usuario_form = cadastrar_usuario_form(request.POST)
+            usuario_form.add_error('password1', 'As senhas não conferem.')
+        
+        elif len(password1) >= 8:
+            usuario_form = cadastrar_usuario_form(request.POST)
+            usuario_form.add_error('password1', 'A senha deve conter pelo menos 8 caracteres.')
+        
+        elif form.is_valid():
+           user = User.objects.create_user(username=username, password=password1)
+           user.save()
+           adm = form.save()
+           adm.user = user
+           adm.save()
+
+           return redirect('autenticacao:administrador_listar')
+        else:
+            usuario_form = cadastrar_usuario_form(request.POST)
+            
+        # if form.is_valid():
+        #     form.save()
+        #     return redirect('autenticacao:administrador_listar')
+    else:
+        usuario_form = cadastrar_usuario_form()
+        form = administrador_form()
+        
+    context = {
+        'form': form ,
+        'form_usuario': usuario_form,
+    }
+    return render(request, 'adm/administrador_cadastro.html', context)
+
+
+@login_required
+def diretor_listar(request):
+    context = {
+        'diretores': Diretor.objects.all(),
+    }
+    return render(request, 'adm/diretor_listar.html', context)
+
+@login_required
+def professor_listar(request):
+    context = {
+        'professores': Professor.objects.all(),
+    }
+    return render(request, 'adm/professor_listar.html', context)
+
+@login_required
+def assistente_administrativo_listar(request):
+    context = {
+        'assistentes_administrativos': Assistente_Administrativo.objects.all(),
+    }
+    return render(request, 'adm/assistente_administrativo_listar.html', context)
+
+@login_required
+def assistente_administrativo_cadastro(request):
+    context = {
+    }
+    return render(request, 'adm/assistente_administrativo_listar.html', context)

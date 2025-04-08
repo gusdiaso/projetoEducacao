@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 class Pessoa(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='pessoa')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='pessoa', null=True)
     nome = models.CharField(max_length=255)
     cpf = models.CharField(max_length=11, unique=True)
     email = models.EmailField(unique=True)
@@ -28,7 +28,6 @@ class Diretor(Pessoa):
         return self.nome
     
 class Professor(Pessoa):
-    disciplina = models.CharField(max_length=255)
 
     def __str__(self):
         return self.nome

@@ -104,3 +104,26 @@ class PasswordResetForm(forms.Form):
                 subject_template_name, email_template_name, context, from_email,
                 user_email, html_email_template_name=html_email_template_name,
             )
+
+
+class cadastrar_usuario_form(forms.Form):
+    username = forms.CharField(max_length=150, required=True, label='Matricula')
+    password1 = forms.CharField(widget=forms.PasswordInput, label='Senha')
+    password2 = forms.CharField(widget=forms.PasswordInput, label='Confirmação de senha')
+    
+class administrador_form(ModelForm):
+    class Meta:
+        model = Administrador
+        fields = [ 'nome', 'cpf', 'email']
+        widgets = {
+            # 'user': forms.HiddenInput(),
+            'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get('cpf')
+        if not validate_cpf(cpf):
+            raise forms.ValidationError("CPF inválido.")
+        return cpf

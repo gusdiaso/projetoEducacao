@@ -88,12 +88,11 @@
         </div>
     </div>
 </div>
-
 <script>
     const passwordInput = document.getElementById('exampleInputPassword1');
-
+    
     passwordInput.insertAdjacentHTML('afterend', '<i class="far fa-eye toggle-password" id="togglePassword"></i>');
-
+    
     const togglePassword = document.getElementById('togglePassword');
 
     togglePassword.addEventListener('click', function() {
@@ -102,3 +101,5 @@
         this.classList.toggle('fa-eye-slash');
     });
 </script>
+</body>
+</html>

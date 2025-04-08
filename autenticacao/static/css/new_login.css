@@ -4,7 +4,7 @@ html, body{
     /* min-width: 630px !important;     */
 }
 html{
-    background-image: url(../images/bg-login-old.jpg);
+    background-image: url(/static/images/bg-login-educacao.png);
     background-position: center;
     background-attachment: fixed;
     background-size: cover;

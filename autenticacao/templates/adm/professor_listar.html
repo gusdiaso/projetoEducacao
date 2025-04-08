@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor</title>
+</head>
+<body>
+    <h2>eis aqui um professor!</h2>
+    {% for professor in professores %}
+        <p>{{ professor }}</p>
+    {% endfor %}
+    <br>
+    <a href="{% url 'autenticacao:administrador_cadastro' %}">Adicionar Administrador</a>
+    <br>
+    <a href="{% url "autenticacao:painel_administrativo" %}">voltar</a>
+
+</body>
+</html>
