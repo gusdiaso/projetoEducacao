@@ -128,3 +128,25 @@ class administrador_form(ModelForm):
 #         if not validate_cpf(cpf):
 #             raise forms.ValidationError("CPF inválido.")
 #         return cpf
+
+class diretor_form(ModelForm):
+    class Meta:
+        model = Diretor
+        fields = [ 'nome', 'cpf', 'email']
+        widgets = {
+            # 'user': forms.HiddenInput(),
+            'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
+class assistente_administrativo_form(ModelForm):
+    class Meta:
+        model = Diretor
+        fields = [ 'nome', 'cpf', 'email']
+        widgets = {
+            # 'user': forms.HiddenInput(),
+            'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }

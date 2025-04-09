@@ -5,10 +5,10 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador</title>
+    <title>diretor</title>
 </head>
 <body>
-    <h2>Editar Administrador</h2>
+    <h2>Editar diretor</h2>
     <form method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}
@@ -16,6 +16,6 @@
         <button type="submit">Enviar</button>
     </form>
     <br>
-    <a href="{% url "autenticacao:administrador" %}">voltar</a>
+    <a href="{% url "autenticacao:diretor" %}">voltar</a>
 </body>
 </html>

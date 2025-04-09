@@ -10,9 +10,14 @@
 
     {% for diretor in diretores %}
         <p>{{ diretor }}</p>
+        <a href="{% url 'autenticacao:diretor_editar' diretor.id %}">Editar</a>
+        <a href="{% url 'autenticacao:diretor_deletar' diretor.id %}">Deletar</a>
     {% endfor %}
     <br>
-    <a href="{% url 'autenticacao:administrador_adicionar' %}">Adicionar Administrador</a>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'autenticacao:diretor_adicionar' %}">Adicionar diretor</a>
     <br>
     <a href="{% url "autenticacao:painel_administrativo" %}">voltar</a>
 
