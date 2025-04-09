@@ -2,35 +2,41 @@ from django.forms import ValidationError
 from django.conf import settings
 
 
+from django.core.exceptions import ValidationError
+
 def validate_cpf(cpf):
     """
     Function that validates a CPF.
     """
-    cpf = cpf.replace('.', '')
-    cpf = cpf.replace('-', '')
-    if len(cpf) != 11:
-        raise ValidationError(('O CPF deve conter 11 dígitos'), code='invalid1')
-    if cpf in ["00000000000", "11111111111", "22222222222", "33333333333", "44444444444", "55555555555", "66666666666", "77777777777", "88888888888", "99999999999"]:
-        raise ValidationError(('CPF inválido'), code='invalid2')
+    cpf = cpf.strip().replace('.', '').replace('-', '')
+    
+    if not cpf.isdigit():
+        raise ValidationError('O CPF deve conter apenas números.', code='invalid1')
 
-    sum = 0
-    weight = 10
+    if len(cpf) != 11:
+        raise ValidationError('O CPF deve conter 11 dígitos.', code='invalid1')
+
+    if cpf in [c * 11 for c in "0123456789"]:
+        raise ValidationError('CPF inválido.', code='invalid2')
+
+    # Primeiro dígito verificador
+    total = 0
     for i in range(9):
-        sum += int(cpf[i]) * weight
-        weight -= 1
-    check_digit = 11 - (sum % 11)
-    if check_digit > 9:
-        check_digit = 0
-    if check_digit != int(cpf[9]):
-        raise ValidationError(('CPF inválido'), code='invalid2')
-    sum = 0
-    weight = 11
+        total += int(cpf[i]) * (10 - i)
+    check_digit1 = 11 - (total % 11)
+    if check_digit1 > 9:
+        check_digit1 = 0
+    if check_digit1 != int(cpf[9]):
+        raise ValidationError('CPF inválido.', code='invalid2')
+
+    # Segundo dígito verificador
+    total = 0
     for i in range(10):
-        sum += int(cpf[i]) * weight
-        weight -= 1
-    check_digit = 11 - (sum % 11)
-    if check_digit > 9:
-        check_digit = 0
-    if check_digit != int(cpf[10]):
-        raise ValidationError(('CPF inválido'), code='invalid2')
+        total += int(cpf[i]) * (11 - i)
+    check_digit2 = 11 - (total % 11)
+    if check_digit2 > 9:
+        check_digit2 = 0
+    if check_digit2 != int(cpf[10]):
+        raise ValidationError('CPF inválido.', code='invalid2')
+
     return cpf

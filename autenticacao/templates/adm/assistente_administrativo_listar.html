@@ -9,11 +9,15 @@
     <h2>eis aqui um assistente administrativo!</h2>
     {% for assistente in assistentes_administrativos %}
         <p>{{ assistente }}</p>
+        <a href="{% url 'autenticacao:assistente_administrativo_editar' assistente.id %}">Editar</a>
     {% endfor %}
     <br>
-    <a href="{% url 'autenticacao:assistente_administrativo' %}">Adicionar Assistente Administrativo</a>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'autenticacao:assistente_administrativo_adicionar' %}">Adicionar Assistente</a>
     <br>
     <a href="{% url "autenticacao:painel_administrativo" %}">voltar</a>
-
+    
 </body>
 </html>

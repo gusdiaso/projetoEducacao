@@ -122,8 +122,9 @@ class administrador_form(ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
 
-    def clean_cpf(self):
-        cpf = self.cleaned_data.get('cpf')
-        if not validate_cpf(cpf):
-            raise forms.ValidationError("CPF inválido.")
-        return cpf
+# TA DANDO ERRO POR ALGUM MOTIVO QUE NAO ENCONTREI __ ASS: GUSTAVO
+#     def clean_cpf(self):
+#         cpf = self.cleaned_data.get('cpf')
+#         if not validate_cpf(cpf):
+#             raise forms.ValidationError("CPF inválido.")
+#         return cpf

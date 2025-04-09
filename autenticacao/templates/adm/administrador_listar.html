@@ -9,10 +9,15 @@
     <h2>Administradores</h2>
     {% for admin in administradores %}
         <p>{{ admin }}</p>
+        <a href="{% url 'autenticacao:administrador_editar' admin.id %}">Editar</a>
     {% endfor %}
     <br>
-    <a href="{% url 'autenticacao:administrador_cadastro' %}">Adicionar Administrador</a>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'autenticacao:administrador_adicionar' %}">Adicionar Adm</a>
     <br>
     <a href="{% url "autenticacao:painel_administrativo" %}">voltar</a>
+
 </body>
 </html>
