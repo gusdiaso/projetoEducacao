@@ -418,6 +418,7 @@ def assistente_administrativo_adicionar(request):
            assistente_administrativo = form.save()
            assistente_administrativo.user = user
            assistente_administrativo.save()
+           
 
            return redirect('autenticacao:assistente_administrativo')
         else:
