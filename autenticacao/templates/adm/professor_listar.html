@@ -9,9 +9,15 @@
     <h2>eis aqui um professor!</h2>
     {% for professor in professores %}
         <p>{{ professor }}</p>
+        <a href="{% url 'autenticacao:professor_editar' professor.id %}">Editar</a>
+        <a href="{% url 'autenticacao:professor_deletar' professor.id %}">Deletar</a>
     {% endfor %}
     <br>
-    <a href="{% url 'autenticacao:administrador_adicionar' %}">Adicionar Administrador</a>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'autenticacao:professor_adicionar' %}">Adicionar Professor</a>
+    
     <br>
     <a href="{% url "autenticacao:painel_administrativo" %}">voltar</a>
 

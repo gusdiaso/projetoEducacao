@@ -385,6 +385,67 @@ def professor_listar(request):
     return render(request, 'adm/professor_listar.html', context)
 
 
+@login_required
+def professor_adicionar(request):
+    if request.method == 'POST':
+        form = professor_form(request.POST)
+        username = request.POST['username']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+
+        if not password1 == password2: 
+            usuario_form = cadastrar_usuario_form(request.POST)
+            usuario_form.add_error('password1', 'As senhas não conferem.')
+        
+        elif len(password1) < 8:
+            usuario_form = cadastrar_usuario_form(request.POST)
+            usuario_form.add_error('password1', 'A senha deve conter pelo menos 8 caracteres.')
+        
+        elif form.is_valid():
+           user = User.objects.create_user(username=username, password=password1)
+           user.save()
+           professor = form.save()
+           professor.user = user
+           professor.save()
+
+           return redirect('autenticacao:professor')
+        else:
+            usuario_form = cadastrar_usuario_form(request.POST)
+    else:
+        usuario_form = cadastrar_usuario_form()
+        form = professor_form()
+        
+    context = {
+        'form': form ,
+        'form_usuario': usuario_form,
+    }
+    return render(request, 'adm/professor_adicionar.html', context)
+
+@login_required
+def professor_editar(request, id):
+    instancia = Professor.objects.get(id=id)
+    if request.method == 'POST':
+        form = professor_form(request.POST)
+   
+        if form.is_valid():
+            form_editado = professor_form(request.POST, instance=instancia)
+            form_editado.save()
+            return redirect('autenticacao:professor')
+
+    else:
+       
+        form = professor_form(instance=instancia)
+        
+    context = {
+        'form': form    }
+    return render(request, 'adm/professor_editar.html', context)
+
+def professor_deletar(request, id):
+    professor = Professor.objects.get(id=id)
+    professor.delete()
+    return redirect('autenticacao:professor')
+
+
 
 ###### ASSISTENTE ADM  ###############################################################
 

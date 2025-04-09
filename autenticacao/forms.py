@@ -142,7 +142,19 @@ class diretor_form(ModelForm):
 
 class assistente_administrativo_form(ModelForm):
     class Meta:
-        model = Diretor
+        model = Assistente_Administrativo
+        fields = [ 'nome', 'cpf', 'email']
+        widgets = {
+            # 'user': forms.HiddenInput(),
+            'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
+
+class professor_form(ModelForm):
+    class Meta:
+        model = Professor
         fields = [ 'nome', 'cpf', 'email']
         widgets = {
             # 'user': forms.HiddenInput(),
