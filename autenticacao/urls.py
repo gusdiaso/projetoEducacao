@@ -14,24 +14,8 @@ urlpatterns = [
 
     path('painel_administrativo/', views.painel_administrativo, name='painel_administrativo'),
 
-    path('administrador/', views.administrador_listar, name='administrador'),
-    path('administrador_adicionar/', views.administrador_adicionar, name='administrador_adicionar'),
-    path('administrador_editar/<int:id>/', views.administrador_editar, name='administrador_editar'),
-    path('administrador_deletar/<int:id>/', views.administrador_deletar, name='administrador_deletar'),
-
-
-    path('diretor/', views.diretor_listar, name='diretor'),
-    path('diretor_adicionar/', views.diretor_adicionar, name='diretor_adicionar'),
-    path('diretor_editar/<int:id>/', views.diretor_editar, name='diretor_editar'),
-    path('diretor_deletar/<int:id>/', views.diretor_deletar, name='diretor_deletar'),
-    
-    path('professor/', views.professor_listar, name='professor'),
-    path('professor_adicionar/', views.professor_adicionar, name='professor_adicionar'),
-    path('professor_editar/<int:id>/', views.professor_editar, name='professor_editar'),
-    path('professor_deletar/<int:id>/', views.professor_deletar, name='professor_deletar'),
-    
-    path('assistente_administrativo/', views.assistente_administrativo_listar, name='assistente_administrativo'),
-    path('assistente_administrativo_adicionar/', views.assistente_administrativo_adicionar, name='assistente_administrativo_adicionar'),
-    path('assistente_administrativo_editar/<int:id>/', views.assistente_administrativo_editar, name='assistente_administrativo_editar'),
-    path('assistente_administrativo_deletar/<int:id>/', views.assistente_administrativo_deletar, name='assistente_administrativo_deletar'),
+    path('usuarios/', views.usuario_listar, name='usuarios'),
+    path('usuario-adicionar/', views.usuario_adicionar, name='usuario_adicionar'),
+    path('usuario-editar/<int:id>/', views.usuario_editar, name='usuario_editar'),
+    path('usuario-toggle-ativo/<int:id>/', views.usuario_toggle_ativo, name='usuario_toggle_ativo'),
 ]

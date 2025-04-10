@@ -1,10 +1,8 @@
 from django.contrib import admin
-from .models import Pessoa, Administrador, Assistente_Administrativo, Diretor, Professor
+from .models import Pessoa
+@admin.register(Pessoa)
 
-
-# Register your models here.
-admin.site.register(Pessoa) 
-admin.site.register(Administrador)
-admin.site.register(Assistente_Administrativo)
-admin.site.register(Diretor)
-admin.site.register(Professor)
+class PessoaAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nome', 'cpf', 'email', 'tipo_conta')  # Adjust fields as per your model
+    search_fields = ('nome', 'email', 'cpf')      # Adjust fields as per your model
+    list_filter = ('tipo_conta',)        # Adjust fields as per your model

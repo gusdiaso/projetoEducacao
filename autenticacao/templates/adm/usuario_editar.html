@@ -1,0 +1,15 @@
+{% extends "adm/template.html" %}
+{% load bootstrap5 %}
+
+{% block title %}Editar Administrador{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Editar Administrador</h2>
+<form method="POST" class="needs-validation" novalidate>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <br>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+    <a href="{% url "autenticacao:usuarios" %}" class="btn btn-secondary">Voltar</a>
+</form>
+{% endblock %}

@@ -3,13 +3,14 @@ from django.conf import settings
 
 
 from django.core.exceptions import ValidationError
-
+from .models import Pessoa
 def validate_cpf(cpf):
     """
     Function that validates a CPF.
     """
+
     cpf = cpf.strip().replace('.', '').replace('-', '')
-    
+    print(cpf)
     if not cpf.isdigit():
         raise ValidationError('O CPF deve conter apenas números.', code='invalid1')
 
@@ -40,3 +41,17 @@ def validate_cpf(cpf):
         raise ValidationError('CPF inválido.', code='invalid2')
 
     return cpf
+
+def filtrar_usuarios(user):
+    pessoa = Pessoa.objects.get(user=user)
+
+    if pessoa.tipo_conta == 'adm':
+        usuarios = Pessoa.objects.all()
+    elif pessoa.tipo_conta == 'ass':
+        usuarios = Pessoa.objects.filter(tipo_conta__in=['ass', 'dir', 'pro'])
+    elif pessoa.tipo_conta == 'dir':
+        usuarios = Pessoa.objects.filter(tipo_conta__in=['pro'])
+    else:
+        usuarios = Pessoa.objects.none() 
+
+    return usuarios

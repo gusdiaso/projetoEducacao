@@ -106,59 +106,50 @@ class PasswordResetForm(forms.Form):
             )
 
 
-class cadastrar_usuario_form(forms.Form):
+class Cadastrar_usuario_form(forms.Form):
     username = forms.CharField(max_length=150, required=True, label='Matricula')
     password1 = forms.CharField(widget=forms.PasswordInput, label='Senha')
     password2 = forms.CharField(widget=forms.PasswordInput, label='Confirmação de senha')
     
-class administrador_form(ModelForm):
+class Pessoa_form(ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if self.user:
+            self.pessoa = Pessoa.objects.get(user=self.user)
+            if self.pessoa.tipo_conta == 'adm':
+                # Administrador pode ver todas as opções
+                pass
+            elif self.pessoa.tipo_conta == 'ass':
+                # Assistente Administrativo pode ver opções limitadas
+                self.fields['tipo_conta'].choices = [
+                    choice for choice in self.fields['tipo_conta'].choices if choice[0] in ['ass', 'dir', 'pro']
+                ]
+            elif self.pessoa.tipo_conta == 'dir':
+                # Diretor pode ver opções limitadas
+                self.fields['tipo_conta'].choices = [
+                    choice for choice in self.fields['tipo_conta'].choices if choice[0] in ['pro']
+                ]
+            elif self.pessoa.tipo_conta == 'pro':
+                # Professor só pode ver sua própria opção
+                self.fields['tipo_conta'].choices = [
+                    choice for choice in self.fields['tipo_conta'].choices if choice[0] == 'alu'
+                ]
+
     class Meta:
-        model = Administrador
-        fields = [ 'nome', 'cpf', 'email']
+        model = Pessoa
+        fields = [ 'nome', 'cpf', 'email', 'tipo_conta']
         widgets = {
             # 'user': forms.HiddenInput(),
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
-            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
+            'cpf': forms.TextInput(attrs={'class': 'form-control', 'onkeydown': "mascara(this, icpf)"}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-        }
-
-# TA DANDO ERRO POR ALGUM MOTIVO QUE NAO ENCONTREI __ ASS: GUSTAVO
-#     def clean_cpf(self):
-#         cpf = self.cleaned_data.get('cpf')
-#         if not validate_cpf(cpf):
-#             raise forms.ValidationError("CPF inválido.")
-#         return cpf
-
-class diretor_form(ModelForm):
-    class Meta:
-        model = Diretor
-        fields = [ 'nome', 'cpf', 'email']
-        widgets = {
-            # 'user': forms.HiddenInput(),
-            'nome': forms.TextInput(attrs={'class': 'form-control'}),
-            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-        }
-
-class assistente_administrativo_form(ModelForm):
-    class Meta:
-        model = Assistente_Administrativo
-        fields = [ 'nome', 'cpf', 'email']
-        widgets = {
-            # 'user': forms.HiddenInput(),
-            'nome': forms.TextInput(attrs={'class': 'form-control'}),
-            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'tipo_conta': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
-class professor_form(ModelForm):
-    class Meta:
-        model = Professor
-        fields = [ 'nome', 'cpf', 'email']
-        widgets = {
-            # 'user': forms.HiddenInput(),
-            'nome': forms.TextInput(attrs={'class': 'form-control'}),
-            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-        }
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get('cpf')
+        cpf = validate_cpf(cpf)            
+        return cpf
+

@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo</title>
-</head>
-<body>
-    <ul>
-        <li><a href="{% url 'autenticacao:administrador' %}">Administrador</a></li>
-        <li><a href="{% url 'autenticacao:diretor' %}">Diretor</a></li>            
-        <li><a href="{% url 'autenticacao:assistente_administrativo' %}">Assistente Administrativo</a></li>
-        <li><a href="{% url 'autenticacao:professor' %}">Professor</a></li>
-        <li><a href="#">Alunos</a></li>        
-    </ul>
-</body>
-</html>
+{% extends "adm/template.html" %}
+
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Painel Administrativo</h2>
+<p>Bem-vindo ao painel administrativo!</p>
+<a href="{% url 'autenticacao:usuarios' %}" class="btn btn-primary">Gerenciar Usuários</a>
+{% endblock %}

@@ -14,7 +14,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.template.loader import render_to_string
 from django.core.mail import send_mail, BadHeaderError
 
-from .models import *
+from .models import Pessoa
 from .forms import *
 
 from django.conf import settings
@@ -35,6 +35,7 @@ from django.views.generic.edit import FormView
 from settings.settings import hCAPTCHA_PRIVATE_KEY, hCAPTCHA_PUBLIC_KEY
 import requests
 from django.contrib.auth.decorators import login_required
+from .decorators import *
 
 def login_view(request):
     context = {}
@@ -78,11 +79,12 @@ def login_view(request):
             next_url = request.POST.get('next')
             
             # Verifica se a URL é segura
-            if url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host()):
-                return redirect(next_url)
-            else:
-                print("URL não segura, redirecionando para a página inicial.")
-                return redirect('autenticacao:painel_administrativo')
+            return redirect('autenticacao:painel_administrativo')
+            # if url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host()):
+            #     return redirect(next_url)
+            # else:
+            #     print("URL não segura, redirecionando para a página inicial.")
+            #     return redirect('autenticacao:painel_administrativo')
         else:
             if User.objects.filter(username=username).exists():
                 msg = 'Login ou senha invalidos'
@@ -221,299 +223,102 @@ class PasswordResetCompleteView(PasswordContextMixin, TemplateView):
         return context
     
 
-#####################################################################
-'''
-Comentario sagaz
-'''
-#####################################################################
-
+###   ADM  ##################################################################
 @login_required
 def painel_administrativo(request):
-    return render(request, 'adm/painel_administrativo.html')
+    is_admim = Pessoa.objects.filter(user=request.user).exists()
+    is_Pessoa = Pessoa.objects.filter(user=request.user).exists()
+    is_Pessoa = Pessoa.objects.filter(user=request.user).exists()
+    is_Pessoa = Pessoa.objects.filter(user=request.user).exists()
 
-###   ADM  ##################################################################
-
-
-@login_required
-def administrador_listar(request):
     context = {
-        'administradores': Administrador.objects.all()
+        'is_Pessoa': is_admim,
+        'is_Pessoa': is_Pessoa,
+        'is_Pessoa': is_Pessoa,
+        'is_Pessoa': is_Pessoa,        
     }
-    return render(request, 'adm/administrador_listar.html', context)
+    print(context)
+    return render(request, 'adm/painel_administrativo.html', context)
+
+from .functions import filtrar_usuarios
+@login_required
+@required_nivel_diretor
+def usuario_listar(request):
+    usuarios = filtrar_usuarios(request.user)
+    context = {
+        'pessoas': usuarios
+    }
+    return render(request, 'adm/usuario_listar.html', context)
 
 @login_required
-def administrador_adicionar(request):
+@required_nivel_diretor
+def usuario_adicionar(request):
     if request.method == 'POST':
-        form = administrador_form(request.POST)
+        form = Pessoa_form(request.POST, user=request.user)
         username = request.POST['username']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
 
         if not password1 == password2: 
-            usuario_form = cadastrar_usuario_form(request.POST)
+            usuario_form = Cadastrar_usuario_form(request.POST)
             usuario_form.add_error('password1', 'As senhas não conferem.')
         
         elif len(password1) < 8:
-            usuario_form = cadastrar_usuario_form(request.POST)
+            usuario_form = Cadastrar_usuario_form(request.POST)
             usuario_form.add_error('password1', 'A senha deve conter pelo menos 8 caracteres.')
         
         elif form.is_valid():
-           user = User.objects.create_user(username=username, password=password1)
-           user.save()
-           adm = form.save()
-           adm.user = user
-           adm.save()
+           try:
+            user = User.objects.create_user(username=username, password=password1)
+            user.save()
+            pessoa = form.save()
+            pessoa.user = user
+            pessoa.user_inclusao = request.user
+            pessoa.save()
+           except:
+            if not pessoa and user:
+                user.delete()
 
-           return redirect('autenticacao:administrador')
+           return redirect('autenticacao:usuarios')
         else:
-            usuario_form = cadastrar_usuario_form(request.POST)
+            usuario_form = Cadastrar_usuario_form(request.POST)
     else:
-        usuario_form = cadastrar_usuario_form()
-        form = administrador_form()
+        usuario_form = Cadastrar_usuario_form()
+        form = Pessoa_form(user=request.user)
         
     context = {
         'form': form ,
         'form_usuario': usuario_form,
     }
-    return render(request, 'adm/administrador_adicionar.html', context)
+    return render(request, 'adm/usuario_adicionar.html', context)
 
 @login_required
-def administrador_editar(request, id):
-    instancia = Administrador.objects.get(id=id)
+@required_nivel_diretor
+def usuario_editar(request, id):
+    instancia = Pessoa.objects.get(id=id)
     if request.method == 'POST':
-        form = administrador_form(request.POST)
-   
+        form = Pessoa_form(request.POST, instance=instancia, user=request.user)
         if form.is_valid():
-           
-            form_editado = administrador_form(request.POST, instance=instancia)
-            form_editado.save()
-            return redirect('autenticacao:administrador')
+            form.save()
+            return redirect('autenticacao:usuarios')
 
     else:
-       
-        form = administrador_form(instance=instancia)
+        form = Pessoa_form(instance=instancia, user=request.user)
         
     context = {
         'form': form    }
-    return render(request, 'adm/administrador_editar.html', context)
-
-def administrador_deletar(request, id):
-    administrador = Administrador.objects.get(id=id)
-    administrador.delete()
-    return redirect('autenticacao:administrador')
-
-
-###### DIRETOR  ###############################################################
-
+    return render(request, 'adm/usuario_editar.html', context)
 
 @login_required
-def diretor_listar(request):
-    context = {
-        'diretores': Diretor.objects.all(),
-    }
-    return render(request, 'adm/diretor_listar.html', context)
-
-@login_required
-def diretor_adicionar(request):
-    if request.method == 'POST':
-        form = diretor_form(request.POST)
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-
-        if not password1 == password2: 
-            usuario_form = cadastrar_usuario_form(request.POST)
-            usuario_form.add_error('password1', 'As senhas não conferem.')
-        
-        elif len(password1) < 8:
-            usuario_form = cadastrar_usuario_form(request.POST)
-            usuario_form.add_error('password1', 'A senha deve conter pelo menos 8 caracteres.')
-        
-        elif form.is_valid():
-           user = User.objects.create_user(username=username, password=password1)
-           user.save()
-           diretor = form.save()
-           diretor.user = user
-           diretor.save()
-
-           return redirect('autenticacao:diretor')
-        else:
-            usuario_form = cadastrar_usuario_form(request.POST)
+@required_nivel_diretor
+def usuario_toggle_ativo(request, id):
+    # Verificar se o usuário pode deletar este usuário
+    pessoa = Pessoa.objects.get(id=id)
+    if pessoa.user.is_active:
+        pessoa.user.is_active = False
     else:
-        usuario_form = cadastrar_usuario_form()
-        form = diretor_form()
-        
-    context = {
-        'form': form ,
-        'form_usuario': usuario_form,
-    }
-    return render(request, 'adm/diretor_adicionar.html', context)
+        pessoa.user.is_active = True
+    pessoa.user.save()
+    # Pessoa.delete()
+    return redirect('autenticacao:usuarios')
 
-@login_required
-def diretor_editar(request, id):
-    instancia = Diretor.objects.get(id=id)
-    if request.method == 'POST':
-        form = diretor_form(request.POST)
-   
-        if form.is_valid():
-            form_editado = diretor_form(request.POST, instance=instancia)
-            form_editado.save()
-            return redirect('autenticacao:diretor')
-
-    else:
-       
-        form = diretor_form(instance=instancia)
-        
-    context = {
-        'form': form    }
-    return render(request, 'adm/diretor_editar.html', context)
-
-def diretor_deletar(request, id):
-    diretor = Diretor.objects.get(id=id)
-    diretor.delete()
-    return redirect('autenticacao:diretor')
-
-
-###### PROFESSOR  ###############################################################
-
-
-@login_required
-def professor_listar(request):
-    context = {
-        'professores': Professor.objects.all(),
-    }
-    return render(request, 'adm/professor_listar.html', context)
-
-
-@login_required
-def professor_adicionar(request):
-    if request.method == 'POST':
-        form = professor_form(request.POST)
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-
-        if not password1 == password2: 
-            usuario_form = cadastrar_usuario_form(request.POST)
-            usuario_form.add_error('password1', 'As senhas não conferem.')
-        
-        elif len(password1) < 8:
-            usuario_form = cadastrar_usuario_form(request.POST)
-            usuario_form.add_error('password1', 'A senha deve conter pelo menos 8 caracteres.')
-        
-        elif form.is_valid():
-           user = User.objects.create_user(username=username, password=password1)
-           user.save()
-           professor = form.save()
-           professor.user = user
-           professor.save()
-
-           return redirect('autenticacao:professor')
-        else:
-            usuario_form = cadastrar_usuario_form(request.POST)
-    else:
-        usuario_form = cadastrar_usuario_form()
-        form = professor_form()
-        
-    context = {
-        'form': form ,
-        'form_usuario': usuario_form,
-    }
-    return render(request, 'adm/professor_adicionar.html', context)
-
-@login_required
-def professor_editar(request, id):
-    instancia = Professor.objects.get(id=id)
-    if request.method == 'POST':
-        form = professor_form(request.POST)
-   
-        if form.is_valid():
-            form_editado = professor_form(request.POST, instance=instancia)
-            form_editado.save()
-            return redirect('autenticacao:professor')
-
-    else:
-       
-        form = professor_form(instance=instancia)
-        
-    context = {
-        'form': form    }
-    return render(request, 'adm/professor_editar.html', context)
-
-def professor_deletar(request, id):
-    professor = Professor.objects.get(id=id)
-    professor.delete()
-    return redirect('autenticacao:professor')
-
-
-
-###### ASSISTENTE ADM  ###############################################################
-
-
-@login_required
-def assistente_administrativo_listar(request):
-    context = {
-        'assistentes_administrativos': Assistente_Administrativo.objects.all(),
-    }
-    return render(request, 'adm/assistente_administrativo_listar.html', context)
-
-@login_required
-def assistente_administrativo_adicionar(request):
-    if request.method == 'POST':
-        form = assistente_administrativo_form(request.POST)
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-
-        if not password1 == password2: 
-            usuario_form = cadastrar_usuario_form(request.POST)
-            usuario_form.add_error('password1', 'As senhas não conferem.')
-        
-        elif len(password1) < 8:
-            usuario_form = cadastrar_usuario_form(request.POST)
-            usuario_form.add_error('password1', 'A senha deve conter pelo menos 8 caracteres.')
-        
-        elif form.is_valid():
-           user = User.objects.create_user(username=username, password=password1)
-           user.save()
-           assistente_administrativo = form.save()
-           assistente_administrativo.user = user
-           assistente_administrativo.save()
-           
-
-           return redirect('autenticacao:assistente_administrativo')
-        else:
-            usuario_form = cadastrar_usuario_form(request.POST)
-    else:
-        usuario_form = cadastrar_usuario_form()
-        form = assistente_administrativo_form()
-        
-    context = {
-        'form': form ,
-        'form_usuario': usuario_form,
-    }
-    return render(request, 'adm/assistente_administrativo_adicionar.html', context)
-
-@login_required
-def assistente_administrativo_editar(request, id):
-    instancia = Assistente_Administrativo.objects.get(id=id)
-    if request.method == 'POST':
-        form = assistente_administrativo_form(request.POST)
-   
-        if form.is_valid():
-            form_editado = assistente_administrativo_form(request.POST, instance=instancia)
-            form_editado.save()
-            return redirect('autenticacao:assistente_administrativo')
-
-    else:
-       
-        form = assistente_administrativo_form(instance=instancia)
-        
-    context = {
-        'form': form    }
-    return render(request, 'adm/assistente_administrativo_editar.html', context)
-
-def assistente_administrativo_deletar(request, id):
-    assistente_administrativo = Assistente_Administrativo.objects.get(id=id)
-    assistente_administrativo.delete()
-    return redirect('autenticacao:assistente_administrativo')
