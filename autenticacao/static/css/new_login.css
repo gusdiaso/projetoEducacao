@@ -1,5 +1,5 @@
-html, body{
-    height: 100%;    
+html, body{ 
+    height: 100%;
     /* min-width: 700px !important; */
     /* min-width: 630px !important;     */
 }
@@ -14,8 +14,7 @@ body{
     background-color: rgba(255, 255, 255, 0.596);
     background-attachment: fixed;
     background-size: cover;
-    background-repeat: no-repeat;    
-    
+    background-repeat: no-repeat; 
 }
 .container-fluid{
     display: flex;
