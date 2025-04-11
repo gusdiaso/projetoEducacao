@@ -1,0 +1,12 @@
+{% extends "adm/template.html" %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Tem certeza que deseja excluir "{{ tipo.nome }}"?</h2>
+<form method="post" class="mb-4">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Sim, excluir</button>
+    <a href="{% url 'educacao:tipo_avaliacoes_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

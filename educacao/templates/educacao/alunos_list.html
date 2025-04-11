@@ -1,0 +1,27 @@
+{% extends "adm/template.html" %}
+
+{% block title %}Lista de Alunos{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Lista de Alunos da Turma {{ turma.nome }}</h2>
+<a href="{% url 'educacao:alunos_create' turma.id %}" class="btn btn-primary mb-3">Adicionar Aluno</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for aluno in alunos %}
+        <tr>
+            <td>{{ aluno.nome }}</td>
+            <td>
+                <a href="{% url 'educacao:alunos_delete' turma.id aluno.id %}" class="btn btn-danger btn-sm">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'educacao:turmas_list' %}" class="btn btn-secondary">Voltar</a>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "adm/template.html" %}
+
+{% block title %}Lista de Avaliações{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Lista de Avaliações</h2>
+<a href="{% url 'educacao:avaliacoes_create' %}" class="btn btn-primary mb-3">Adicionar Avaliação</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Ano</th>
+            <th>Semestre</th>
+            <th>Nível de Ensino</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for avaliacao in avaliacoes %}
+        <tr>
+            <td>{{ avaliacao.tipo_avaliacao.nome }}</td>
+            <td>{{ avaliacao.ano }}</td>
+            <td>{{ avaliacao.semestre }}</td>
+            <td>{{ avaliacao.nivel_ensino.nome }}</td>
+            <td>
+                <a href="{% url 'educacao:avaliacoes_update' avaliacao.id %}" class="btn btn-warning btn-sm">Editar</a>
+                <a href="{% url 'educacao:avaliacoes_delete' avaliacao.id %}" class="btn btn-danger btn-sm">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'educacao:index' %}" class="btn btn-secondary">Voltar</a>
+{% endblock %}

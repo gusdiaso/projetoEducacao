@@ -1,0 +1,13 @@
+{% extends "adm/template.html" %}
+
+{% block title %}{{ form.instance.pk|default:"Criar Novo Tipo de Avaliação" }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{{ form.instance.pk|default:"Criar Novo Tipo de Avaliação" }}</h2>
+<form method="post" enctype="multipart/form-data" class="mb-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="{% url 'educacao:tipo_avaliacoes_list' %}" class="btn btn-secondary">Voltar</a>
+</form>
+{% endblock %}

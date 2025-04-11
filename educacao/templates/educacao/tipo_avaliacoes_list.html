@@ -1,0 +1,74 @@
+{% extends "adm/template.html" %}
+
+{% block title %}Lista de Tipos de Avaliações{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Tipos de Avaliações</h2>
+<table class="table table-striped" id="sortableTable">
+    <thead>
+        <tr>
+            <th class="sortable" data-column="nome">Nome</th>
+            <th class="sortable" data-column="arquivo">Arquivo</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tipo in tipos %}
+        <tr>
+            <td>{{ tipo.nome }}</td>
+            <td>
+                <a href="{{ tipo.arquivo.url }}" target="_blank">
+                    <img src="/static/icons/pdf-icon.png" alt="Visualizar PDF" style="width:16px;height:16px;">
+                </a>
+            </td>
+            <td>
+                <a href="{% url 'educacao:tipo_avaliacoes_update' tipo.pk %}" class="btn btn-warning btn-sm me-1"><i class="fa-solid fa-pen"></i></a>
+                <a href="{% url 'educacao:tipo_avaliacoes_delete' tipo.pk %}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'educacao:tipo_avaliacoes_create' %}" class="btn btn-success">Adicionar Tipo de Avaliação</a>
+<a href="{% url 'educacao:index' %}" class="btn btn-secondary">Voltar</a>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const table = document.getElementById("sortableTable");
+        const headers = table.querySelectorAll(".sortable");
+        let currentSortColumn = null;
+        let currentSortOrder = "asc";
+
+        headers.forEach(header => {
+            header.addEventListener("click", () => {
+                const column = header.dataset.column;
+                const rows = Array.from(table.querySelector("tbody").rows);
+
+                if (currentSortColumn === column) {
+                    currentSortOrder = currentSortOrder === "asc" ? "desc" : "asc";
+                } else {
+                    currentSortColumn = column;
+                    currentSortOrder = "asc";
+                }
+
+                rows.sort((a, b) => {
+                    const aText = a.querySelector(`td:nth-child(${header.cellIndex + 1})`).innerText.trim();
+                    const bText = b.querySelector(`td:nth-child(${header.cellIndex + 1})`).innerText.trim();
+
+                    if (currentSortOrder === "asc") {
+                        return aText.localeCompare(bText, undefined, { numeric: true });
+                    } else {
+                        return bText.localeCompare(aText, undefined, { numeric: true });
+                    }
+                });
+
+                const tbody = table.querySelector("tbody");
+                rows.forEach(row => tbody.appendChild(row));
+
+                headers.forEach(h => h.classList.remove("asc", "desc"));
+                header.classList.add(currentSortOrder);
+            });
+        });
+    });
+</script>
+{% endblock %}

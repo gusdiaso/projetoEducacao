@@ -1,0 +1,13 @@
+{% extends "adm/template.html" %}
+
+{% block title %}Formulário de Nível de Ensino{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Formulário de Nível de Ensino</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="{% url 'educacao:nivel_ensino_list' %}" class="btn btn-secondary">Voltar</a>
+</form>
+{% endblock %}

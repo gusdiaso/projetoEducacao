@@ -1,0 +1,13 @@
+{% extends "adm/template.html" %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Confirmar Exclusão</h2>
+<p>Tem certeza de que deseja excluir o nível de ensino "{{ nivel.nome }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a href="{% url 'educacao:nivel_ensino_list' %}" class="btn btn-secondary">Voltar</a>
+</form>
+{% endblock %}
