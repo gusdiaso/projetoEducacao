@@ -10,7 +10,7 @@ def index(request):
     context = {
         'niveis_ensino': Nivel_Ensino.objects.all(),
     }
-    return render(request, 'template.html', context)
+    return render(request, 'educacao/index.html', context)
 
 @login_required
 def tipo_avaliacoes_list(request):
