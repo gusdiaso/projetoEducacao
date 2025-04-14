@@ -1,0 +1,19 @@
+{% extends 'template.html' %}
+{% load static %}
+
+{% block content %}
+    <h2 class="mb-4">Listagem de Turmas</h2>
+
+    <div class="turma-card-container">
+        {% for turma in turmas %}
+            <a href="{% url 'educacao:index' %}" class="turma-card">
+                <div class="turma-card-content">
+                    <h3>{{ turma.nome }}</h3>
+                    <p><strong>Ano:</strong> {{ turma.ano }}</p>
+                    <p><strong>Escola:</strong> {{ turma.escola.nome }}</p>
+                    <p><strong>Nível de Ensino:</strong> {{ turma.nivel_ensino.nome }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

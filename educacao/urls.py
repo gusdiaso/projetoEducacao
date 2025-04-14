@@ -22,6 +22,11 @@ urlpatterns = [
     path('avaliacoes/criar/', views.avaliacoes_create, name='avaliacoes_create'),
     path('avaliacoes/<int:pk>/atualizar/', views.avaliacoes_update, name='avaliacoes_update'),
     path('avaliacoes/<int:pk>/excluir/', views.avaliacoes_delete, name='avaliacoes_delete'),
+
+    path('avaliacoes_educacao/<int:ensino_id>/', views.avaliacoes_list_educacao, name='avaliacoes_list_educacao'),
+
+    path('turmas_educacao/<int:ensino_id>/', views.turmas_list_educacao, name='turmas_list_educacao'),
+
     path('turmas/', views.turmas_list, name='turmas_list'),
     path('turmas/criar/', views.turmas_create, name='turmas_create'),
     path('turmas/<int:pk>/atualizar/', views.turmas_update, name='turmas_update'),

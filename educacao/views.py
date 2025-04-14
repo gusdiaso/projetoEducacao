@@ -6,8 +6,11 @@ from .forms import TipoAvaliacoesForm, EscolasForm, NivelEnsinoForm, AvaliacoesF
 # Create your views here.
 @login_required
 def index(request):
-    return redirect('autenticacao:painel_administrativo')
-    # return render(request, 'index.html')
+    # return redirect('autenticacao:painel_administrativo')
+    context = {
+        'niveis_ensino': Nivel_Ensino.objects.all(),
+    }
+    return render(request, 'template.html', context)
 
 @login_required
 def tipo_avaliacoes_list(request):
@@ -154,6 +157,13 @@ def avaliacoes_delete(request, pk):
     return render(request, 'educacao/avaliacoes_confirm_delete.html', {'avaliacao': avaliacao})
 
 @login_required
+def avaliacoes_list_educacao(request, ensino_id):
+    nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
+    avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
+    return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected})
+
+
+@login_required
 def turmas_list(request):
     turmas = Turmas.objects.all()
     return render(request, 'educacao/turmas_list.html', {'turmas': turmas})
@@ -180,6 +190,14 @@ def turmas_update(request, pk):
     else:
         form = TurmasForm(instance=turma, user=request.user)
     return render(request, 'educacao/turmas_form.html', {'form': form})
+
+
+@login_required
+def turmas_list_educacao(request, ensino_id):
+    nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
+    turmas_selected = Turmas.objects.filter(nivel_ensino=nivel_ensino)
+    return render(request, 'educacao/turmas_list_educacao.html', {'turmas': turmas_selected})
+
 
 @login_required
 def turmas_delete(request, pk):
