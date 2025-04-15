@@ -54,6 +54,12 @@ def escolas_list(request):
     return render(request, 'educacao/escolas_list.html', {'escolas': escolas})
 
 @login_required
+def escolas_list_educacao(request):
+    escolas = Escolas.objects.all()
+    return render(request, 'educacao/escolas_list_educacao.html', {'escolas': escolas})
+
+
+@login_required
 def escolas_create(request):
     if request.method == 'POST':
         form = EscolasForm(request.POST, user=request.user)

@@ -11,6 +11,9 @@ urlpatterns = [
     path('tipos-avaliacoes/<int:pk>/atualizar/', views.tipo_avaliacoes_update, name='tipo_avaliacoes_update'),
     path('tipos-avaliacoes/<int:pk>/excluir/', views.tipo_avaliacoes_delete, name='tipo_avaliacoes_delete'),
     path('escolas/', views.escolas_list, name='escolas_list'),
+
+    path('escolas_educacao/', views.escolas_list_educacao, name='escolas_list_educacao'),
+
     path('escolas/criar/', views.escolas_create, name='escolas_create'),
     path('escolas/<int:pk>/atualizar/', views.escolas_update, name='escolas_update'),
     path('escolas/<int:pk>/excluir/', views.escolas_delete, name='escolas_delete'),

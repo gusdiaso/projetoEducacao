@@ -121,7 +121,7 @@
 				
 					
 						<li class="nav-item has-submenu">
-					        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-softwares" aria-expanded="false" aria-controls="submenu-1">
+					        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-softwares" aria-expanded="false" aria-controls="submenu-softwares">
 						        <span class="nav-icon">
                                     <i class="mt-2 fa-solid fa-laptop-file"></i>
 						         </span>
@@ -144,7 +144,7 @@
                      
 				
 						<li class="nav-item has-submenu">
-					        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-gestao" aria-expanded="false" aria-controls="submenu-1">
+					        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-gestao" aria-expanded="false" aria-controls="submenu-gestao">
 						        <span class="nav-icon">
 									<i class="fa-solid fa-check-double"></i>
 						         </span>
@@ -164,7 +164,16 @@
 									{% endfor %}					        
 						        </ul>
 					        </div>
-					    </li>					    
+					    </li>		
+						
+						<li class="nav-item">					        
+					        <a class="nav-link" href="{% url 'educacao:escolas_list_educacao' %}">
+						        <span class="nav-icon">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+						         </span>
+		                         <span class="nav-link-text">Escolas</span>
+					        </a>
+					    </li>
 				    </ul>
 			    </nav>
 			    <div class="app-sidepanel-footer">
@@ -250,5 +259,5 @@
 		};
 	</script>
 </body>
-</html> 
+</html>
 
