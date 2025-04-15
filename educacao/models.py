@@ -46,6 +46,7 @@ class Avaliacoes(BaseModel):
 
 #
 class Turmas(BaseModel):
+    professor = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='turmas_professor', null=True)
     nome = models.CharField(max_length=100)        
     ano = models.IntegerField(verbose_name="Ano de atuação da turma")
     escola = models.ForeignKey(Escolas, on_delete=models.CASCADE, related_name='turmas')    

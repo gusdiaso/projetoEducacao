@@ -79,7 +79,7 @@ def login_view(request):
             next_url = request.POST.get('next')
             
             # Verifica se a URL é segura
-            return redirect('autenticacao:painel_administrativo')
+            return redirect('educacao:index')
             # if url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host()):
             #     return redirect(next_url)
             # else:

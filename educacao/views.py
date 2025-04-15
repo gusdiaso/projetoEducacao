@@ -6,11 +6,8 @@ from .forms import TipoAvaliacoesForm, EscolasForm, NivelEnsinoForm, AvaliacoesF
 # Create your views here.
 @login_required
 def index(request):
-    # return redirect('autenticacao:painel_administrativo')
-    context = {
-        'niveis_ensino': Nivel_Ensino.objects.all(),
-    }
-    return render(request, 'educacao/index.html', context)
+    
+    return render(request, 'educacao/index.html')
 
 @login_required
 def tipo_avaliacoes_list(request):
@@ -201,7 +198,7 @@ def turmas_update(request, pk):
 @login_required
 def turmas_list_educacao(request, ensino_id):
     nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
-    turmas_selected = Turmas.objects.filter(nivel_ensino=nivel_ensino)
+    turmas_selected = Turmas.objects.filter(nivel_ensino=nivel_ensino, professor__user=request.user)
     return render(request, 'educacao/turmas_list_educacao.html', {'turmas': turmas_selected})
 
 
