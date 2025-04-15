@@ -3,11 +3,22 @@
 {% block title %}Formulário de Turma{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Formulário de Turma</h2>
+<div class="row">
+    <div class="col d-flex">
+        <h2 class="mb-4">Formulário de Turma</h2>
+        {% if turma %}
+        <a href="{% url 'educacao:turmas_delete' turma.id %}" class="btn btn-danger ms-auto my-auto">
+            <i class="fa-solid fa-trash"></i>
+        </a>
+        {% endif %}
+    </div>
+</div>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-success">Salvar</button>
-    <a href="{% url 'educacao:turmas_list' %}" class="btn btn-secondary">Voltar</a>
+    {% if turma %}
+    <a href="{% url 'educacao:turma' turma.id %}" class="btn btn-secondary">Voltar</a>
+    {% endif %}
 </form>
 {% endblock %}

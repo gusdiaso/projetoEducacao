@@ -23,3 +23,6 @@ class Pessoa(models.Model):
     def __str__(self):
         return self.nome
 
+
+    def is_professor(self):
+        return self.tipo_conta == 'pro'

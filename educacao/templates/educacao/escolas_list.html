@@ -3,29 +3,49 @@
 {% block title %}Lista de Escolas{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Lista de Escolas</h2>
-<a href="{% url 'educacao:escolas_create' %}" class="btn btn-primary mb-3">Adicionar Escola</a>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Diretor</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for escola in escolas %}
-        <tr>
-            <td>{{ escola.nome }}</td>
-            <td>{{ escola.diretor.nome }}</td>
-            <td>
-                <a href="{% url 'educacao:escolas_update' escola.id %}" class="btn btn-warning btn-sm">Editar</a>
-                <a href="{% url 'educacao:escolas_delete' escola.id %}" class="btn btn-danger btn-sm">Excluir</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<a href="{% url 'educacao:index' %}" class="btn btn-secondary">Voltar</a>
+<div class="row mb-4 rounded-4" style="background-color: white;">
+    <div class="col d-flex py-3 px-3">
+        <h2 class="my-auto">Escolas</h2>
+        <a href="{% url 'educacao:escolas_create' %}" class="btn px-2 py-2 ms-auto my-auto">
+            <i class="fa-solid fa-plus me-2"></i>
+            <i class="fa-solid fa-university"></i>
+        </a>        
+    </div>
+</div>
+
+<div class="row rounded-4 mb-4" style="background-color: white;">
+    <div class="col pt-4 pb-3 px-4">
+        Detalhes da escola, observações e etc.
+    </div>
+</div>
+<div class="row rounded-4" style="background-color: white;">
+    <div class="col pt-4 pb-3 px-4">
+        <div class="w-100 d-flex">
+            <h4 class="mb-4">Lista de Alunos</h4>
+        </div>
+                
+            <table class="table table-borderless table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Diretor</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for escola in escolas %}
+                    <tr>
+                        <td>{{ escola.nome }}</td>
+                        <td>{{ escola.diretor.nome }}</td>
+                        <td>
+                            <a href="#" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="#" class="btn btn-danger btn-sm">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </div>
+</div>
 {% endblock %}
 

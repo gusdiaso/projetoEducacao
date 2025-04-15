@@ -134,12 +134,14 @@
 					        </a>
 					        <div id="submenu-softwares" class="collapse submenu submenu-softwares" data-bs-parent="#menu-accordion">
 								<ul class="submenu-list list-unstyled">						        
-							        <li class="submenu-item">
+									{% if not pessoa.is_professor %}
+							        <li class="submenu-item">										
 										<a class="submenu-link " href="{% url 'educacao:turmas_create' %}">
 											<i class="fa-solid fa-plus-circle me-2"></i>
 											Adicionar Turma
 										</a>
-									</li>						        
+									</li>	
+									{% endif %}					        
 									{% for nivel_ensino in niveis_ensino %}
 									<li class="submenu-item">
 										<a  class="submenu-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-turmas-{{ nivel_ensino.nivel.id }}" aria-expanded="false" aria-controls="submenu-1">
@@ -155,7 +157,7 @@
 											<ul class="submenu-list list-unstyled">
 												{% for turma in nivel_ensino.turmas %}
 												<li class="submenu-item">
-													<a  class="submenu-link-2" href="{% url 'educacao:alunos_list' turma.id %}">
+													<a  class="submenu-link-2" href="{% url 'educacao:turma' turma.id %}">
 														<i class="fa-solid fa-graduation-cap me-2"></i>
 														{{turma}}
 													</a>
@@ -199,7 +201,7 @@
 					    </li>		
 					
 						<li class="nav-item">					        
-					        <a class="nav-link" href="{% url 'educacao:escolas_list_educacao' %}">
+					        <a class="nav-link" href="{% url 'educacao:escolas_list' %}">
 						        <span class="nav-icon">
                                     <i class="fa-solid fa-university"></i>
 						         </span>

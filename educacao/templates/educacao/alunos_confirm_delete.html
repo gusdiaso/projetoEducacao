@@ -8,6 +8,6 @@
 <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Excluir</button>
-    <a href="{% url 'educacao:alunos_list' turma_id %}" class="btn btn-secondary">Voltar</a>
+    <a href="{% url 'educacao:turma' turma_id %}" class="btn btn-secondary">Voltar</a>
 </form>
 {% endblock %}

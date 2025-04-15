@@ -1,0 +1,50 @@
+{% extends "template.html" %}
+
+{% block title %}Lista de Alunos{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4 rounded-4" style="background-color: white;">
+    <div class="col d-flex py-3 px-3">
+        <h2 class="my-auto">Turma {{ turma.nome }}</h2>
+        <a href="{% url 'educacao:turmas_update' turma.id %}" class="btn px-2 py-2 ms-auto my-auto">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </a>        
+    </div>
+</div>
+<div class="row rounded-4 mb-4" style="background-color: white;">
+    <div class="col pt-4 pb-3 px-4">
+        Detalhes da turma, observações e etc.
+    </div>
+</div>
+<div class="row rounded-4" style="background-color: white;">
+    <div class="col pt-4 pb-3 px-4">
+        <div class="w-100 d-flex">
+            <h4 class="mb-4">Lista de Alunos</h4>
+            <a href="{% url 'educacao:alunos_create' turma.id %}" class="ms-auto btn btn-primary my-auto">
+                <i class="fa-solid fa-plus me-2"></i><i class="fa-solid fa-graduation-cap"></i>
+            </a>
+        </div>
+        <table class="table table-borderless table-striped  table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th style="width: 30px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                <tr style="cursor: pointer;">
+                    <td>{{ aluno.nome }}</td>
+                    <td style="width: 30px;">
+                        <a href="{% url 'educacao:alunos_delete' turma.id aluno.id %}" class="btn btn-warning px-2 py-2">
+                            <i class="fa-solid fa-user-pen"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -186,13 +186,17 @@ def turmas_list(request):
     turmas = Turmas.objects.all()
     return render(request, 'educacao/turmas_list.html', {'turmas': turmas})
 
+from autenticacao.models import Pessoa
 @login_required
 def turmas_create(request):
     if request.method == 'POST':
         form = TurmasForm(request.POST, user=request.user)
         if form.is_valid():
-            form.save()
-            return redirect('educacao:turmas_list')
+            turma = form.save()         
+            pessoa = Pessoa.objects.get(user=request.user)
+            turma.professor = pessoa if pessoa.is_professor() else None
+            turma.save()
+            return redirect('educacao:turma', turma_id=turma.id)
     else:
         form = TurmasForm(user=request.user)
     return render(request, 'educacao/turmas_form.html', {'form': form})
@@ -201,21 +205,16 @@ def turmas_create(request):
 def turmas_update(request, pk):
     turma = get_object_or_404(Turmas, pk=pk)
     if request.method == 'POST':
-        form = TurmasForm(request.POST, instance=turma, user=request.user)
+        form = TurmasForm(request.POST, instance=turma)
         if form.is_valid():
-            form.save()
-            return redirect('educacao:turmas_list')
+            turma = form.save()         
+            pessoa = Pessoa.objects.get(user=request.user)
+            turma.professor = pessoa if pessoa.is_professor() else None
+            turma.save()
+            return redirect('educacao:turma', turma_id=turma.id)
     else:
         form = TurmasForm(instance=turma, user=request.user)
-    return render(request, 'educacao/turmas_form.html', {'form': form})
-
-
-@login_required
-def turmas_list_educacao(request, ensino_id):
-    nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
-    turmas_selected = Turmas.objects.filter(nivel_ensino=nivel_ensino, professor__user=request.user)
-    return render(request, 'educacao/turmas_list_educacao.html', {'turmas': turmas_selected})
-
+    return render(request, 'educacao/turmas_form.html', {'form': form, 'turma': turma})
 
 @login_required
 def turmas_list_escola(request, id):
@@ -233,11 +232,12 @@ def turmas_delete(request, pk):
         return redirect('educacao:turmas_list')
     return render(request, 'educacao/turmas_confirm_delete.html', {'turma': turma})
 
+#Gerenciamento da Turma
 @login_required
-def alunos_list(request, turma_id):
+def turma(request, turma_id):
     turma = get_object_or_404(Turmas, pk=turma_id)
     alunos = Alunos.objects.filter(turma=turma)
-    return render(request, 'educacao/alunos_list.html', {'turma': turma, 'alunos': alunos})
+    return render(request, 'educacao/turma.html', {'turma': turma, 'alunos': alunos})
 
 @login_required
 def alunos_create(request, turma_id):
