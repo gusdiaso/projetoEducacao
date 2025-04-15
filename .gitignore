@@ -135,3 +135,5 @@ dmypy.json
 
 settings/media/
 settings/static/    
+
+*.db
