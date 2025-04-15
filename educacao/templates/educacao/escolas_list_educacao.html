@@ -10,19 +10,23 @@
         <tr>
             <th>Nome</th>
             <th>Diretor</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
         {% for escola in escolas %}
-        <a href="/">
-            <tr>
+        <a href="#">
+        <tr>
                 <td>{{ escola.nome }}</td>
                 <td>{{ escola.diretor.nome }}</td>
-            </tr>
+                <td>
+                    <a href="{% url 'educacao:escolas_update' escola.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'educacao:escolas_delete' escola.id %}" class="btn btn-danger btn-sm">Excluir</a>
+                </td>
+        </tr>
         </a>
             {% endfor %}
     </tbody>
 </table>
-<a href="{% url 'educacao:index' %}" class="btn btn-secondary">Voltar</a>
 {% endblock %}
 
