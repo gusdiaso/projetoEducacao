@@ -142,7 +142,7 @@
 									</li>						        
 									{% for nivel_ensino in niveis_ensino %}
 									<li class="submenu-item">
-										<a  class="submenu-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-turmas" aria-expanded="false" aria-controls="submenu-1">
+										<a  class="submenu-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-turmas-{{ nivel_ensino.nivel.id }}" aria-expanded="false" aria-controls="submenu-1">
 											<i class="fa-solid fa-users me-2"></i>
 											{{nivel_ensino.nivel.nome}}
 											<span class="submenu-arrow">
@@ -151,11 +151,11 @@
 												</svg>
 											 </span>
 										</a>
-										<div id="submenu-turmas" class="collapse submenu submenu-softwares" data-bs-parent="#submenu-turmas">
+										<div id="submenu-turmas-{{ nivel_ensino.nivel.id }}" class="collapse submenu submenu-turmas-{{ nivel_ensino.nivel.id }}" data-bs-parent="#submenu-turmas-{{ nivel_ensino.nivel.id }}">
 											<ul class="submenu-list list-unstyled">
 												{% for turma in nivel_ensino.turmas %}
 												<li class="submenu-item">
-													<a  class="submenu-link-2" href="#">
+													<a  class="submenu-link-2" href="{% url 'educacao:alunos_list' turma.id %}">
 														<i class="fa-solid fa-graduation-cap me-2"></i>
 														{{turma}}
 													</a>

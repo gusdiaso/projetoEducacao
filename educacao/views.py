@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos
 from .forms import TipoAvaliacoesForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm
-
+from django.http import FileResponse, Http404
 # Create your views here.
 @login_required
 def index(request):
@@ -166,18 +166,25 @@ def avaliacoes_list_educacao(request, ensino_id):
     return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected})
 
 @login_required
-def avaliacoes_list_educacao(request, ensino_id):
+def avaliacoes_list_educacao(request, ensino_id, avaliacao_id):
+    documento = Tipo_Avaliacoes.objects.get(id=avaliacao_id)
     nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
     avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
-    return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected})
+    return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected, 'documento': documento})
+
+@login_required
+def avaliacao_download(request, avaliacao_id):
+    try:
+        avaliacao = Tipo_Avaliacoes.objects.get(id=avaliacao_id)
+        return FileResponse(avaliacao.arquivo.open(), as_attachment=True, filename=avaliacao.arquivo.name)
+    except Tipo_Avaliacoes.DoesNotExist:
+        raise Http404("Avaliação não encontrada")
 
 
 @login_required
 def turmas_list(request):
     turmas = Turmas.objects.all()
     return render(request, 'educacao/turmas_list.html', {'turmas': turmas})
-
-
 
 @login_required
 def turmas_create(request):
