@@ -3,12 +3,13 @@ from django.contrib.auth.decorators import login_required
 from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos
 from .forms import TipoAvaliacoesForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm
 from django.http import FileResponse, Http404
-# Create your views here.
+from autenticacao.models import Pessoa
+
 @login_required
 def index(request):
-    
     return render(request, 'educacao/index.html')
 
+#TIPO AVALIAÇÕES
 @login_required
 def tipo_avaliacoes_list(request):
     tipos = Tipo_Avaliacoes.objects.all()
@@ -45,6 +46,7 @@ def tipo_avaliacoes_delete(request, pk):
         return redirect('educacao:tipo_avaliacoes_list')
     return render(request, 'educacao/tipo_avaliacoes_confirm_delete.html', {'tipo': tipo})
 
+#ESCOLAS
 @login_required
 def escolas_list(request):
     escolas = Escolas.objects.all()
@@ -87,6 +89,7 @@ def escolas_delete(request, pk):
         return redirect('educacao:escolas_list')
     return render(request, 'educacao/escolas_confirm_delete.html', {'escola': escola})
 
+#NIVEL ENSINO
 @login_required
 def nivel_ensino_list(request):
     niveis = Nivel_Ensino.objects.all()
@@ -123,6 +126,7 @@ def nivel_ensino_delete(request, pk):
         return redirect('educacao:nivel_ensino_list')
     return render(request, 'educacao/nivel_ensino_confirm_delete.html', {'nivel': nivel})
 
+#AVALIAÇÕES
 @login_required
 def avaliacoes_list(request):
     avaliacoes = Avaliacoes.objects.all()
@@ -159,47 +163,32 @@ def avaliacoes_delete(request, pk):
         return redirect('educacao:avaliacoes_list')
     return render(request, 'educacao/avaliacoes_confirm_delete.html', {'avaliacao': avaliacao})
 
-@login_required
-def avaliacoes_list_educacao(request, ensino_id):
-    nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
-    avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
-    return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected})
 
-@login_required
-def avaliacoes_list_educacao(request, ensino_id, avaliacao_id):
-    documento = Tipo_Avaliacoes.objects.get(id=avaliacao_id)
-    nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
-    avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
-    return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected, 'documento': documento})
-
-@login_required
-def avaliacao_download(request, avaliacao_id):
-    try:
-        avaliacao = Tipo_Avaliacoes.objects.get(id=avaliacao_id)
-        return FileResponse(avaliacao.arquivo.open(), as_attachment=True, filename=avaliacao.arquivo.name)
-    except Tipo_Avaliacoes.DoesNotExist:
-        raise Http404("Avaliação não encontrada")
-
-
+#TURMAS
 @login_required
 def turmas_list(request):
     turmas = Turmas.objects.all()
-    return render(request, 'educacao/turmas_list.html', {'turmas': turmas})
+    return render(request, 'educacao/turmas/turmas_list.html', {'turmas': turmas})
 
-from autenticacao.models import Pessoa
+login_required
+def turma(request, turma_id):
+    turma = get_object_or_404(Turmas, pk=turma_id)
+    alunos = Alunos.objects.filter(turma=turma)
+    return render(request, 'educacao/turmas/turma.html', {'turma': turma, 'alunos': alunos})
+
 @login_required
 def turmas_create(request):
     if request.method == 'POST':
         form = TurmasForm(request.POST, user=request.user)
         if form.is_valid():
             turma = form.save()         
-            pessoa = Pessoa.objects.get(user=request.user)
-            turma.professor = pessoa if pessoa.is_professor() else None
-            turma.save()
+            # pessoa = Pessoa.objects.get(user=request.user)
+            # turma.professor = pessoa if pessoa.is_professor() else None
+            # turma.save()
             return redirect('educacao:turma', turma_id=turma.id)
     else:
         form = TurmasForm(user=request.user)
-    return render(request, 'educacao/turmas_form.html', {'form': form})
+    return render(request, 'educacao/turmas/turmas_form.html', {'form': form})
 
 @login_required
 def turmas_update(request, pk):
@@ -208,20 +197,13 @@ def turmas_update(request, pk):
         form = TurmasForm(request.POST, instance=turma)
         if form.is_valid():
             turma = form.save()         
-            pessoa = Pessoa.objects.get(user=request.user)
-            turma.professor = pessoa if pessoa.is_professor() else None
-            turma.save()
+            # pessoa = Pessoa.objects.get(user=request.user)
+            # turma.professor = pessoa if pessoa.is_professor() else None
+            # turma.save()
             return redirect('educacao:turma', turma_id=turma.id)
     else:
         form = TurmasForm(instance=turma, user=request.user)
-    return render(request, 'educacao/turmas_form.html', {'form': form, 'turma': turma})
-
-@login_required
-def turmas_list_escola(request, id):
-    escola = Escolas.objects.get(id=id)
-    turmas_selected = Turmas.objects.filter(escola__id=escola)
-    return render(request, 'educacao/turmas_list_educacao.html', {'turmas': turmas_selected})
-
+    return render(request, 'educacao/turmas/turmas_form.html', {'form': form, 'turma': turma})
 
 
 @login_required
@@ -230,15 +212,9 @@ def turmas_delete(request, pk):
     if request.method == 'POST':
         turma.delete()
         return redirect('educacao:turmas_list')
-    return render(request, 'educacao/turmas_confirm_delete.html', {'turma': turma})
+    return render(request, 'educacao/turmas/turmas_confirm_delete.html', {'turma': turma})
 
 #Gerenciamento da Turma
-@login_required
-def turma(request, turma_id):
-    turma = get_object_or_404(Turmas, pk=turma_id)
-    alunos = Alunos.objects.filter(turma=turma)
-    return render(request, 'educacao/turma.html', {'turma': turma, 'alunos': alunos})
-
 @login_required
 def alunos_create(request, turma_id):
     turma = get_object_or_404(Turmas, pk=turma_id)
@@ -260,3 +236,24 @@ def alunos_delete(request, pk, turma_id):
         aluno.delete()
         return redirect('educacao:alunos_list', turma_id=turma_id)
     return render(request, 'educacao/alunos_confirm_delete.html', {'aluno': aluno, 'turma_id': turma_id})
+
+#VIEWS QUE NÃO DEVERIAM EXISTIR
+
+@login_required
+def turmas_list_escola(request, id):
+    escola = Escolas.objects.get(id=id)
+    turmas_selected = Turmas.objects.filter(escola__id=escola)
+    return render(request, 'educacao/turmas/turmas_list_educacao.html', {'turmas': turmas_selected})
+
+@login_required
+def avaliacoes_list_educacao(request, ensino_id):
+    nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
+    avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
+    return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected})
+
+@login_required
+def avaliacoes_list_educacao(request, ensino_id, avaliacao_id):
+    documento = Tipo_Avaliacoes.objects.get(id=avaliacao_id)
+    nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
+    avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
+    return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected, 'documento': documento})
