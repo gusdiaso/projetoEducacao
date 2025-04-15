@@ -4,7 +4,11 @@ from django.contrib.auth.decorators import login_required
 def get_turmas(request): 
     if not request.user.is_authenticated:
         return {}   
-    turmas = Turmas.objects.filter(professor__user=request.user)
+    
     niveis_ensino = Nivel_Ensino.objects.filter(turmas__professor__user=request.user).distinct()
-    return {'turmas': turmas, 'niveis_ensino': niveis_ensino}
+    dict_niveis_ensino =[]
+    for nivel in niveis_ensino:
+        turmas = Turmas.objects.filter(nivel_ensino=nivel, professor__user=request.user).distinct()
+        dict_niveis_ensino.append({'nivel': nivel, 'turmas': turmas})
+    return {'niveis_ensino': dict_niveis_ensino}
 

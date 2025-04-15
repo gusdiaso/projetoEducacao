@@ -38,6 +38,10 @@ class Nivel_Ensino(BaseModel):
     def __str__(self):
         return f"Nível de Ensino {self.nome}"
     
+    def get_turmas(self, user):
+        turmas = Turmas.objects.filter(nivel_ensino=self, professor__user=user)
+        return turmas
+    
 class Avaliacoes(BaseModel):
     tipo_avaliacao = models.ForeignKey(Tipo_Avaliacoes, on_delete=models.CASCADE, related_name='avaliacoes')
     ano = models.IntegerField(verbose_name="Ano de realização da avaliação")

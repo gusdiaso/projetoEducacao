@@ -165,6 +165,12 @@ def avaliacoes_list_educacao(request, ensino_id):
     avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
     return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected})
 
+@login_required
+def avaliacoes_list_educacao(request, ensino_id):
+    nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
+    avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
+    return render(request, 'educacao/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected})
+
 
 @login_required
 def turmas_list(request):

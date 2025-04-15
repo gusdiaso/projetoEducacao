@@ -14156,6 +14156,47 @@ button.close:focus {
     background-color: #15a362
 }
 
+/*  */
+
+.app-nav .submenu-link-2 {
+    color: #5d6778;
+    font-size: .875rem;
+    margin-left: 2rem;
+    padding: .5rem 1rem;
+    padding-left: 1rem;
+    position: relative;
+    display: block;
+    margin-bottom: 0
+}
+
+.app-nav .submenu-link-2:before {
+    background-color: #777777;
+    content: " ";
+    display: inline-block;
+    height: inherit;
+    left: 0;
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    margin-top: -0.5rem
+}
+
+.app-nav .submenu-link-2:hover {
+    color: #252930
+}
+
+.app-nav .submenu-link-2.active {
+    color: #15a362
+}
+
+.app-nav .submenu-link-2.active:before {
+    background-color: #15a362
+}
+
+
+/*  */
+
+
 .app-sidepanel-footer {
     width: 100%;
     bottom: 0;
