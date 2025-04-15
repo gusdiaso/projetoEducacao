@@ -171,6 +171,8 @@ def turmas_list(request):
     turmas = Turmas.objects.all()
     return render(request, 'educacao/turmas_list.html', {'turmas': turmas})
 
+
+
 @login_required
 def turmas_create(request):
     if request.method == 'POST':
@@ -200,6 +202,14 @@ def turmas_list_educacao(request, ensino_id):
     nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
     turmas_selected = Turmas.objects.filter(nivel_ensino=nivel_ensino, professor__user=request.user)
     return render(request, 'educacao/turmas_list_educacao.html', {'turmas': turmas_selected})
+
+
+@login_required
+def turmas_list_escola(request, id):
+    escola = Escolas.objects.get(id=id)
+    turmas_selected = Turmas.objects.filter(escola__id=escola)
+    return render(request, 'educacao/turmas_list_educacao.html', {'turmas': turmas_selected})
+
 
 
 @login_required
