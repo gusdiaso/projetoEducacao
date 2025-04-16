@@ -3,11 +3,13 @@
 {% block title %}Formulário de Avaliação{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Formulário de Avaliação</h2>
-<form method="post">
+<h2 class="mb-4 row mb-4 rounded-4 shadow-sm bg-white px-4 py-3">Formulário de Avaliação</h2>
+<form method="post" class="row mb-4 rounded-4 shadow-sm bg-white px-3 py-3">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <a href="{% url 'educacao:avaliacoes_list' %}" class="btn btn-secondary">Voltar</a>
+    <div class="col d-flex justify-content-start gap-2 mt-2">
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a href="{% url 'educacao:avaliacoes_list' %}" class="btn btn-secondary">Voltar</a>
+    </div>
 </form>
 {% endblock %}
