@@ -3,11 +3,14 @@
 {% block title %}Confirmar Exclusão{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Confirmar Exclusão</h2>
-<p>Tem certeza de que deseja excluir a turma "{{ turma.nome }}"?</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Excluir</button>
-    <a href="{% url 'educacao:turmas_update' turma.id %}" class="btn btn-secondary">Voltar</a>
-</form>
+<div class="row mb-4 rounded-4 shadow-sm bg-white px-4 py-4">
+
+    <h2 class="mb-4">Confirmar Exclusão</h2>
+    <p>Tem certeza de que deseja excluir a turma "{{ turma.nome }}"?</p>
+    <form method="post" class="mt-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger text-white">Excluir</button>
+        <a href="{% url 'educacao:turmas_update' turma.id %}" class="btn btn-secondary">Voltar</a>
+    </form>
+</div>
 {% endblock %}

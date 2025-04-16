@@ -4,21 +4,23 @@
 
 {% block content %}
 <div class="row">
-    <div class="col d-flex">
-        <h2 class="mb-4">Formulário de Turma</h2>
+    <div class="col d-flex mb-4 rounded-4 shadow-sm" style="background-color: white;">
+        <h2 class="m-0 py-3 px-2">Formulário de Turma</h2>
         {% if turma %}
-        <a href="{% url 'educacao:turmas_delete' turma.id %}" class="btn btn-danger ms-auto my-auto">
-            <i class="fa-solid fa-trash"></i>
+        <a href="{% url 'educacao:turmas_delete' turma.id %}" class="btn btn-danger ms-auto my-auto mx-2">
+            <i class="fa-solid fa-trash-can fa-lg text-white"></i>
         </a>
         {% endif %}
     </div>
 </div>
-<form method="post">
+<form method="post" class="row d-flex mb-4 rounded-4 bg-white px-2 py-3 shadow-sm" >
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Salvar</button>
-    {% if turma %}
-    <a href="{% url 'educacao:turma' turma.id %}" class="btn btn-secondary">Voltar</a>
-    {% endif %}
+    <div class="col d-flex justify-content-start gap-2 mt-2">
+        <button type="submit" class="btn btn-success text-white">Salvar</button>
+        {% if turma %}
+        <a href="{% url 'educacao:turma' turma.id %}" class="btn btn-secondary">Voltar</a>
+        {% endif %}
+    </div>
 </form>
 {% endblock %}

@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-br" data-bs-theme="{{ request.user|get_tema }}"> 
+<!DOCTYPE html> 
 <head>
     <title>Educação PMNF - Bem-vindo</title>
     
@@ -10,21 +9,20 @@
     
     <meta name="description" content="Intranet da Prefeitura Municipal de Nova Friburgo">
     <meta name="author" content="eduardo salarini">    
-    <link rel="shortcut icon" href="/static/favicon.ico"> 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
 
     
     <!-- FontAwesome JS-->
-    <script defer src="/static/css/fontawesome.min.css"></script>
+    <script defer src="../design/static/css/fontawesome.min.css"></script>
     <!-- App CSS -->  
-    <link id="theme-style" rel="stylesheet" href="/static/css/template-educacao.css">
+	<link id="theme-style" rel="stylesheet" href="../design/static/css/template-educacao.css">
 </head> 
 
 <body class="app">   
 	<div id="preloader" class="preloader">
-		<img class="logo-icon me-2" src="/static/brasao.ico" alt="logo"><span class="logo-text">Educação</span>
+		<img class="logo-icon me-2" src="../design/static/brasao.ico" alt="logo"><span class="logo-text">Educação</span>
 		<div class="spinner"></div>
 	  </div>	
     <header class="app-header fixed-top">	   	            
@@ -48,7 +46,7 @@
 						const csrfToken = "{{ csrf_token }}";
 					</script>
 		            <div class="app-utilities col-auto" style="display: flex;align-items: center;">
-						<h5 class="app-utility-item my-auto text-end nome-servidor-web" style="color: #fff8ec;">[NOME DO USUÁRIO]</h5>
+						<h5 class="app-utility-item my-auto text-end nome-servidor-web" style="color: #fff8ec;">{{request.user}}</h5>
 			            <div class="app-utility-item app-notifications-dropdown dropdown">    
 				            <a onclick="markAllAsRead()" class="dropdown-toggle no-toggle-arrow text-white" id="notifications-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Notifications">
 					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +97,7 @@
 	        <div class="sidepanel-inner d-flex flex-column">
 		        <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
 		        <div class="app-branding">
-		            <a class="app-logo" href="/ "><img class="logo-icon me-2" src="/static/brasao.ico" alt="logo"><span class="logo-text">Educação</span></a>							
+		            <a class="app-logo" href="/ "><img class="logo-icon me-2" src="../design/static/brasao.ico" alt="logo"><span class="logo-text">Educação</span></a>							
 		            <!-- <a class="app-logo" href="/ "><span class="logo-text">Educação</span></a> -->
 	
 		        </div>
@@ -133,13 +131,34 @@
 	                             </span>
 					        </a>
 					        <div id="submenu-softwares" class="collapse submenu submenu-softwares" data-bs-parent="#menu-accordion">
-								<ul class="submenu-list list-unstyled">						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-plus-circle me-2"></i>Adicionar Turma</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>1° Ano</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>2° Ano</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>3 Ano</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>4° Ano</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>5° Ano</a></li>						      
+								<ul class="submenu-list list-unstyled">			
+							        <li class="submenu-item">										
+										<a class="submenu-link " href="/">
+											<i class="fa-solid fa-plus-circle me-2"></i>
+											Adicionar Turma
+										</a>
+									</li>	
+									<li class="submenu-item">
+										<a  class="submenu-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-turmas-{{ nivel_ensino.nivel.id }}" aria-expanded="false" aria-controls="submenu-1">
+											<i class="fa-solid fa-users me-2"></i>
+											{{nivel_ensino.nivel.nome}}
+											<span class="submenu-arrow">
+												<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+													<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+												</svg>
+											 </span>
+										</a>
+										<div id="submenu-turmas-{{ nivel_ensino.nivel.id }}" class="collapse submenu submenu-turmas-{{ nivel_ensino.nivel.id }}" data-bs-parent="#submenu-turmas-{{ nivel_ensino.nivel.id }}">
+											<ul class="submenu-list list-unstyled">
+												<li class="submenu-item">
+													<a  class="submenu-link-2" href="/">
+														<i class="fa-solid fa-graduation-cap me-2"></i>
+														turma
+													</a>
+												</li>
+											</ul>
+										</div>
+									</li>				
 						        </ul>
 					        </div>
 					    </li>	
@@ -159,15 +178,27 @@
                                 </a>
 					        <div id="submenu-gestao" class="collapse submenu submenu-gestao" data-bs-parent="#menu-accordion">
 						        <ul class="submenu-list list-unstyled">
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-plus-circle me-2"></i>Adicionar Avaliação</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>1° Ano</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>2° Ano</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>3 Ano</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>4° Ano</a></li>						        
-							        <li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-list-check me-2"></i>5° Ano</a></li>						        
+							        <li class="submenu-item">
+										<a class="submenu-link " href="/">
+											<i class="fa-solid fa-plus-circle me-2"></i>
+											Adicionar Avaliação
+										</a>
+									</li>						        
+						
+							        	<li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-users me-2"></i>nivel_ensino.nivel.nome</a></li>						        
+				        
 						        </ul>
 					        </div>
-					    </li>					    
+					    </li>		
+					
+						<li class="nav-item">					        
+					        <a class="nav-link" href="/">
+						        <span class="nav-icon">
+                                    <i class="fa-solid fa-university"></i>
+						         </span>
+		                         <span class="nav-link-text">Escolas</span>
+					        </a>
+					    </li>
 				    </ul>
 			    </nav>
 			    <div class="app-sidepanel-footer">
@@ -204,28 +235,33 @@
 	    </div>
     </header>
     
+
+    
     <div class="app-wrapper">
-	    
-	    <div class="app-content pt-3 p-md-3 p-lg-4">
-		    <div class="container-xl">
+        
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+            <div class="container-xl">
+            
+				<!-- AQUIIIIIIIII -->
+
             </div> 
 	    </div>
 	    
-	    <footer class="app-footer w-100">
-		    <div class="container text-center py-3">	         
-            <small class="copyright">© Subsecretaria de Tecnologia da Informação e Comunicação - 2024</small>			
-		    </div>
-	    </footer>
-	    
-    </div> 					
-
- 
-    <!-- Javascript -->          
-    <script src="/static/plugins/popper.min.js"></script>
-    <script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>  
-    <script src="/static/js/app.js"></script> 
-	<script src="/static/js/notifications.js"></script>
-	<script>
+		<footer class="app-footer w-100">
+			<div class="container align-middle text-center py-3">	         
+			<small class="copyright fixed-bottom mb-4">© Subsecretaria de Tecnologia da Informação e Comunicação - 2024</small>			
+			</div>
+		</footer>
+		
+		</div> 					
+		
+		
+		<!-- Javascript -->          
+		<script src="../design/static/plugins/popper.min.js"></script>
+		<script src="../design/static/plugins/bootstrap/js/bootstrap.min.js"></script>  
+		<script src="../design/static/js/app.js"></script> 
+		<script src="../design/static/js/notifications.js"></script>
+		<script>
 		function hiddenMenu(){
 			var sidepanel = document.getElementById('app-sidepanel');
 			if (sidepanel.style.left == '-250px') {
@@ -240,13 +276,13 @@
 				document.querySelector('.app-header-inner').style.marginLeft = '0px';
 				document.querySelector('#mButton').innerHTML = '<i class="fa-solid fa-angle-right"></i>';
 			}						
-
+		
 		};
 		window.onload = function() {
 			var preloader = document.getElementById('preloader');
 			preloader.style.display = 'none';
 		};
-	</script>
-</body>
-</html> 
-
+		</script>
+		</body>
+		</html> 
+		

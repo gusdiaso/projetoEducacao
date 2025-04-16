@@ -224,7 +224,7 @@ def alunos_create(request, turma_id):
             aluno = form.save(commit=False)
             aluno.turma = turma
             aluno.save()
-            return redirect('educacao:alunos_list', turma_id=turma.id)
+            return redirect('educacao:turma', turma_id=turma.id)
     else:
         form = AlunosForm(user=request.user)
     return render(request, 'educacao/alunos_form.html', {'form': form, 'turma': turma})
@@ -234,7 +234,7 @@ def alunos_delete(request, pk, turma_id):
     aluno = get_object_or_404(Alunos, pk=pk)
     if request.method == 'POST':
         aluno.delete()
-        return redirect('educacao:alunos_list', turma_id=turma_id)
+        return redirect('educacao:turma', turma_id=turma_id)
     return render(request, 'educacao/alunos_confirm_delete.html', {'aluno': aluno, 'turma_id': turma_id})
 
 #VIEWS QUE NÃO DEVERIAM EXISTIR

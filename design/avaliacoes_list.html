@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html> 
 <head>
     <title>Educação PMNF - Bem-vindo</title>
@@ -10,21 +9,20 @@
     
     <meta name="description" content="Intranet da Prefeitura Municipal de Nova Friburgo">
     <meta name="author" content="eduardo salarini">    
-    <link rel="shortcut icon" href="{% static '/favicon.ico' %}"> 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
 
     
     <!-- FontAwesome JS-->
-    <script defer src="{% static '/css/fontawesome.min.css' %}"></script>
+    <script defer src="../design/static/css/fontawesome.min.css"></script>
     <!-- App CSS -->  
-    <link id="theme-style" rel="stylesheet" href="{% static '/css/template-educacao.css' %}">
+	<link id="theme-style" rel="stylesheet" href="../design/static/css/template-educacao.css">
 </head> 
 
 <body class="app">   
 	<div id="preloader" class="preloader">
-		<img class="logo-icon me-2" src="{% static '/brasao.ico' %}" alt="logo"><span class="logo-text">Educação</span>
+		<img class="logo-icon me-2" src="../design/static/brasao.ico" alt="logo"><span class="logo-text">Educação</span>
 		<div class="spinner"></div>
 	  </div>	
     <header class="app-header fixed-top">	   	            
@@ -99,7 +97,7 @@
 	        <div class="sidepanel-inner d-flex flex-column">
 		        <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
 		        <div class="app-branding">
-		            <a class="app-logo" href="/ "><img class="logo-icon me-2" src="{% static '/brasao.ico' %}" alt="logo"><span class="logo-text">Educação</span></a>							
+		            <a class="app-logo" href="/ "><img class="logo-icon me-2" src="../design/static/brasao.ico" alt="logo"><span class="logo-text">Educação</span></a>							
 		            <!-- <a class="app-logo" href="/ "><span class="logo-text">Educação</span></a> -->
 	
 		        </div>
@@ -133,16 +131,13 @@
 	                             </span>
 					        </a>
 					        <div id="submenu-softwares" class="collapse submenu submenu-softwares" data-bs-parent="#menu-accordion">
-								<ul class="submenu-list list-unstyled">						        
-									{% if not pessoa.is_professor %}
+								<ul class="submenu-list list-unstyled">			
 							        <li class="submenu-item">										
-										<a class="submenu-link " href="{% url 'educacao:turmas_create' %}">
+										<a class="submenu-link " href="/">
 											<i class="fa-solid fa-plus-circle me-2"></i>
 											Adicionar Turma
 										</a>
 									</li>	
-									{% endif %}					        
-									{% for nivel_ensino in niveis_ensino %}
 									<li class="submenu-item">
 										<a  class="submenu-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-turmas-{{ nivel_ensino.nivel.id }}" aria-expanded="false" aria-controls="submenu-1">
 											<i class="fa-solid fa-users me-2"></i>
@@ -155,18 +150,15 @@
 										</a>
 										<div id="submenu-turmas-{{ nivel_ensino.nivel.id }}" class="collapse submenu submenu-turmas-{{ nivel_ensino.nivel.id }}" data-bs-parent="#submenu-turmas-{{ nivel_ensino.nivel.id }}">
 											<ul class="submenu-list list-unstyled">
-												{% for turma in nivel_ensino.turmas %}
 												<li class="submenu-item">
-													<a  class="submenu-link-2" href="{% url 'educacao:turma' turma.id %}">
+													<a  class="submenu-link-2" href="/">
 														<i class="fa-solid fa-graduation-cap me-2"></i>
-														{{turma}}
+														turma
 													</a>
 												</li>
-												{% endfor %}
 											</ul>
 										</div>
-									</li>						        
-									{% endfor %}
+									</li>				
 						        </ul>
 					        </div>
 					    </li>	
@@ -187,21 +179,20 @@
 					        <div id="submenu-gestao" class="collapse submenu submenu-gestao" data-bs-parent="#menu-accordion">
 						        <ul class="submenu-list list-unstyled">
 							        <li class="submenu-item">
-										<a class="submenu-link " href="{% url 'educacao:avaliacoes_create' %}">
+										<a class="submenu-link " href="/">
 											<i class="fa-solid fa-plus-circle me-2"></i>
 											Adicionar Avaliação
 										</a>
 									</li>						        
-									
-									{% for nivel_ensino in niveis_ensino %}
-							        	<li class="submenu-item"><a class="submenu-link " href="{% url 'educacao:avaliacoes_list_educacao' nivel_ensino.nivel.id  %}"><i class="fa-solid fa-users me-2"></i>{{nivel_ensino.nivel.nome}}</a></li>						        
-									{% endfor %}					        
+						
+							        	<li class="submenu-item"><a class="submenu-link " href="/"><i class="fa-solid fa-users me-2"></i>nivel_ensino.nivel.nome</a></li>						        
+				        
 						        </ul>
 					        </div>
 					    </li>		
 					
 						<li class="nav-item">					        
-					        <a class="nav-link" href="{% url 'educacao:escolas_list' %}">
+					        <a class="nav-link" href="/">
 						        <span class="nav-icon">
                                     <i class="fa-solid fa-university"></i>
 						         </span>
@@ -215,7 +206,7 @@
 					    <ul class="app-menu footer-menu list-unstyled">
 						    <li class="nav-item">
 						        
-						        <a class="nav-link" href="{% url 'autenticacao:painel_administrativo' %}">
+						        <a class="nav-link" href="/">
 							        <span class="nav-icon">
 							            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-gear" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 										<path fill-rule="evenodd" d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"/>
@@ -249,28 +240,30 @@
     <div class="app-wrapper">
         
         <div class="app-content pt-3 p-md-3 p-lg-4">
-            <div class="container-xl" >
-                
-                {% block content %}{% endblock %}
+            <div class="container-xl">
+            
+				<h2 class="mb-4">Listagem de Avaliações</h2>
+
+
 
             </div> 
 	    </div>
 	    
-	    <footer class="app-footer w-100">
-		    <div class="container text-center py-3">	         
-            <small class="copyright">© Subsecretaria de Tecnologia da Informação e Comunicação - 2024</small>			
-		    </div>
-	    </footer>
-	    
-    </div> 					
-
- 
-    <!-- Javascript -->          
-    <script src="{% static '/plugins/popper.min.js' %}"></script>
-    <script src="{% static '/plugins/bootstrap/js/bootstrap.min.js' %}"></script>  
-    <script src="{% static '/js/app.js' %}"></script> 
-	<script src="{% static '/js/notifications.js' %}"></script>
-	<script>
+		<footer class="app-footer w-100">
+			<div class="container align-middle text-center py-3">	         
+			<small class="copyright fixed-bottom mb-4">© Subsecretaria de Tecnologia da Informação e Comunicação - 2024</small>			
+			</div>
+		</footer>
+		
+		</div> 					
+		
+		
+		<!-- Javascript -->          
+		<script src="../design/static/plugins/popper.min.js"></script>
+		<script src="../design/static/plugins/bootstrap/js/bootstrap.min.js"></script>  
+		<script src="../design/static/js/app.js"></script> 
+		<script src="../design/static/js/notifications.js"></script>
+		<script>
 		function hiddenMenu(){
 			var sidepanel = document.getElementById('app-sidepanel');
 			if (sidepanel.style.left == '-250px') {
@@ -285,13 +278,13 @@
 				document.querySelector('.app-header-inner').style.marginLeft = '0px';
 				document.querySelector('#mButton').innerHTML = '<i class="fa-solid fa-angle-right"></i>';
 			}						
-
+		
 		};
 		window.onload = function() {
 			var preloader = document.getElementById('preloader');
 			preloader.style.display = 'none';
 		};
-	</script>
-</body>
-</html> 
-
+		</script>
+		</body>
+		</html> 
+		
