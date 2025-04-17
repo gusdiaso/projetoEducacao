@@ -188,6 +188,7 @@
                                 </a>
 					        <div id="submenu-gestao" class="collapse submenu submenu-gestao" data-bs-parent="#menu-accordion">
 						        <ul class="submenu-list list-unstyled">
+									{% if not pessoa.is_professor %}
 							        <li class="submenu-item">
 										<a class="submenu-link submenu-adicionar" href="{% url 'educacao:avaliacoes_create' %}">
 											<span class="submenu-adicionar">
@@ -196,14 +197,14 @@
 											</span>
 										</a>
 									</li>						        
-									
+									{% endif %}
 									{% for nivel_ensino in niveis_ensino %}
-							        	<li class="submenu-item"><a class="submenu-link " href="{% url 'educacao:avaliacoes_list_educacao' nivel_ensino.nivel.id  %}"><i class="fa-solid fa-users me-2"></i>{{nivel_ensino.nivel.nome}}</a></li>						        
+							        	<li class="submenu-item"><a class="submenu-link " href="{% url 'educacao:avaliacoes_list_educacao' nivel_ensino.nivel.id  %}"><i class="fa-solid fa-users me-2"></i>{{nivel_ensino.nivel.nome}}</a></li>						        										
 									{% endfor %}					        
 						        </ul>
 					        </div>
 					    </li>		
-					
+						{% if not pessoa.is_professor %}
 						<li class="nav-item">					        
 					        <a class="nav-link" href="{% url 'educacao:escolas_list' %}">
 						        <span class="nav-icon">
@@ -212,6 +213,31 @@
 		                         <span class="nav-link-text">Escolas</span>
 					        </a>
 					    </li>
+						<li class="nav-item">					        
+					        <a class="nav-link" href="{% url 'educacao:nivel_ensino_list' %}">
+						        <span class="nav-icon">
+                                    <i class="fa-solid fa-user"></i>
+						         </span>
+		                         <span class="nav-link-text">Níveis de Ensino</span>
+					        </a>
+					    </li>
+						<li class="nav-item">					        
+					        <a class="nav-link" href="{% url 'educacao:tipo_avaliacoes_list' %}">
+						        <span class="nav-icon">
+                                    <i class="fa-solid fa-user"></i>
+						         </span>
+		                         <span class="nav-link-text">Tipo de Avaliação</span>
+					        </a>
+					    </li>
+						<li class="nav-item">					        
+					        <a class="nav-link" href="{% url 'autenticacao:usuarios' %}">
+						        <span class="nav-icon">
+                                    <i class="fa-solid fa-user"></i>
+						         </span>
+		                         <span class="nav-link-text">Usuários</span>
+					        </a>
+					    </li>	
+						{% endif %}
 				    </ul>
 			    </nav>
 			    <div class="app-sidepanel-footer">
