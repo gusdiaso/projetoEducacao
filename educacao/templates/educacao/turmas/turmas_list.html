@@ -3,34 +3,58 @@
 {% block title %}Lista de Turmas{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Lista de Turmas</h2>
-<a href="{% url 'educacao:turmas_create' %}" class="btn btn-primary mb-3">Adicionar Turma</a>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Ano</th>
-            <th>Escola</th>
-            <th>Nível de Ensino</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for turma in turmas %}
-        <tr>
-            <td>{{ turma.nome }}</td>
-            <td>{{ turma.ano }}</td>
-            <td>{{ turma.escola.nome }}</td>
-            <td>{{ turma.nivel_ensino.nome }}</td>
-            <td>
-                <a href="{% url 'educacao:alunos_list' turma.id %}" class="btn btn-info btn-sm">Alunos</a>
-                <a href="{% url 'educacao:turmas_update' turma.id %}" class="btn btn-warning btn-sm">Editar</a>
-                <a href="{% url 'educacao:turmas_delete' turma.id %}" class="btn btn-danger btn-sm">Excluir</a>
-            </td>
-        </tr>
-        {% endfor %}
-        
-    </tbody>
-</table>
-<a href="{% url 'educacao:index' %}" class="btn btn-secondary">Voltar</a>
+<div class="row mb-4 rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col d-flex py-3 px-4">
+        <h2 class="my-auto">Lista de Turmas</h2>
+        <a href="{% url 'educacao:turmas_create' %}"  class="btn btn-primary px-2 py-2 ms-auto my-auto">
+            <i class="fa-solid fa-plus text-white"></i>
+            <i class="fa-solid fa-graduation-cap text-white"></i>
+        </a>
+    </div>
+</div>
+
+
+<div class="row rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col pt-4 pb-3 px-4">
+        <div class="w-100 d-flex">
+            <h4 class="mb-3">Lista de Escolas</h4>
+        </div>
+                
+        <table class="table table-borderless table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Ano</th>
+                    <th>Escola</th>
+                    <th>Nível de Ensino</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for turma in turmas %}
+                <tr onclick="select_turma('{{ turma.id }}')" class="align-middle" style="cursor: pointer;">
+                    <td class="align-middle">{{ turma.nome }}</td>
+                    <td class="align-middle">{{ turma.ano }}</td>
+                    <td class="align-middle">{{ turma.escola.nome }}</td>
+                    <td class="align-middle">{{ turma.nivel_ensino.nome }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'educacao:turmas_update' turma.id %}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square text-white"></i></a>
+                        <a href="{% url 'educacao:turmas_delete' turma.id %}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can fa-lg text-white"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'educacao:escolas_list' %}" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>
+
+<script>
+    function select_turma(id) {
+        window.location.href = "{% url 'educacao:turma' 0 %}".replace('0', id);
+    }
+
+</script>
+
+
 {% endblock %}

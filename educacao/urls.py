@@ -18,11 +18,14 @@ urlpatterns = [
     path('escolas/criar/', views.escolas_create, name='escolas_create'),
     path('escolas/<int:pk>/editar/', views.escolas_update, name='escolas_update'),
     path('escolas/<int:pk>/excluir/', views.escolas_delete, name='escolas_delete'),
+    path('escolas/turmas/<int:escola_id>/', views.escola_list_turmas, name='escola_list_turmas'),
         
     #Gerenciamento da Turma
     path('turmas/<int:turma_id>/', views.turma, name='turma'),
     path('turmas/<int:pk>/editar/', views.turmas_update, name='turmas_update'),
     path('turmas/', views.turmas_list, name='turmas_list'),
+    path('turmas/<int:pk>/excluir/', views.turmas_delete, name='turmas_delete'),
+
 
     path('turmas/criar/', views.turmas_create, name='turmas_create'),
     #Gerenciamento dos alunos    
@@ -43,7 +46,6 @@ urlpatterns = [
 
     
     
-    path('turmas/<int:pk>/excluir/', views.turmas_delete, name='turmas_delete'),
 
     
     

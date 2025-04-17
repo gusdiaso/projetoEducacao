@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos
-from .forms import TipoAvaliacoesForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm
+from .forms import TipoAvaliacoesForm, EscolasEditForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm
 from django.http import FileResponse, Http404
 from autenticacao.models import Pessoa
 
@@ -63,7 +63,9 @@ def escolas_create(request):
     if request.method == 'POST':
         form = EscolasForm(request.POST, user=request.user)
         if form.is_valid():
-            form.save()
+            escola = form.save()
+            escola.user_inclusao = request.user
+            escola.save()
             return redirect('educacao:escolas_list')
     else:
         form = EscolasForm(user=request.user)
@@ -73,9 +75,9 @@ def escolas_create(request):
 def escolas_update(request, pk):
     escola = get_object_or_404(Escolas, pk=pk)
     if request.method == 'POST':
-        form = EscolasForm(request.POST, instance=escola, user=request.user)
+        form = EscolasEditForm(request.POST, instance=escola, user=request.user)
         if form.is_valid():
-            form.save()
+            escola = form.save()
             return redirect('educacao:escolas_list')
     else:
         form = EscolasForm(instance=escola, user=request.user)
@@ -169,6 +171,13 @@ def avaliacoes_delete(request, pk):
 def turmas_list(request):
     turmas = Turmas.objects.all()
     return render(request, 'educacao/turmas/turmas_list.html', {'turmas': turmas})
+
+@login_required
+def escola_list_turmas(request, escola_id):
+    escola = get_object_or_404(Escolas, pk=escola_id)
+    turmas = Turmas.objects.filter(escola=escola)
+    return render(request, 'educacao/turmas/turmas_list.html', {'turmas': turmas, 'escola': escola})
+
 
 login_required
 def turma(request, turma_id):

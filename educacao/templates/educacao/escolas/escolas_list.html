@@ -3,43 +3,44 @@
 {% block title %}Lista de Escolas{% endblock %}
 
 {% block content %}
-<div class="row mb-4 rounded-4" style="background-color: white;">
-    <div class="col d-flex py-3 px-3">
+<div class="row mb-4 rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col d-flex py-3 px-4">
         <h2 class="my-auto">Escolas</h2>
-        <a href="{% url 'educacao:escolas_create' %}" class="btn px-2 py-2 ms-auto my-auto">
-            <i class="fa-solid fa-plus me-2"></i>
-            <i class="fa-solid fa-university"></i>
+        <a href="{% url 'educacao:escolas_create' %}" class="btn btn-primary px-2 py-2 ms-auto my-auto">
+            <i class="fa-solid fa-plus text-white"></i>
+            <i class="fa-solid fa-university text-white"></i>
         </a>        
     </div>
 </div>
 
-<div class="row rounded-4 mb-4" style="background-color: white;">
-    <div class="col pt-4 pb-3 px-4">
+<div class="row rounded-4 mb-4 shadow-sm" style="background-color: white;">
+    <div class="col py-3 px-4">
         Detalhes da escola, observações e etc.
     </div>
 </div>
-<div class="row rounded-4" style="background-color: white;">
+
+<div class="row rounded-4 shadow-sm" style="background-color: white;">
     <div class="col pt-4 pb-3 px-4">
         <div class="w-100 d-flex">
-            <h4 class="mb-4">Lista de Alunos</h4>
+            <h4 class="mb-3">Lista de Escolas</h4>
         </div>
                 
             <table class="table table-borderless table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Nome</th>
-                        <th>Diretor</th>
-                        <th>Ações</th>
+                        <th class="w-auto">Nome</th>
+                        <th class="w-1">Diretor</th>
+                        <th class="w-1 text-end"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for escola in escolas %}
-                    <tr>
-                        <td>{{ escola.nome }}</td>
-                        <td>{{ escola.diretor.nome }}</td>
-                        <td>
-                            <a href="#" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="#" class="btn btn-danger btn-sm">Excluir</a>
+                    <tr class="align-middle" style="cursor: pointer;" onclick="select_escola('{{ escola.id }}')">
+                        <td class="align-middle w-auto">{{ escola.nome }}</td>
+                        <td class="align-middle w-1">{{ escola.diretor.nome }}</td>
+                        <td class="text-end w-1">
+                            <a href="{% url 'educacao:escolas_update' escola.id %}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square text-white"></i></a>
+                            <a href="{% url 'educacao:escolas_delete' escola.id %}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can fa-lg text-white"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -47,5 +48,11 @@
             </table>
     </div>
 </div>
+
+<script>
+    function select_escola(id) {
+        window.location.href = "{% url 'educacao:escola_list_turmas' 0 %}".replace('0', id);
+    }
+</script>
 {% endblock %}
 

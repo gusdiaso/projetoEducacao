@@ -32,31 +32,69 @@ class TipoAvaliacoesForm(forms.ModelForm):
             self.fields['user_edicao'].queryset = user.__class__.objects.filter(pk=user.pk)
 
 class EscolasForm(forms.ModelForm):
-    user_inclusao = forms.ModelChoiceField(
-        queryset=None, widget=forms.HiddenInput(), required=False
-    )
-    user_edicao = forms.ModelChoiceField(
-        queryset=None, widget=forms.HiddenInput(), required=False
-    )
-
+  
     class Meta:
         model = Escolas
         fields = ['nome', 'diretor', 'user_inclusao', 'user_edicao']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'diretor': forms.Select(attrs={'class': 'form-control'}),
+            'user_inclusao': forms.HiddenInput(),
+            'user_edicao': forms.HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
+        if user:
+            user_inclusao = forms.ModelChoiceField(
+                queryset=None, widget=forms.HiddenInput(), required=False
+            )
+            user_edicao = forms.ModelChoiceField(
+                queryset=None, widget=forms.HiddenInput(), required=False
+            )
+
         super().__init__(*args, **kwargs)
         if user:
-            self.fields['user_inclusao'].initial = user
-            self.fields['user_edicao'].initial = user
+            print(user.id)
+            self.fields['user_inclusao'].initial = user.id
+            self.fields['user_edicao'].initial = user.id
             self.fields['user_inclusao'].queryset = user.__class__.objects.filter(pk=user.pk)
             self.fields['user_edicao'].queryset = user.__class__.objects.filter(pk=user.pk)
         # Filtrar apenas pessoas com tipo_conta='dir' para o campo diretor
         self.fields['diretor'].queryset = self.fields['diretor'].queryset.filter(tipo_conta='dir')
+
+
+class EscolasEditForm(forms.ModelForm):
+    class Meta:
+        model = Escolas
+        fields = ['nome', 'diretor', 'user_inclusao', 'user_edicao']
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'diretor': forms.Select(attrs={'class': 'form-control'}),
+            'user_inclusao': forms.HiddenInput(),
+            'user_edicao': forms.HiddenInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        if user:
+            user_inclusao = forms.ModelChoiceField(
+                queryset=None, widget=forms.HiddenInput(), required=False
+            )
+            user_edicao = forms.ModelChoiceField(
+                queryset=None, widget=forms.HiddenInput(), required=False
+            )
+
+        super().__init__(*args, **kwargs)
+        if user:
+            print(user.id)
+            self.fields['user_inclusao'].initial = user.id
+            self.fields['user_edicao'].initial = user.id
+            self.fields['user_inclusao'].queryset = user.__class__.objects.filter(pk=user.pk)
+            self.fields['user_edicao'].queryset = user.__class__.objects.filter(pk=user.pk)
+        # Filtrar apenas pessoas com tipo_conta='dir' para o campo diretor
+        self.fields['diretor'].queryset = self.fields['diretor'].queryset.filter(tipo_conta='dir')
+
 
 class NivelEnsinoForm(forms.ModelForm):
     user_inclusao = forms.ModelChoiceField(
