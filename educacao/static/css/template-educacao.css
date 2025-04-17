@@ -14155,6 +14155,15 @@ button.close:focus {
     background-color: #15a362
 }
 
+
+.app-nav .submenu-link .submenu-adicionar{
+    background-color: rgba(105, 105, 105, 0.229);
+    border-radius: 30px;
+    padding: 5px 10px 5px 5px;
+    width: 100%;
+}
+
+
 /*  */
 
 .app-nav .submenu-link-2 {
@@ -14194,7 +14203,6 @@ button.close:focus {
 
 
 /*  */
-
 
 .app-sidepanel-footer {
     width: 100%;

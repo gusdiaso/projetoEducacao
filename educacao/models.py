@@ -63,6 +63,9 @@ class Alunos(BaseModel):
     nome = models.CharField(max_length=100)        
     turma = models.ForeignKey(Turmas, on_delete=models.CASCADE, related_name='alunos')
 
+    class Meta:
+        ordering = ['nome']
+
     def get_escola(self):
         return self.turma.escola.nome
 

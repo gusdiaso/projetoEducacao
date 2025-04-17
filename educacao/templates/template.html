@@ -136,9 +136,11 @@
 								<ul class="submenu-list list-unstyled">						        
 									{% if not pessoa.is_professor %}
 							        <li class="submenu-item">										
-										<a class="submenu-link " href="{% url 'educacao:turmas_create' %}">
-											<i class="fa-solid fa-plus-circle me-2"></i>
-											Adicionar Turma
+										<a class="submenu-link" href="{% url 'educacao:turmas_create' %}">											
+											<span class="submenu-adicionar">
+												<i class="fa-solid fa-plus-circle me-2"></i>
+												Adicionar Turma
+											</span>
 										</a>
 									</li>	
 									{% endif %}					        
@@ -187,9 +189,11 @@
 					        <div id="submenu-gestao" class="collapse submenu submenu-gestao" data-bs-parent="#menu-accordion">
 						        <ul class="submenu-list list-unstyled">
 							        <li class="submenu-item">
-										<a class="submenu-link " href="{% url 'educacao:avaliacoes_create' %}">
-											<i class="fa-solid fa-plus-circle me-2"></i>
-											Adicionar Avaliação
+										<a class="submenu-link submenu-adicionar" href="{% url 'educacao:avaliacoes_create' %}">
+											<span class="submenu-adicionar">
+												<i class="fa-solid fa-plus-circle me-2"></i>
+												Adicionar Avaliação
+											</span>
 										</a>
 									</li>						        
 									
