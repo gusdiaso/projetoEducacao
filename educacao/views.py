@@ -21,7 +21,7 @@ def tipo_avaliacoes_create(request):
         form = TipoAvaliacoesForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('tipo_ensino:tipo_avaliacoes_list')
+            return redirect('educacao:tipo_avaliacoes_list')
     else:
         form = TipoAvaliacoesForm(user=request.user)
     return render(request, 'tipo_ensino/tipo_avaliacoes_form.html', {'form': form})
@@ -33,7 +33,7 @@ def tipo_avaliacoes_update(request, pk):
         form = TipoAvaliacoesForm(request.POST, request.FILES, instance=tipo, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('tipo_ensino:tipo_avaliacoes_list')
+            return redirect('educacao:tipo_avaliacoes_list')
     else:
         form = TipoAvaliacoesForm(instance=tipo, user=request.user)
     return render(request, 'tipo_ensino/tipo_avaliacoes_form.html', {'form': form})
@@ -43,7 +43,7 @@ def tipo_avaliacoes_delete(request, pk):
     tipo = get_object_or_404(Tipo_Avaliacoes, pk=pk)
     if request.method == 'POST':
         tipo.delete()
-        return redirect('tipo_ensino:tipo_avaliacoes_list')
+        return redirect('educacao:tipo_avaliacoes_list')
     return render(request, 'tipo_ensino/tipo_avaliacoes_confirm_delete.html', {'tipo': tipo})
 
 #ESCOLAS
@@ -103,7 +103,7 @@ def nivel_ensino_create(request):
         form = NivelEnsinoForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('nivel_ensino:nivel_ensino_list')
+            return redirect('educacao:nivel_ensino_list')
     else:
         form = NivelEnsinoForm(user=request.user)
     return render(request, 'nivel_ensino/nivel_ensino_form.html', {'form': form})
@@ -115,7 +115,7 @@ def nivel_ensino_update(request, pk):
         form = NivelEnsinoForm(request.POST, instance=nivel, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('nivel_ensino:nivel_ensino_list')
+            return redirect('educacao:nivel_ensino_list')
     else:
         form = NivelEnsinoForm(instance=nivel, user=request.user)
     return render(request, 'nivel_ensino/nivel_ensino_form.html', {'form': form})
@@ -125,7 +125,7 @@ def nivel_ensino_delete(request, pk):
     nivel = get_object_or_404(Nivel_Ensino, pk=pk)
     if request.method == 'POST':
         nivel.delete()
-        return redirect('nivel_ensino:nivel_ensino_list')
+        return redirect('educacao:nivel_ensino_list')
     return render(request, 'nivel_ensino/nivel_ensino_confirm_delete.html', {'nivel': nivel})
 
 #AVALIAÇÕES
