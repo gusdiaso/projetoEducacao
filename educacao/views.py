@@ -13,7 +13,7 @@ def index(request):
 @login_required
 def tipo_avaliacoes_list(request):
     tipos = Tipo_Avaliacoes.objects.all()
-    return render(request, 'educacao/tipo_avaliacoes_list.html', {'tipos': tipos})
+    return render(request, 'tipo_ensino/tipo_avaliacoes_list.html', {'tipos': tipos})
 
 @login_required
 def tipo_avaliacoes_create(request):
@@ -21,10 +21,10 @@ def tipo_avaliacoes_create(request):
         form = TipoAvaliacoesForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('educacao:tipo_avaliacoes_list')
+            return redirect('tipo_ensino:tipo_avaliacoes_list')
     else:
         form = TipoAvaliacoesForm(user=request.user)
-    return render(request, 'educacao/tipo_avaliacoes_form.html', {'form': form})
+    return render(request, 'tipo_ensino/tipo_avaliacoes_form.html', {'form': form})
 
 @login_required
 def tipo_avaliacoes_update(request, pk):
@@ -33,18 +33,18 @@ def tipo_avaliacoes_update(request, pk):
         form = TipoAvaliacoesForm(request.POST, request.FILES, instance=tipo, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('educacao:tipo_avaliacoes_list')
+            return redirect('tipo_ensino:tipo_avaliacoes_list')
     else:
         form = TipoAvaliacoesForm(instance=tipo, user=request.user)
-    return render(request, 'educacao/tipo_avaliacoes_form.html', {'form': form})
+    return render(request, 'tipo_ensino/tipo_avaliacoes_form.html', {'form': form})
 
 @login_required
 def tipo_avaliacoes_delete(request, pk):
     tipo = get_object_or_404(Tipo_Avaliacoes, pk=pk)
     if request.method == 'POST':
         tipo.delete()
-        return redirect('educacao:tipo_avaliacoes_list')
-    return render(request, 'educacao/tipo_avaliacoes_confirm_delete.html', {'tipo': tipo})
+        return redirect('tipo_ensino:tipo_avaliacoes_list')
+    return render(request, 'tipo_ensino/tipo_avaliacoes_confirm_delete.html', {'tipo': tipo})
 
 #ESCOLAS
 @login_required
@@ -95,7 +95,7 @@ def escolas_delete(request, pk):
 @login_required
 def nivel_ensino_list(request):
     niveis = Nivel_Ensino.objects.all()
-    return render(request, 'educacao/nivel_ensino_list.html', {'niveis': niveis})
+    return render(request, 'nivel_ensino/nivel_ensino_list.html', {'niveis': niveis})
 
 @login_required
 def nivel_ensino_create(request):
@@ -103,10 +103,10 @@ def nivel_ensino_create(request):
         form = NivelEnsinoForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('educacao:nivel_ensino_list')
+            return redirect('nivel_ensino:nivel_ensino_list')
     else:
         form = NivelEnsinoForm(user=request.user)
-    return render(request, 'educacao/nivel_ensino_form.html', {'form': form})
+    return render(request, 'nivel_ensino/nivel_ensino_form.html', {'form': form})
 
 @login_required
 def nivel_ensino_update(request, pk):
@@ -115,18 +115,18 @@ def nivel_ensino_update(request, pk):
         form = NivelEnsinoForm(request.POST, instance=nivel, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('educacao:nivel_ensino_list')
+            return redirect('nivel_ensino:nivel_ensino_list')
     else:
         form = NivelEnsinoForm(instance=nivel, user=request.user)
-    return render(request, 'educacao/nivel_ensino_form.html', {'form': form})
+    return render(request, 'nivel_ensino/nivel_ensino_form.html', {'form': form})
 
 @login_required
 def nivel_ensino_delete(request, pk):
     nivel = get_object_or_404(Nivel_Ensino, pk=pk)
     if request.method == 'POST':
         nivel.delete()
-        return redirect('educacao:nivel_ensino_list')
-    return render(request, 'educacao/nivel_ensino_confirm_delete.html', {'nivel': nivel})
+        return redirect('nivel_ensino:nivel_ensino_list')
+    return render(request, 'nivel_ensino/nivel_ensino_confirm_delete.html', {'nivel': nivel})
 
 #AVALIAÇÕES
 @login_required

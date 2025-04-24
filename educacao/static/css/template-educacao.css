@@ -14015,7 +14015,7 @@ button.close:focus {
     height: 60px;
     padding-top: 1rem;
     padding-left: 1rem;
-    margin-bottom: 1rem
+    margin-bottom: .5rem
 }
 
 .app-branding .logo-icon {
@@ -14054,7 +14054,6 @@ button.close:focus {
     position: relative;
     display: block;
     padding-left: 3rem;
-    border-left: 3px solid rgba(0, 0, 0, 0)
 }
 
 .app-nav .nav-link.active {
@@ -14122,9 +14121,9 @@ button.close:focus {
 
 .app-nav .submenu-link {
     color: #5d6778;
-    font-size: .875rem;
-    margin-left: 1.5rem;
-    padding: .5rem .5rem;
+    font-size: .730rem;
+    margin-left: 1.3rem;
+    padding: .5rem;
     position: relative;
     display: block;
     margin-bottom: 0
@@ -14172,7 +14171,7 @@ button.close:focus {
     width: 100%;
 }
 
-.app-nav .submenu-link .submenu-subsub{
+.app-nav .submenu-link-2 .submenu-subsub{
     background-color:  #999999;
     color: #fff;
     border-radius: 8px;
@@ -14187,9 +14186,9 @@ button.close:focus {
 
 .app-nav .submenu-link-2 {
     color: #5d6778;
-    font-size: .875rem;
-    margin-left: 2rem;
-    padding: .5rem 1rem;
+    font-size: .730rem;
+    margin-left: 1.3rem;
+    padding: .5rem .5rem .5rem 2rem;
     padding-left: 1rem;
     position: relative;
     display: block;
