@@ -14123,9 +14123,8 @@ button.close:focus {
 .app-nav .submenu-link {
     color: #5d6778;
     font-size: .875rem;
-    margin-left: 2rem;
-    padding: .5rem 1rem;
-    padding-left: 1rem;
+    margin-left: 1.5rem;
+    padding: .5rem .5rem;
     position: relative;
     display: block;
     margin-bottom: 0
@@ -14157,11 +14156,31 @@ button.close:focus {
 
 
 .app-nav .submenu-link .submenu-adicionar{
-    background-color: rgba(105, 105, 105, 0.229);
-    border-radius: 30px;
+    background-color:  #15a362;
+    color: #fff;
+    border-radius: 8px;
     padding: 5px 10px 5px 5px;
     width: 100%;
 }
+
+.app-nav .submenu-link .submenu-sub{
+    background-color:  #cccccc;
+    color: #000;
+    border-radius: 8px;
+    padding: 5px 10px 5px 5px;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.app-nav .submenu-link .submenu-subsub{
+    background-color:  #999999;
+    color: #fff;
+    border-radius: 8px;
+    padding: 5px 10px 5px 5px;
+    width: 100%;
+    white-space: nowrap;
+}
+
 
 
 /*  */

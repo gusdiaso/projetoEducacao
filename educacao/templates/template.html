@@ -189,7 +189,7 @@
 					        <div id="submenu-gestao" class="collapse submenu submenu-gestao" data-bs-parent="#menu-accordion">
 						        <ul class="submenu-list list-unstyled">
 							        <li class="submenu-item">
-										<a class="submenu-link submenu-adicionar" href="{% url 'educacao:avaliacoes_create' %}">
+										<a class="submenu-link" href="{% url 'educacao:avaliacoes_create' %}">
 											<span class="submenu-adicionar">
 												<i class="fa-solid fa-plus-circle me-2"></i>
 												Adicionar Avaliação
@@ -198,7 +198,14 @@
 									</li>						        
 									
 									{% for nivel_ensino in niveis_ensino %}
-							        	<li class="submenu-item"><a class="submenu-link " href="{% url 'educacao:avaliacoes_list_educacao' nivel_ensino.nivel.id  %}"><i class="fa-solid fa-users me-2"></i>{{nivel_ensino.nivel.nome}}</a></li>						        
+							        	<li class="submenu-item">
+											<a class="submenu-link" href="{% url 'educacao:avaliacoes_list_educacao' nivel_ensino.nivel.id  %}">
+												<span class="submenu-sub">
+													<i class="fa-solid fa-users me-2"></i>
+													{{nivel_ensino.nivel.nome}}
+												</span>
+											</a>
+										</li>						        
 									{% endfor %}					        
 						        </ul>
 					        </div>
