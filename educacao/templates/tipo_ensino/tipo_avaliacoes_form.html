@@ -3,11 +3,20 @@
 {% block title %}{{ form.instance.pk|default:"Criar Novo Tipo de Avaliação" }}{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">{{ form.instance.pk|default:"Criar Novo Tipo de Avaliação" }}</h2>
-<form method="post" enctype="multipart/form-data" class="mb-4">
+
+<div class="row">
+    <div class="col d-flex mb-4 rounded-4 shadow-sm" style="background-color: white;">
+        <h2 class="m-0 py-3 px-2">{{ form.instance.pk|default:"Criar Novo Tipo de Avaliação" }}</h2>
+    </div>
+</div>
+<form method="post" enctype="multipart/form-data"  class="row d-flex mb-4 rounded-4 bg-white px-2 py-3 shadow-sm">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Salvar</button>
-    <a href="{% url 'educacao:tipo_avaliacoes_list' %}" class="btn btn-secondary">Voltar</a>
+
+    
+    <div class="col d-flex justify-content-start gap-2 mt-2">  
+        <button type="submit" class="btn btn-primary text-white">Salvar</button>
+        <a href="{% url 'educacao:tipo_avaliacoes_list' %}" class="btn btn-secondary">Voltar</a>
+    </div>
 </form>
 {% endblock %}

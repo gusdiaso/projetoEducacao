@@ -17,31 +17,29 @@
 <div class="row rounded-4 shadow-sm" style="background-color: white;">
     <div class="col pt-4 pb-3 px-4">
         <div class="w-100 d-flex">
-            <h4 class="mb-3">Listagem de Níveis de Ensino</h4>
+            <h4 class="mb-3">Listagem de Tipos de Avaliações</h4>
         </div>
                 
-    <table class="table table-borderless table-striped table-hover">
-
-    <thead>
-        <tr  class="align-middle">
-            <th>Nome</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for nivel in niveis %}
-        <tr  class="align-middle">
-            <td>{{ nivel.nome }}</td>
-            <td class="text-end">
-                <a href="{% url 'educacao:nivel_ensino_update' nivel.id %}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square text-white"></i></a>
-                <a href="{% url 'educacao:nivel_ensino_delete' nivel.id %}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can fa-lg text-white"></i></a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<a href="{% url 'educacao:index' %}" class="btn btn-secondary">Voltar</a>
-
-</div>
+        <table class="table table-borderless table-striped table-hover">
+            <thead>
+                <tr class="align-middle">
+                    <th>Nome</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for nivel in niveis %}
+                <tr class="align-middle">
+                    <td>{{ nivel.nome }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'educacao:nivel_ensino_update' nivel.id %}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square text-white"></i></a>
+                        <a href="{% url 'educacao:nivel_ensino_delete' nivel.id %}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can fa-lg text-white"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'educacao:index' %}" class="btn btn-secondary">Voltar</a>
+    </div>
 </div>
 {% endblock %}

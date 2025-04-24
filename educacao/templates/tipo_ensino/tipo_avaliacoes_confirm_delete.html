@@ -3,10 +3,13 @@
 {% block title %}Confirmar Exclusão{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Tem certeza que deseja excluir "{{ tipo.nome }}"?</h2>
-<form method="post" class="mb-4">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Sim, excluir</button>
-    <a href="{% url 'educacao:tipo_avaliacoes_list' %}" class="btn btn-secondary">Cancelar</a>
-</form>
+<div class="row mb-4 rounded-4 shadow-sm bg-white px-4 py-4">
+
+    <h2 class="mb-4">Tem certeza que deseja excluir "{{ tipo.nome }}"?</h2>
+    <form method="post" class="mb-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger text-white">Sim, excluir</button>
+        <a href="{% url 'educacao:tipo_avaliacoes_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

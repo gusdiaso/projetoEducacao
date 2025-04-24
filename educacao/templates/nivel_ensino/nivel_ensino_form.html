@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col d-flex mb-4 rounded-4 shadow-sm" style="background-color: white;">
-      <h2 class="m-0 py-3 px-2">Formulário de Nível de Ensino</h2>
+        <h2 class="m-0 py-3 px-2">Formulário de Nível de Ensino</h2>
     </div>
 </div>
 
@@ -14,8 +14,8 @@
     {% csrf_token %}
     {{ form.as_p }}
     
-    <div class="col d-flex justify-content-start gap-2 mt-2">
-        <button type="submit" class="btn btn-success text-white">Salvar</button>
+    <div class="col d-flex justify-content-start gap-2 mt-2">    
+        <button type="submit" class="btn btn-success">Salvar</button>
         <a href="{% url 'educacao:nivel_ensino_list' %}" class="btn btn-secondary">Voltar</a>
     </div>
 </form>
