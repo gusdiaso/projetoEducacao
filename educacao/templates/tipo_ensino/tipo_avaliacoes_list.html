@@ -38,14 +38,13 @@
                         </a>
                     </td>
                     <td class="text-end">
-                        <a href="{% url 'educacao:tipo_avaliacoes_update' tipo.pk %}" class="btn btn-warning btn-sm me-1"><i class="fa-solid fa-pen"></i></a>
-                        <a href="{% url 'educacao:tipo_avaliacoes_delete' tipo.pk %}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                        <a href="{% url 'educacao:tipo_avaliacoes_update' tipo.pk %}" class="btn btn-warning btn-sm me-1"><i class="fa-solid text-white fa-pen"></i></a>
+                        <a href="{% url 'educacao:tipo_avaliacoes_delete' tipo.pk %}" class="btn btn-danger btn-sm"><i class="fa-solid text-white fa-trash"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <a href="{% url 'educacao:index' %}" class="btn btn-secondary">Voltar</a>
     </div>
 </div>
 

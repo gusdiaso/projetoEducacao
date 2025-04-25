@@ -3,60 +3,75 @@
 {% block title %}Lista de Administradores{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Usuários</h2>
-<table class="table table-striped" id="sortableTable">
-    <thead>
-        <tr>
-            <th class="sortable" data-column="ativo">Ativo</th>
-            <th class="sortable" data-column="nome">Nome</th>
-            <th class="sortable" data-column="dt_inclusao">Data de Criação</th>
-            <th class="sortable" data-column="ultimo_acesso">Último Acesso</th>
-            <th class="sortable" data-column="tipo">Tipo</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for pessoa in pessoas %}
-        <tr>
-            <td>
-                <span class="badge {% if pessoa.user.is_active %}bg-success{% else %}bg-danger{% endif %}">
-                    {{ pessoa.user.is_active|yesno:"Sim,Não" }}
-                </span>
-            </td>
-            <td>{{ pessoa.nome }}</td>
-            <td>{{ pessoa.dt_inlusao }}</td>
-            <td>{{ pessoa.user.last_login|date:"d/m/Y H:i" }}</td>
-            <td>
-                <span class="badge 
-                    {% if pessoa.tipo_conta == 'adm' %}bg-primary
-                    {% elif pessoa.tipo_conta == 'ass' %}bg-info
-                    {% elif pessoa.tipo_conta == 'dir' %}bg-warning
-                    {% elif pessoa.tipo_conta == 'pro' %}bg-secondary
-                    {% endif %}">
-                    {{ pessoa.get_tipo_conta_display }}
-                </span>
-            </td>
-            <td>
-                <a href="{% url 'autenticacao:usuario_editar' pessoa.id %}" class="btn btn-warning btn-sm me-1"><i class="fa-solid fa-user-pen"></i></a>
-                
-                    {% if pessoa.user.is_active %}
-                    <a href="{% url 'autenticacao:usuario_toggle_ativo' pessoa.id %}" class="btn btn-danger btn-sm text-center">
-                        <i class="fa-solid fa-user-xmark"></i>
-                    </a>
-                    {% else %}
-                    <a href="{% url 'autenticacao:usuario_toggle_ativo' pessoa.id %}" class="btn btn-success btn-sm text-center">
-                        <i class="fa-solid fa-door-open"></i>
-                    </a>
-                    {% endif %}
-                
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<a href="{% url 'autenticacao:usuario_adicionar' %}" class="btn btn-success">Adicionar usuário</a>
-<a href="{% url "autenticacao:painel_administrativo" %}" class="btn btn-secondary">Voltar</a>
 
+<div class="row mb-4 rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col d-flex py-3 px-4">
+        <h2 class="my-auto">Usuários</h2>
+        <a href="{% url 'autenticacao:usuario_adicionar' %}" class="btn btn-primary px-2 py-2 ms-auto my-auto">
+            <i class="fa-solid fa-plus text-white"></i>
+            <i class="fa-solid fa-user text-white"></i>
+        </a>
+    </div>
+</div>
+
+<div class="row rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col pt-4 pb-3 px-4">
+        <div class="w-100 d-flex">
+            <h4 class="mb-3">Listagem de Usuários</h4>
+        </div>
+                
+        <table class="table table-borderless table-striped table-hover" id="sortableTable">
+            <thead>
+                <tr class="align-middle">
+                    <th class="sortable" data-column="ativo">Ativo</th>
+                    <th class="sortable" data-column="nome">Nome</th>
+                    <th class="sortable" data-column="dt_inclusao">Data de Criação</th>
+                    <th class="sortable" data-column="ultimo_acesso">Último Acesso</th>
+                    <th class="sortable" data-column="tipo">Tipo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pessoa in pessoas %}
+                <tr class="align-middle">
+                    <td>
+                        <span class="badge {% if pessoa.user.is_active %}bg-success{% else %}bg-danger{% endif %}">
+                            {{ pessoa.user.is_active|yesno:"Sim,Não" }}
+                        </span>
+                    </td>
+                    <td>{{ pessoa.nome }}</td>
+                    <td>{{ pessoa.dt_inlusao }}</td>
+                    <td>{{ pessoa.user.last_login|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if pessoa.tipo_conta == 'adm' %}bg-primary
+                            {% elif pessoa.tipo_conta == 'ass' %}bg-info
+                            {% elif pessoa.tipo_conta == 'dir' %}bg-warning
+                            {% elif pessoa.tipo_conta == 'pro' %}bg-secondary
+                            {% endif %}">
+                            {{ pessoa.get_tipo_conta_display }}
+                        </span>
+                    </td>
+                    <td class="text-end">
+                        <a href="{% url 'autenticacao:usuario_editar' pessoa.id %}" class="btn btn-warning btn-sm me-1"><i class="fa-solid fa-user-pen text-white"></i></a>
+                        
+                            {% if pessoa.user.is_active %}
+                            <a href="{% url 'autenticacao:usuario_toggle_ativo' pessoa.id %}" class="btn btn-danger btn-sm text-center">
+                                <i class="fa-solid fa-user-xmark text-white"></i>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'autenticacao:usuario_toggle_ativo' pessoa.id %}" class="btn btn-success btn-sm text-center">
+                                <i class="fa-solid fa-door-open text-white"></i>
+                            </a>
+                            {% endif %}
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const table = document.getElementById("sortableTable");

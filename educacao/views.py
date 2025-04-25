@@ -140,7 +140,7 @@ def avaliacoes_create(request):
         form = AvaliacoesForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('educacao:avaliacoes_list')
+            return redirect('educacao:tipo_avaliacoes_list')
     else:
         form = AvaliacoesForm(user=request.user)
     return render(request, 'educacao/avaliacoes/avaliacoes_form.html', {'form': form})

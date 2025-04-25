@@ -1,17 +1,24 @@
-{% extends "adm/template.html" %}
+{% extends "template.html" %}
 {% load bootstrap5 %}
 
-{% block title %}Adicionar Administrador{% endblock %}
+{% block title %}Adicionar Usuário{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Cadastro de Administrador</h2>
-<form method="POST" class="needs-validation" novalidate>
+<div class="row">
+    <div class="col d-flex mb-4 rounded-4 shadow-sm" style="background-color: white;">
+        <h2 class="m-0 py-3 px-2">Cadastro de Usuário</h2>
+    </div>
+</div>
+
+<form method="POST" class="needs-validation row d-flex mb-4 rounded-4 bg-white px-2 py-3 shadow-sm" novalidate>
     {% csrf_token %}
     {% bootstrap_form form_usuario %}
     <br>
     {% bootstrap_form form %}
     <br>
-    <button type="submit" class="btn btn-primary">Enviar</button>
-    <a href="{% url "autenticacao:usuarios" %}" class="btn btn-secondary">Voltar</a>
+    <div class="col d-flex justify-content-start gap-2 mt-2">  
+        <button type="submit" class="btn btn-primary text-white">Enviar</button>
+        <a href="{% url "autenticacao:usuarios" %}" class="btn btn-secondary">Voltar</a>
+    </div>
 </form>
 {% endblock %}
