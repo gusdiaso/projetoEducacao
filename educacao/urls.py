@@ -39,13 +39,11 @@ urlpatterns = [
     path('niveis-ensino/<int:pk>/editar/', views.nivel_ensino_update, name='nivel_ensino_update'),
     path('niveis-ensino/<int:pk>/excluir/', views.nivel_ensino_delete, name='nivel_ensino_delete'),
 
+    path('avaliacoes/<int:id>/download/', views.avaliacao_download, name='avaliacao_download'),
     path('avaliacoes/', views.avaliacoes_list, name='avaliacoes_list'),
     path('avaliacoes/criar/', views.avaliacoes_create, name='avaliacoes_create'),
     path('avaliacoes/<int:pk>/editar/', views.avaliacoes_update, name='avaliacoes_update'),
     path('avaliacoes/<int:pk>/excluir/', views.avaliacoes_delete, name='avaliacoes_delete'),
-
-    
-    
 
     
     

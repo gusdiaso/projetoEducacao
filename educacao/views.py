@@ -4,6 +4,8 @@ from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, 
 from .forms import TipoAvaliacoesForm, EscolasEditForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm
 from django.http import FileResponse, Http404
 from autenticacao.models import Pessoa
+from django.http import FileResponse
+import os
 
 @login_required
 def index(request):
@@ -133,6 +135,18 @@ def nivel_ensino_delete(request, pk):
 def avaliacoes_list(request):
     avaliacoes = Avaliacoes.objects.all()
     return render(request, 'educacao/avaliacoes/avaliacoes_list.html', {'avaliacoes': avaliacoes})
+
+@login_required
+def avaliacao_download(request, id):
+    avaliacao = get_object_or_404(Avaliacoes, id=id)
+    tipo_de_avaliacao = avaliacao.tipo_avaliacao 
+    file_path = tipo_de_avaliacao.arquivo.path  
+
+    if os.path.exists(file_path):
+        response = FileResponse(open(file_path, 'rb'), as_attachment=True, filename=os.path.basename(file_path))
+        return response
+    else:
+        raise Http404("File does not exist")
 
 @login_required
 def avaliacoes_create(request):
