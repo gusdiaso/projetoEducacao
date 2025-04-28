@@ -12,7 +12,7 @@
         {% endif %}
         {% if avaliacoes.count > 0 %}
         {% for avaliacao in avaliacoes %}
-            <a href="{% url 'educacao:avaliacao_download' avaliacao.id %}" class="turma-card mb-4 rounded-4 shadow-sm bg-white px-4 py-3">
+            <a target="_blank" href="{{avaliacao.tipo_avaliacao.arquivo.url}}" class="turma-card mb-4 rounded-4 shadow-sm bg-white px-4 py-3">
                 <div class="turma-card-content">
                     <h3>{{ avaliacao.tipo_avaliacao.nome }}</h3>
                     <p><strong>Ano:</strong> {{ avaliacao.ano }}</p>
