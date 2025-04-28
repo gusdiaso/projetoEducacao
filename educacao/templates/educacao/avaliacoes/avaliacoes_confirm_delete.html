@@ -3,14 +3,14 @@
 {% block title %}Confirmar Exclusão{% endblock %}
 
 {% block content %}
-<div class="">
 
+<div class="row mb-4 rounded-4 shadow-sm bg-white px-4 py-4">
     <h2 class="mb-4">Confirmar Exclusão</h2>
     <p>Tem certeza de que deseja excluir a avaliação "{{ avaliacao.tipo_avaliacao.nome }}" do ano {{ avaliacao.ano }}?</p>
-    <form method="post">
+    <form method="post" class="mt-2">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Excluir</button>
-        <a href="{% url 'educacao:avaliacoes_list' %}" class="btn btn-secondary">Voltar</a>
+        <button type="submit" class="btn btn-danger text-white">Excluir</button>
+        <a href="{% url 'educacao:avaliacoes_list_educacao' avaliacao.nivel_ensino.id %}" class="btn btn-secondary">Voltar</a>
     </form>
 </div>
 {% endblock %}

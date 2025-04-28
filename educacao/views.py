@@ -166,17 +166,18 @@ def avaliacoes_update(request, pk):
         form = AvaliacoesForm(request.POST, instance=avaliacao, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('educacao:avaliacoes_list')
+            return redirect('educacao:avaliacoes_list_educacao', ensino_id=avaliacao.nivel_ensino.id)
     else:
         form = AvaliacoesForm(instance=avaliacao, user=request.user)
-    return render(request, 'educacao/avaliacoes/avaliacoes_form.html', {'form': form})
+    return render(request, 'educacao/avaliacoes/avaliacoes_form.html', {'form': form, 'avaliacao': avaliacao})
 
 @login_required
 def avaliacoes_delete(request, pk):
     avaliacao = get_object_or_404(Avaliacoes, pk=pk)
     if request.method == 'POST':
         avaliacao.delete()
-        return redirect('educacao:avaliacoes_list')
+        return redirect('educacao:avaliacoes_list_educacao', ensino_id=avaliacao.nivel_ensino.id)
+
     return render(request, 'educacao/avaliacoes/avaliacoes_confirm_delete.html', {'avaliacao': avaliacao})
 
 
