@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos
-from .forms import TipoAvaliacoesForm, EscolasEditForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm
+from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos, Componente_Curricular
+from .forms import TipoAvaliacoesForm, EscolasEditForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm, ComponenteCurricularForm
 from django.http import FileResponse, Http404
 from autenticacao.models import Pessoa
 from django.http import FileResponse
@@ -31,13 +31,14 @@ def tipo_avaliacoes_create(request):
 @login_required
 def tipo_avaliacoes_update(request, pk):
     tipo = get_object_or_404(Tipo_Avaliacoes, pk=pk)
+    print(tipo)
     if request.method == 'POST':
-        form = TipoAvaliacoesForm(request.POST, request.FILES, instance=tipo, user=request.user)
+        form = TipoAvaliacoesForm(request.POST, instance=tipo)
         if form.is_valid():
             form.save()
             return redirect('educacao:tipo_avaliacoes_list')
     else:
-        form = TipoAvaliacoesForm(instance=tipo, user=request.user)
+        form = TipoAvaliacoesForm(instance=tipo, initial={'user_edicao': tipo.user_edicao})
     return render(request, 'tipo_ensino/tipo_avaliacoes_form.html', {'form': form})
 
 @login_required
@@ -92,6 +93,45 @@ def escolas_delete(request, pk):
         escola.delete()
         return redirect('educacao:escolas_list')
     return render(request, 'educacao/escolas/escolas_confirm_delete.html', {'escola': escola})
+
+
+#COMPONENTE CURRICULAR
+@login_required
+def componente_curricular_list(request):
+    componente_curricular = Componente_Curricular.objects.all()
+    return render(request, 'componente_curricular/componente_curricular.html', {'componente_curricular': componente_curricular})
+
+@login_required
+def componente_curricular_create(request):
+    if request.method == 'POST':
+        form = ComponenteCurricularForm(request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('educacao:componente_curricular_list')
+    else:
+        form = ComponenteCurricularForm(user=request.user)
+    return render(request, 'componente_curricular/componente_curricular_form.html', {'form': form})
+
+@login_required
+def componente_curricular_update(request, pk):
+    componente_curricular = get_object_or_404(Componente_Curricular, pk=pk)
+    if request.method == 'POST':
+        form = ComponenteCurricularForm(request.POST, instance=componente_curricular, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('educacao:componente_curricular_list')
+    else:
+        form = ComponenteCurricularForm(instance=componente_curricular, user=request.user)
+    return render(request, 'componente_curricular/componente_curricular_form.html', {'form': form})
+
+@login_required
+def componente_curricular_delete(request, pk):
+    componente_curricular = get_object_or_404(Componente_Curricular, pk=pk)
+    if request.method == 'POST':
+        componente_curricular.delete()
+        return redirect('educacao:componente_curricular_list')
+    return render(request, 'componente_curricular/componente_curricular_confirm_delete.html', {'componente_curricular': componente_curricular})
+
 
 #NIVEL ENSINO
 @login_required

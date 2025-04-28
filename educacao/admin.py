@@ -1,9 +1,16 @@
 from django.contrib import admin
-from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos
+from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos, Componente_Curricular
+
+
+@admin.register(Componente_Curricular)
+class ComponenteCurricularAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'dt_inclusao', 'user_inclusao')
+    search_fields = ('nome',)
+    list_filter = ('dt_inclusao',)
 
 @admin.register(Tipo_Avaliacoes)
 class TipoAvaliacoesAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'arquivo', 'dt_inclusao', 'user_inclusao')
+    list_display = ('nome', 'componente_curricular', 'dt_inclusao', 'user_inclusao')
     search_fields = ('nome',)
     list_filter = ('dt_inclusao',)
 
@@ -21,7 +28,7 @@ class NivelEnsinoAdmin(admin.ModelAdmin):
 
 @admin.register(Avaliacoes)
 class AvaliacoesAdmin(admin.ModelAdmin):
-    list_display = ('tipo_avaliacao', 'ano', 'semestre', 'nivel_ensino', 'dt_inclusao', 'user_inclusao')
+    list_display = ('tipo_avaliacao', 'ano', 'semestre', 'nivel_ensino', 'arquivo', 'dt_inclusao', 'user_inclusao')
     search_fields = ('tipo_avaliacao__nome', 'ano', 'semestre')
     list_filter = ('ano', 'semestre', 'nivel_ensino')
 

@@ -13,12 +13,19 @@ class BaseModel(models.Model):
     def get_pessoa_inclusao(self):
         return Pessoa.objects.filter(user=self.user_inclusao).first()
 
-class Tipo_Avaliacoes(BaseModel):
-    nome = models.CharField(max_length=100)        
-    arquivo = models.FileField(upload_to='avaliacoes/')
+class Componente_Curricular(BaseModel):
+    nome = models.CharField(max_length=200)  
 
     def __str__(self):
-        return f"Avaliação {self.nome}"
+        return f"Componente Curricular {self.nome}"
+
+class Tipo_Avaliacoes(BaseModel):
+    nome = models.CharField(max_length=100)  
+    componente_curricular = models.ForeignKey(Componente_Curricular, on_delete=models.CASCADE, related_name='componente_curricular', null=True)
+
+    def __str__(self):
+        return f"Avaliação {self.nome} - {self.componente_curricular}"
+
 
 class Escolas(BaseModel):
     nome = models.CharField(max_length=100)        
@@ -47,6 +54,8 @@ class Avaliacoes(BaseModel):
     ano = models.IntegerField(verbose_name="Ano de realização da avaliação")
     semestre = models.IntegerField(verbose_name="Semestre de realização da avaliação")
     nivel_ensino = models.ForeignKey(Nivel_Ensino, on_delete=models.CASCADE, related_name='avaliacoes')
+    arquivo = models.FileField(upload_to='caminho/desejado/', null=True)
+
 
 #
 class Turmas(BaseModel):

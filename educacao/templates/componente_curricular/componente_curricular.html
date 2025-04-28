@@ -1,0 +1,54 @@
+{% extends "template.html" %}
+
+{% block title %}Lista de Componentes Curricular{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4 rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col d-flex py-3 px-4">
+        <h2 class="my-auto">Listagem de Componentes Curricular</h2>
+
+        <a href="{% url 'educacao:componente_curricular_create' %}"  class="btn btn-primary px-2 py-2 ms-auto my-auto">
+            <i class="fa-solid fa-plus text-white"></i>
+            <i class="fa-solid fa-file text-white"></i>
+        </a>
+    </div>
+</div>
+
+<div class="row rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col pt-4 pb-3 px-4">
+        <div class="w-100 d-flex">
+            <h4 class="mb-3">Listagem de Componentes Curricular</h4>
+        </div>
+               
+        <table class="table table-borderless table-striped table-hover" id="sortableTable">
+            <thead>
+                <tr class="align-middle">
+                    <th class="sortable" data-column="nome">Nome</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if componente_curricular.count > 0 %}
+                    
+                {% for componete in componente_curricular %}
+                <tr class="align-middle">
+                    <td>{{ componete.nome }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'educacao:componente_curricular_update' componete.pk %}" class="btn btn-warning btn-sm me-1"><i class="fa-solid text-white fa-pen"></i></a>
+                        <a href="{% url 'educacao:componente_curricular_delete' componete.pk %}" class="btn btn-danger btn-sm"><i class="fa-solid text-white fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+                {% if componente_curricular.count == 0 %}
+                <tr class="align-middle">
+                    <td colspan="2" class="text-center">Nenhum componente curricular encontrado.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

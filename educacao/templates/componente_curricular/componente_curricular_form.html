@@ -1,12 +1,12 @@
 {% extends "template.html" %}
 
-{% block title %}{{ form.instance.pk|default:"Criar Novo Tipo de Avaliação" }}{% endblock %}
+{% block title %}{{ form.instance.pk|default:"Criar Componente Curricular" }}{% endblock %}
 
 {% block content %}
 
 <div class="row">
     <div class="col d-flex mb-4 rounded-4 shadow-sm" style="background-color: white;">
-        <h2 class="m-0 py-3 px-2">Formulário Tipo de Avaliação</h2>
+        <h2 class="m-0 py-3 px-2">Formulário de Componente Curricular</h2>
     </div>
 </div>
 <form method="post" enctype="multipart/form-data"  class="row d-flex mb-4 rounded-4 bg-white px-2 py-3 shadow-sm">
@@ -16,7 +16,7 @@
     
     <div class="col d-flex justify-content-start gap-2 mt-2">  
         <button type="submit" class="btn btn-primary text-white">Salvar</button>
-        <a href="{% url 'educacao:tipo_avaliacoes_list' %}" class="btn btn-secondary">Voltar</a>
+        <a href="{% url 'educacao:componente_curricular_list' %}" class="btn btn-secondary">Voltar</a>
     </div>
 </form>
 {% endblock %}

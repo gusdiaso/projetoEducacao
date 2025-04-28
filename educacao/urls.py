@@ -12,6 +12,12 @@ urlpatterns = [
     path('tipos-avaliacoes/<int:pk>/editar/', views.tipo_avaliacoes_update, name='tipo_avaliacoes_update'),
     path('tipos-avaliacoes/<int:pk>/excluir/', views.tipo_avaliacoes_delete, name='tipo_avaliacoes_delete'),        
 
+    #COMPONENTE CURRICULAR
+    path('componente-curricular/', views.componente_curricular_list, name='componente_curricular_list'),
+    path('componente-curricular/criar/', views.componente_curricular_create, name='componente_curricular_create'),
+    path('componente-curricular/<int:pk>/editar/', views.componente_curricular_update, name='componente_curricular_update'),
+    path('componente-curricular/<int:pk>/excluir/', views.componente_curricular_delete, name='componente_curricular_delete'),        
+
     
     #ESCOLAS
     path('escolas/', views.escolas_list, name='escolas_list'),

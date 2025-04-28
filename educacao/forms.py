@@ -5,8 +5,22 @@ from .models import Escolas
 from .models import Nivel_Ensino
 from .models import Avaliacoes
 from .models import Turmas, Alunos
+from .models import Componente_Curricular
+
 
 class TipoAvaliacoesForm(forms.ModelForm):
+
+    class Meta:
+        model = Tipo_Avaliacoes
+        fields = ['nome', 'componente_curricular', 'user_inclusao', 'user_edicao']
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'componente_curricular': forms.Select(attrs={'class': 'form-control'}),
+            'user_inclusao': forms.HiddenInput(),
+            'user_edicao': forms.HiddenInput(),
+        }
+
+class ComponenteCurricularForm(forms.ModelForm):
     user_inclusao = forms.ModelChoiceField(
         queryset=None, widget=forms.HiddenInput(), required=False
     )
@@ -15,11 +29,10 @@ class TipoAvaliacoesForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Tipo_Avaliacoes
-        fields = ['nome', 'arquivo', 'user_inclusao', 'user_edicao']
+        model = Componente_Curricular
+        fields = ['nome', 'user_inclusao', 'user_edicao']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
-            'arquivo': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -130,12 +143,13 @@ class AvaliacoesForm(forms.ModelForm):
 
     class Meta:
         model = Avaliacoes
-        fields = ['tipo_avaliacao', 'ano', 'semestre', 'nivel_ensino', 'user_inclusao', 'user_edicao']
+        fields = ['tipo_avaliacao', 'ano', 'semestre', 'nivel_ensino', 'arquivo', 'user_inclusao', 'user_edicao']
         widgets = {
             'tipo_avaliacao': forms.Select(attrs={'class': 'form-control'}),
             'ano': forms.NumberInput(attrs={'class': 'form-control'}),
             'semestre': forms.NumberInput(attrs={'class': 'form-control'}),
             'nivel_ensino': forms.Select(attrs={'class': 'form-control'}),
+            'arquivo': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
