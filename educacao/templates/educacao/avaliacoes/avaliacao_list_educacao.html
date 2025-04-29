@@ -25,8 +25,10 @@
                     <a class="btn btn-primary btn-sm min-content" style="width: max-content;" target="_blank" href="{% if avaliacao.arquivo %}{{ avaliacao.arquivo.url }}{% else %}#{% endif %}">
                         <i class="fa-solid fa-download text-white"></i>
                     </a>
+                    {% if not pessoa.is_professor %}
                     <a href="{% url 'educacao:avaliacoes_update' avaliacao.id %}"  style="width: max-content;"  class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square text-white"></i></a>
                     <a href="{% url 'educacao:avaliacoes_delete' avaliacao.id %}"  style="width: max-content;"  class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can fa-lg text-white"></i></a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
