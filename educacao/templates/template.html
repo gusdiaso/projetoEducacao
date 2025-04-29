@@ -48,7 +48,9 @@
 						const csrfToken = "{{ csrf_token }}";
 					</script>
 		            <div class="app-utilities col-auto" style="display: flex;align-items: center;">
-						<h5 class="app-utility-item my-auto text-end nome-servidor-web" style="color: #fff8ec;">{{pessoa.get_tipo_conta_display}} - {{pessoa.nome}}</h5>
+						
+						<h5 class="app-utility-item my-auto text-end nome-servidor-web" style="color: #fff8ec;">
+							{{pessoa.get_tipo_conta_display}} - {{pessoa.nome}}</h5>
 			            <div class="app-utility-item app-notifications-dropdown dropdown">    
 				            <a onclick="markAllAsRead()" class="dropdown-toggle no-toggle-arrow text-white" id="notifications-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Notifications">
 					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

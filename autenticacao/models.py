@@ -26,3 +26,12 @@ class Pessoa(models.Model):
 
     def is_professor(self):
         return self.tipo_conta == 'pro'
+    
+    def is_diretor(self):
+        return self.tipo_conta == 'dir'
+    
+    def is_assistente_administrativo(self):
+        return self.tipo_conta == 'ass'
+    
+    def is_administrador(self):
+        return self.tipo_conta == 'adm'
