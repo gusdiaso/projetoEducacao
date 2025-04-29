@@ -48,10 +48,11 @@ class EscolasForm(forms.ModelForm):
   
     class Meta:
         model = Escolas
-        fields = ['nome', 'diretor', 'user_inclusao', 'user_edicao']
+        fields = ['nome', 'diretor', 'professor', 'user_inclusao', 'user_edicao']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'diretor': forms.Select(attrs={'class': 'form-control'}),
+            'professor': forms.Select(attrs={'class': 'form-control'}),
             'user_inclusao': forms.HiddenInput(),
             'user_edicao': forms.HiddenInput(),
         }
@@ -75,15 +76,19 @@ class EscolasForm(forms.ModelForm):
             self.fields['user_edicao'].queryset = user.__class__.objects.filter(pk=user.pk)
         # Filtrar apenas pessoas com tipo_conta='dir' para o campo diretor
         self.fields['diretor'].queryset = self.fields['diretor'].queryset.filter(tipo_conta='dir')
+        self.fields['professor'].queryset = self.fields['professor'].queryset.filter(tipo_conta='pro')
+
+        
 
 
 class EscolasEditForm(forms.ModelForm):
     class Meta:
         model = Escolas
-        fields = ['nome', 'diretor', 'user_inclusao', 'user_edicao']
+        fields = ['nome', 'diretor', 'professor', 'user_inclusao', 'user_edicao']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'diretor': forms.Select(attrs={'class': 'form-control'}),
+            'professor': forms.Select(attrs={'class': 'form-control'}),
             'user_inclusao': forms.HiddenInput(),
             'user_edicao': forms.HiddenInput(),
         }
@@ -107,6 +112,7 @@ class EscolasEditForm(forms.ModelForm):
             self.fields['user_edicao'].queryset = user.__class__.objects.filter(pk=user.pk)
         # Filtrar apenas pessoas com tipo_conta='dir' para o campo diretor
         self.fields['diretor'].queryset = self.fields['diretor'].queryset.filter(tipo_conta='dir')
+        self.fields['professor'].queryset = self.fields['professor'].queryset.filter(tipo_conta='pro')
 
 
 class NivelEnsinoForm(forms.ModelForm):
@@ -162,13 +168,11 @@ class AvaliacoesForm(forms.ModelForm):
             self.fields['user_edicao'].queryset = user.__class__.objects.filter(pk=user.pk)
 
 class TurmasForm(forms.ModelForm):
-
    
     class Meta:
         model = Turmas
-        fields = ['professor', 'nome', 'ano', 'escola', 'nivel_ensino', 'user_inclusao', 'user_edicao']
+        fields = ['nome', 'ano', 'escola', 'nivel_ensino', 'user_inclusao', 'user_edicao']
         widgets = {
-            'professor': forms.Select(attrs={'class': 'form-control'}),
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'ano': forms.NumberInput(attrs={'class': 'form-control'}),
             'escola': forms.Select(attrs={'class': 'form-control'}),
