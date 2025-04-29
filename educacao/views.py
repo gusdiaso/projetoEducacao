@@ -15,17 +15,21 @@ def index(request):
 @login_required
 def tipo_avaliacoes_list(request):
     tipos = Tipo_Avaliacoes.objects.all()
+    
     return render(request, 'tipo_ensino/tipo_avaliacoes_list.html', {'tipos': tipos})
 
 @login_required
 def tipo_avaliacoes_create(request):
+    
     if request.method == 'POST':
-        form = TipoAvaliacoesForm(request.POST, request.FILES, user=request.user)
+        form = TipoAvaliacoesForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('educacao:tipo_avaliacoes_list')
+        else:
+            print(form.errors)
     else:
-        form = TipoAvaliacoesForm(user=request.user)
+        form = TipoAvaliacoesForm(initial={'user_inclusao': request.user, 'user_edicao': request.user})
     return render(request, 'tipo_ensino/tipo_avaliacoes_form.html', {'form': form})
 
 @login_required
@@ -191,7 +195,8 @@ def avaliacao_download(request, id):
 @login_required
 def avaliacoes_create(request):
     if request.method == 'POST':
-        form = AvaliacoesForm(request.POST, user=request.user)
+        print(request.POST)
+        form = AvaliacoesForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('educacao:tipo_avaliacoes_list')

@@ -17,7 +17,7 @@ class Componente_Curricular(BaseModel):
     nome = models.CharField(max_length=200)  
 
     def __str__(self):
-        return f"Componente Curricular {self.nome}"
+        return self.nome
 
 class Tipo_Avaliacoes(BaseModel):
     nome = models.CharField(max_length=100)  

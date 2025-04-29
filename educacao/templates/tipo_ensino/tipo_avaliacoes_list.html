@@ -23,14 +23,13 @@
 <div class="row rounded-4 shadow-sm" style="background-color: white;">
     <div class="col pt-4 pb-3 px-4">
         <div class="w-100 d-flex">
-            <h4 class="mb-3">Listagem de Níveis de Ensino</h4>
+            <h4 class="mb-3">Listagem de Avaliações</h4>
         </div>
                
         <table class="table table-borderless table-striped table-hover" id="sortableTable">
             <thead>
                 <tr class="align-middle">
                     <th class="sortable" data-column="nome">Nome</th>
-                    <th class="sortable" data-column="arquivo">Arquivo</th>
                     <th></th>
                 </tr>
             </thead>
@@ -38,12 +37,6 @@
                 {% for tipo in tipos %}
                 <tr class="align-middle">
                     <td>{{ tipo.nome }}</td>
-                    <td>
-                        <a href="{{ tipo.arquivo.url }}" target="_blank" class="btn btn-primary text-white">
-                            <i class="fa-solid fa-folder-open"></i>
-                            Abrir
-                        </a>
-                    </td>
                     <td class="text-end">
                         <a href="{% url 'educacao:tipo_avaliacoes_update' tipo.pk %}" class="btn btn-warning btn-sm me-1"><i class="fa-solid text-white fa-pen"></i></a>
                         <a href="{% url 'educacao:tipo_avaliacoes_delete' tipo.pk %}" class="btn btn-danger btn-sm"><i class="fa-solid text-white fa-trash"></i></a>

@@ -18,9 +18,13 @@
                     <p><strong>Ano:</strong> {{ avaliacao.ano }}</p>
                     <p><strong>Semestre:</strong> {{ avaliacao.semestre }}</p>
                     <p><strong>Nível de Ensino:</strong> {{ avaliacao.nivel_ensino.nome }}</p>
+                    <p><strong>Componente Curricular:</strong> {{ avaliacao.tipo_avaliacao.componente_curricular }}</p>
+
                 </div>
                 <div class="d-flex h-100 justify-content-center align-items-center gap-2" style="flex-direction: column;">
-                    <a class="btn btn-primary btn-sm min-content" style="width: max-content;" target="_blank" href="{{avaliacao.tipo_avaliacao.arquivo.url}}"><i class="fa-solid fa-download text-white"></i></a>
+                    <a class="btn btn-primary btn-sm min-content" style="width: max-content;" target="_blank" href="{% if avaliacao.arquivo %}{{ avaliacao.arquivo.url }}{% else %}#{% endif %}">
+                        <i class="fa-solid fa-download text-white"></i>
+                    </a>
                     <a href="{% url 'educacao:avaliacoes_update' avaliacao.id %}"  style="width: max-content;"  class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square text-white"></i></a>
                     <a href="{% url 'educacao:avaliacoes_delete' avaliacao.id %}"  style="width: max-content;"  class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can fa-lg text-white"></i></a>
                 </div>
