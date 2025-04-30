@@ -24,7 +24,7 @@ class Tipo_Avaliacoes(BaseModel):
     componente_curricular = models.ForeignKey(Componente_Curricular, on_delete=models.CASCADE, related_name='componente_curricular', null=True)
 
     def __str__(self):
-        return f"Avaliação {self.nome} - {self.componente_curricular}"
+        return f"{self.nome} ({self.componente_curricular})"
 
 
 class Escolas(BaseModel):
@@ -47,7 +47,7 @@ class Nivel_Ensino(BaseModel):
         return f"Nível de Ensino {self.nome}"
     
     def get_turmas(self, user):
-        turmas = Turmas.objects.filter(nivel_ensino=self, professor__user=user)
+        turmas = Turmas.objects.filter(nivel_ensino=self, escola__professor__user=user)
         return turmas
     
 class Avaliacoes(BaseModel):
@@ -66,7 +66,7 @@ class Turmas(BaseModel):
     nivel_ensino = models.ForeignKey(Nivel_Ensino, on_delete=models.CASCADE, related_name='turmas')
 
     def __str__(self):
-        return f"Turma {self.nome} - {self.ano}"
+        return f"Turma {self.nome} ({self.ano})"
 
 class Alunos(BaseModel):
     nome = models.CharField(max_length=100)        

@@ -6,6 +6,7 @@ from django.http import FileResponse, Http404
 from autenticacao.models import Pessoa
 from django.http import FileResponse
 import os
+from autenticacao.decorators import required_nivel_administrador, required_nivel_assistente_administrativo, required_nivel_diretor, required_nivel_professor
 
 @login_required
 def index(request):
@@ -13,14 +14,15 @@ def index(request):
 
 #TIPO AVALIAÇÕES
 @login_required
+@required_nivel_professor
 def tipo_avaliacoes_list(request):
     tipos = Tipo_Avaliacoes.objects.all()
     
     return render(request, 'tipo_ensino/tipo_avaliacoes_list.html', {'tipos': tipos})
 
 @login_required
+@required_nivel_professor
 def tipo_avaliacoes_create(request):
-    
     if request.method == 'POST':
         form = TipoAvaliacoesForm(request.POST)
         if form.is_valid():
@@ -33,6 +35,7 @@ def tipo_avaliacoes_create(request):
     return render(request, 'tipo_ensino/tipo_avaliacoes_form.html', {'form': form})
 
 @login_required
+@required_nivel_diretor
 def tipo_avaliacoes_update(request, pk):
     tipo = get_object_or_404(Tipo_Avaliacoes, pk=pk)
     print(tipo)
@@ -46,6 +49,7 @@ def tipo_avaliacoes_update(request, pk):
     return render(request, 'tipo_ensino/tipo_avaliacoes_form.html', {'form': form})
 
 @login_required
+@required_nivel_diretor
 def tipo_avaliacoes_delete(request, pk):
     tipo = get_object_or_404(Tipo_Avaliacoes, pk=pk)
     if request.method == 'POST':
@@ -55,17 +59,20 @@ def tipo_avaliacoes_delete(request, pk):
 
 #ESCOLAS
 @login_required
+@required_nivel_assistente_administrativo
 def escolas_list(request):
     escolas = Escolas.objects.all()
     return render(request, 'educacao/escolas/escolas_list.html', {'escolas': escolas})
 
 @login_required
+@required_nivel_assistente_administrativo
 def escolas_list_educacao(request):
     escolas = Escolas.objects.all()
     return render(request, 'educacao/escolas/escolas_list_educacao.html', {'escolas': escolas})
 
 
 @login_required
+@required_nivel_assistente_administrativo
 def escolas_create(request):
     if request.method == 'POST':
         form = EscolasForm(request.POST, user=request.user)
@@ -79,6 +86,7 @@ def escolas_create(request):
     return render(request, 'educacao/escolas/escolas_form.html', {'form': form})
 
 @login_required
+@required_nivel_administrador
 def escolas_update(request, pk):
     escola = get_object_or_404(Escolas, pk=pk)
     if request.method == 'POST':
@@ -91,6 +99,7 @@ def escolas_update(request, pk):
     return render(request, 'educacao/escolas/escolas_form.html', {'form': form})
 
 @login_required
+@required_nivel_administrador
 def escolas_delete(request, pk):
     escola = get_object_or_404(Escolas, pk=pk)
     if request.method == 'POST':
@@ -101,11 +110,13 @@ def escolas_delete(request, pk):
 
 #COMPONENTE CURRICULAR
 @login_required
+@required_nivel_assistente_administrativo
 def componente_curricular_list(request):
     componente_curricular = Componente_Curricular.objects.all()
     return render(request, 'componente_curricular/componente_curricular.html', {'componente_curricular': componente_curricular})
 
 @login_required
+@required_nivel_assistente_administrativo
 def componente_curricular_create(request):
     if request.method == 'POST':
         form = ComponenteCurricularForm(request.POST, user=request.user)
@@ -117,6 +128,7 @@ def componente_curricular_create(request):
     return render(request, 'componente_curricular/componente_curricular_form.html', {'form': form})
 
 @login_required
+@required_nivel_administrador
 def componente_curricular_update(request, pk):
     componente_curricular = get_object_or_404(Componente_Curricular, pk=pk)
     if request.method == 'POST':
@@ -129,6 +141,7 @@ def componente_curricular_update(request, pk):
     return render(request, 'componente_curricular/componente_curricular_form.html', {'form': form})
 
 @login_required
+@required_nivel_administrador
 def componente_curricular_delete(request, pk):
     componente_curricular = get_object_or_404(Componente_Curricular, pk=pk)
     if request.method == 'POST':
@@ -139,11 +152,13 @@ def componente_curricular_delete(request, pk):
 
 #NIVEL ENSINO
 @login_required
+@required_nivel_assistente_administrativo
 def nivel_ensino_list(request):
     niveis = Nivel_Ensino.objects.all()
     return render(request, 'nivel_ensino/nivel_ensino_list.html', {'niveis': niveis})
 
 @login_required
+@required_nivel_assistente_administrativo
 def nivel_ensino_create(request):
     if request.method == 'POST':
         form = NivelEnsinoForm(request.POST, user=request.user)
@@ -155,6 +170,7 @@ def nivel_ensino_create(request):
     return render(request, 'nivel_ensino/nivel_ensino_form.html', {'form': form})
 
 @login_required
+@required_nivel_administrador
 def nivel_ensino_update(request, pk):
     nivel = get_object_or_404(Nivel_Ensino, pk=pk)
     if request.method == 'POST':
@@ -167,6 +183,7 @@ def nivel_ensino_update(request, pk):
     return render(request, 'nivel_ensino/nivel_ensino_form.html', {'form': form})
 
 @login_required
+@required_nivel_administrador
 def nivel_ensino_delete(request, pk):
     nivel = get_object_or_404(Nivel_Ensino, pk=pk)
     if request.method == 'POST':
@@ -176,26 +193,16 @@ def nivel_ensino_delete(request, pk):
 
 #AVALIAÇÕES
 @login_required
+@required_nivel_professor
 def avaliacoes_list(request):
     avaliacoes = Avaliacoes.objects.all()
     return render(request, 'educacao/avaliacoes/avaliacoes_list.html', {'avaliacoes': avaliacoes})
 
-@login_required
-def avaliacao_download(request, id):
-    avaliacao = get_object_or_404(Avaliacoes, id=id)
-    tipo_de_avaliacao = avaliacao.tipo_avaliacao 
-    file_path = tipo_de_avaliacao.arquivo.path  
-
-    if os.path.exists(file_path):
-        response = FileResponse(open(file_path, 'rb'), as_attachment=True, filename=os.path.basename(file_path))
-        return response
-    else:
-        raise Http404("File does not exist")
 
 @login_required
+@required_nivel_assistente_administrativo
 def avaliacoes_create(request):
     if request.method == 'POST':
-        print(request.POST)
         form = AvaliacoesForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             form.save()
@@ -205,6 +212,7 @@ def avaliacoes_create(request):
     return render(request, 'educacao/avaliacoes/avaliacoes_form.html', {'form': form})
 
 @login_required
+@required_nivel_administrador
 def avaliacoes_update(request, pk):
     avaliacao = get_object_or_404(Avaliacoes, pk=pk)
     if request.method == 'POST':
@@ -217,6 +225,7 @@ def avaliacoes_update(request, pk):
     return render(request, 'educacao/avaliacoes/avaliacoes_form.html', {'form': form, 'avaliacao': avaliacao})
 
 @login_required
+@required_nivel_administrador
 def avaliacoes_delete(request, pk):
     avaliacao = get_object_or_404(Avaliacoes, pk=pk)
     if request.method == 'POST':
@@ -228,24 +237,28 @@ def avaliacoes_delete(request, pk):
 
 #TURMAS
 @login_required
+@required_nivel_professor
 def turmas_list(request):
     turmas = Turmas.objects.all()
     return render(request, 'educacao/turmas/turmas_list.html', {'turmas': turmas})
 
 @login_required
+@required_nivel_professor
 def escola_list_turmas(request, escola_id):
     escola = get_object_or_404(Escolas, pk=escola_id)
     turmas = Turmas.objects.filter(escola=escola)
     return render(request, 'educacao/turmas/turmas_list.html', {'turmas': turmas, 'escola': escola})
 
 
-login_required
+@login_required
+@required_nivel_professor
 def turma(request, turma_id):
     turma = get_object_or_404(Turmas, pk=turma_id)
     alunos = Alunos.objects.filter(turma=turma)
     return render(request, 'educacao/turmas/turma.html', {'turma': turma, 'alunos': alunos})
 
 @login_required
+@required_nivel_professor
 def turmas_create(request):
     if request.method == 'POST':
         form = TurmasForm(request.POST, user=request.user)
@@ -260,6 +273,7 @@ def turmas_create(request):
     return render(request, 'educacao/turmas/turmas_form.html', {'form': form})
 
 @login_required
+@required_nivel_diretor
 def turmas_update(request, pk):
     turma = get_object_or_404(Turmas, pk=pk)
     if request.method == 'POST':
@@ -276,29 +290,50 @@ def turmas_update(request, pk):
 
 
 @login_required
+@required_nivel_diretor
 def turmas_delete(request, pk):
     turma = get_object_or_404(Turmas, pk=pk)
     if request.method == 'POST':
         turma.delete()
-        return redirect('educacao:turmas_list')
+        return redirect('educacao:index')
     return render(request, 'educacao/turmas/turmas_confirm_delete.html', {'turma': turma})
 
-#Gerenciamento da Turma
+#ALUNOS
 @login_required
+@required_nivel_professor
 def alunos_create(request, turma_id):
     turma = get_object_or_404(Turmas, pk=turma_id)
     if request.method == 'POST':
-        form = AlunosForm(request.POST, user=request.user)
+        form = AlunosForm(request.POST)
         if form.is_valid():
             aluno = form.save(commit=False)
             aluno.turma = turma
             aluno.save()
             return redirect('educacao:turma', turma_id=turma.id)
     else:
-        form = AlunosForm(user=request.user)
+        form = AlunosForm(initial={'user_inclusao': request.user})
     return render(request, 'educacao/alunos/alunos_form.html', {'form': form, 'turma': turma})
 
 @login_required
+@required_nivel_diretor
+def alunos_update(request, pk, turma_id):
+    aluno = get_object_or_404(Alunos, pk=pk)
+    turma = get_object_or_404(Turmas, pk=turma_id)
+
+    if request.method == 'POST':
+        form = AlunosForm(request.POST, instance=aluno)
+        if form.is_valid():
+            aluno = form.save(commit=False)
+            aluno.user_edicao = request.user
+            aluno.turma = turma
+            aluno.save()
+            return redirect('educacao:turma', turma_id=turma.id)
+    else:
+        form = AlunosForm(instance=aluno, initial={'user_edicao': request.user})
+    return render(request, 'educacao/alunos/alunos_form.html', {'form': form, 'turma': turma})
+
+@login_required
+@required_nivel_diretor
 def alunos_delete(request, pk, turma_id):
     aluno = get_object_or_404(Alunos, pk=pk)
     if request.method == 'POST':
@@ -309,20 +344,15 @@ def alunos_delete(request, pk, turma_id):
 #VIEWS QUE NÃO DEVERIAM EXISTIR
 
 @login_required
+@required_nivel_assistente_administrativo
 def turmas_list_escola(request, id):
     escola = Escolas.objects.get(id=id)
     turmas_selected = Turmas.objects.filter(escola__id=escola)
     return render(request, 'educacao/turmas/turmas_list_educacao.html', {'turmas': turmas_selected})
 
 @login_required
+@required_nivel_professor
 def avaliacoes_list_educacao(request, ensino_id):
     nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
     avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
     return render(request, 'educacao/avaliacoes/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected})
-
-# @login_required
-# def avaliacoes_list_educacao(request, ensino_id, avaliacao_id):
-#     documento = Tipo_Avaliacoes.objects.get(id=avaliacao_id)
-#     nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
-#     avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
-#     return render(request, 'educacao/avaliacoes/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected, 'documento': documento})

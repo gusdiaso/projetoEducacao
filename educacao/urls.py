@@ -31,12 +31,13 @@ urlpatterns = [
     path('turmas/<int:pk>/editar/', views.turmas_update, name='turmas_update'),
     path('turmas/', views.turmas_list, name='turmas_list'),
     path('turmas/<int:pk>/excluir/', views.turmas_delete, name='turmas_delete'),
-
-
     path('turmas/criar/', views.turmas_create, name='turmas_create'),
+
     #Gerenciamento dos alunos    
     path('turmas/<int:turma_id>/alunos/criar/', views.alunos_create, name='alunos_create'),
+    path('turmas/<int:turma_id>/alunos/<int:pk>/editar/', views.alunos_update, name='alunos_update'),
     path('turmas/<int:turma_id>/alunos/<int:pk>/excluir/', views.alunos_delete, name='alunos_delete'),
+
     
     #PAINEL ADMINISTRATIVO
     
@@ -45,7 +46,6 @@ urlpatterns = [
     path('niveis-ensino/<int:pk>/editar/', views.nivel_ensino_update, name='nivel_ensino_update'),
     path('niveis-ensino/<int:pk>/excluir/', views.nivel_ensino_delete, name='nivel_ensino_delete'),
 
-    path('avaliacoes/<int:id>/download/', views.avaliacao_download, name='avaliacao_download'),
     path('avaliacoes/', views.avaliacoes_list, name='avaliacoes_list'),
     path('avaliacoes/criar/', views.avaliacoes_create, name='avaliacoes_create'),
     path('avaliacoes/<int:pk>/editar/', views.avaliacoes_update, name='avaliacoes_update'),

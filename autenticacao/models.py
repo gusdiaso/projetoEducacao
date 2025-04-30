@@ -8,7 +8,7 @@ class Pessoa(models.Model):
         ('adm', 'Administrador'),
         ('ass', 'Assistente Administrativo'),
         ('dir', 'Diretor'),
-        ('pro', 'Professor')
+        ('pro', 'Auxiliar Escolar')
 
     )   
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='pessoa_user', null=True)

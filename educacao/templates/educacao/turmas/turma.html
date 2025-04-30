@@ -23,11 +23,9 @@
     <div class="col pt-4 pb-3 px-4">
         <div class="w-100 d-flex">
             <h4 class="mb-3">Lista de Alunos</h4>
-            {% if not pessoa.is_professor %}
             <a href="{% url 'educacao:alunos_create' turma.id %}" class="ms-auto btn btn-primary my-auto">
                 <i class="fa-solid fa-plus me-2  text-white"></i><i class="fa-solid fa-graduation-cap  text-white"></i>
             </a>
-            {% endif %}
         </div>
         <table class="table table-borderless table-striped table-hover">
             <thead>
@@ -48,9 +46,14 @@
                     <td class="align-middle">{{ aluno.nome }}</td>
                     <td style="width: 30px;">
                     {% if not pessoa.is_professor %}
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'educacao:alunos_update' turma.id aluno.id %}" class="btn btn-warning px-3 py-2">
+                            <i class="fa-solid fa-pen-to-square text-white"></i>
+                        </a>
                         <a href="{% url 'educacao:alunos_delete' turma.id aluno.id %}" class="btn btn-danger px-3 py-2">
                             <i class="fa-solid fa-trash-can fa-lg text-white"></i>
                         </a>
+                    </div>
                     {% endif %}
                     </td>
                 </tr>

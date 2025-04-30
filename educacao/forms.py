@@ -105,7 +105,6 @@ class EscolasEditForm(forms.ModelForm):
 
         super().__init__(*args, **kwargs)
         if user:
-            print(user.id)
             self.fields['user_inclusao'].initial = user.id
             self.fields['user_edicao'].initial = user.id
             self.fields['user_inclusao'].queryset = user.__class__.objects.filter(pk=user.pk)
@@ -197,28 +196,14 @@ class TurmasForm(forms.ModelForm):
             self.fields['user_edicao'].initial = user
             self.fields['user_inclusao'].queryset = user.__class__.objects.filter(pk=user.pk)
             self.fields['user_edicao'].queryset = user.__class__.objects.filter(pk=user.pk)
-        self.fields['professor'].queryset = self.fields['professor'].queryset.filter(tipo_conta='pro')
 
 class AlunosForm(forms.ModelForm):
-    user_inclusao = forms.ModelChoiceField(
-        queryset=None, widget=forms.HiddenInput(), required=False
-    )
-    user_edicao = forms.ModelChoiceField(
-        queryset=None, widget=forms.HiddenInput(), required=False
-    )
 
     class Meta:
         model = Alunos
         fields = ['nome', 'user_inclusao', 'user_edicao']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'user_inclusao': forms.HiddenInput(),
+            'user_edicao': forms.HiddenInput(),
         }
-
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        super().__init__(*args, **kwargs)
-        if user:
-            self.fields['user_inclusao'].initial = user
-            self.fields['user_edicao'].initial = user
-            self.fields['user_inclusao'].queryset = user.__class__.objects.filter(pk=user.pk)
-            self.fields['user_edicao'].queryset = user.__class__.objects.filter(pk=user.pk)

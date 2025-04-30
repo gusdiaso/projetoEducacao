@@ -136,7 +136,6 @@
 					        </a>
 					        <div id="submenu-softwares" class="collapse submenu submenu-softwares" data-bs-parent="#menu-accordion">
 								<ul class="submenu-list list-unstyled">						        
-									{% if not pessoa.is_professor %}
 							        <li class="submenu-item">										
 										<a class="submenu-link" href="{% url 'educacao:turmas_create' %}">											
 											<div class="submenu-adicionar">
@@ -145,7 +144,6 @@
 											</div>
 										</a>
 									</li>	
-									{% endif %}					        
 									{% for nivel_ensino in niveis_ensino %}
 									<li class="submenu-item">
 										<a  class="submenu-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-turmas-{{ nivel_ensino.nivel.id }}" aria-expanded="false" aria-controls="submenu-1">
@@ -195,16 +193,17 @@
                                 </a>
 					        <div id="submenu-gestao" class="collapse submenu submenu-gestao" data-bs-parent="#menu-accordion">
 						        <ul class="submenu-list list-unstyled">
-									{% if not pessoa.is_professor %}
 							        <li class="submenu-item">
+										{% if pessoa.is_administrador or pessoa.is_assistente_administrativo %}
+											
 										<a class="submenu-link" href="{% url 'educacao:avaliacoes_create' %}">
 											<div class="submenu-adicionar">
 												<i class="fa-solid fa-plus-circle me-2"></i>
 												Adicionar Avaliação
 											</div>
 										</a>
+										{% endif %}
 									</li>						        
-									{% endif %}
 									{% for nivel_ensino in niveis_ensino %}
 									<li class="submenu-item">
 										<a class="submenu-link" href="{% url 'educacao:avaliacoes_list_educacao' nivel_ensino.nivel.id  %}">
@@ -238,7 +237,7 @@
 					        </a>
 					    </li>
 						{% endif %}
-						{% if not pessoa.is_professor %}
+						{% if pessoa.is_administrador or pessoa.is_assistente_administrativo %}
 						<li class="nav-item">					        
 					        <a class="nav-link" href="{% url 'educacao:tipo_avaliacoes_list' %}">
 						        <span class="nav-icon">
