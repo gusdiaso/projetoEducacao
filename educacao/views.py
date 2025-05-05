@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-import matplotlib.pyplot as plt
 from io import BytesIO
 from django.http import HttpResponse
 from django.shortcuts import render
