@@ -35,6 +35,7 @@ urlpatterns = [
 
     #Gerenciamento dos alunos    
     path('turmas/<int:turma_id>/alunos/criar/', views.alunos_create, name='alunos_create'),
+    path('turmas/<int:turma_id>/alunos/<int:pk>/', views.alunos_detalhe, name='alunos_detalhe'),
     path('turmas/<int:turma_id>/alunos/<int:pk>/editar/', views.alunos_update, name='alunos_update'),
     path('turmas/<int:turma_id>/alunos/<int:pk>/excluir/', views.alunos_delete, name='alunos_delete'),
 

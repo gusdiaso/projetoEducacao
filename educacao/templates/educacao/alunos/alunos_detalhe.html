@@ -1,0 +1,77 @@
+{% extends "template.html" %}
+
+{% block title %}Performace de Aluno{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4 rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col d-flex py-3 px-4">
+        <h2 class="my-auto">Aluno: {{ aluno.nome }}</h2>
+    </div>
+</div>
+<div class="row rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col pt-4 pb-3 px-4">
+        <div class="w-100 d-flex">
+            <h4 class="mb-3">Observações:</h4>
+        </div>
+        
+        <p class="mb-4">{{ aluno.detalhe }}</p>
+
+        <div class="mb-3">
+            <h5>Gráfico de Notas</h5>
+            <canvas id="graficoNotas" width="200" height="100"></canvas>
+        </div>
+    
+        <a href="{% url 'educacao:turma' turma.id %}" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>
+
+<script id="notas-json" type="application/json">
+    {
+        "avaliacao1": "{{ aluno.avaliacao1|default:'0' }}",
+        "avaliacao2": "{{ aluno.avaliacao2|default:'0' }}",
+        "avaliacao3": "{{ aluno.avaliacao3|default:'0' }}",
+        "avaliacao4": "{{ aluno.avaliacao4|default:'0' }}"
+    }
+</script>
+    
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const notas = JSON.parse(document.getElementById('notas-json').textContent);
+const dataNotas = [
+    parseFloat(notas.avaliacao1),
+    parseFloat(notas.avaliacao2),
+    parseFloat(notas.avaliacao3),
+    parseFloat(notas.avaliacao4)
+];
+
+const ctx = document.getElementById('graficoNotas').getContext('2d');
+const grafico = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Avaliação 1', 'Avaliação 2', 'Avaliação 3', 'Avaliação 4'],
+        datasets: [{
+            label: 'Notas do Aluno',
+            data: dataNotas,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                suggestedMin: 0,
+                suggestedMax: 10
+            }
+        }
+    }
+});
+
+</script>
+
+
+{% endblock %}
+    

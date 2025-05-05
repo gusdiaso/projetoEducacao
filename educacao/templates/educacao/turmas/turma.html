@@ -31,30 +31,42 @@
             <thead>
                 <tr>
                     <th>Nome</th>
+                    <th>Avaliação 1</th>
+                    <th>Avaliação 2</th>
+                    <th>Avaliação 3</th>
+                    <th>Avaliação 4</th>
                     <th style="width: 30px;"></th>
                 </tr>
             </thead>
             <tbody>
                 {% if alunos.count == 0 %}
                 <tr>
-                    <td colspan="2" class="text-center">Nenhum aluno cadastrado.</td>
+                    <td colspan="5" class="text-center">Nenhum aluno cadastrado.</td>
                 </tr>
                 {% endif %}
                 {% if alunos.count > 0 %}
                 {% for aluno in alunos %}
-                <tr style="cursor: pointer;">
+                <tr style="cursor: pointer;" onclick="detalhes('{{ aluno.id }}')">
                     <td class="align-middle">{{ aluno.nome }}</td>
+                    <td class="align-middle">{{ aluno.avaliacao1 }}</td>
+                    <td class="align-middle">{{ aluno.avaliacao2 }}</td>
+                    <td class="align-middle">{{ aluno.avaliacao3 }}</td>
+                    <td class="align-middle">{{ aluno.avaliacao4 }}</td>
+
                     <td style="width: 30px;">
-                    {% if not pessoa.is_professor %}
-                    <div class="d-flex gap-2">
-                        <a href="{% url 'educacao:alunos_update' turma.id aluno.id %}" class="btn btn-warning px-3 py-2">
-                            <i class="fa-solid fa-pen-to-square text-white"></i>
-                        </a>
-                        <a href="{% url 'educacao:alunos_delete' turma.id aluno.id %}" class="btn btn-danger px-3 py-2">
-                            <i class="fa-solid fa-trash-can fa-lg text-white"></i>
-                        </a>
-                    </div>
-                    {% endif %}
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'educacao:alunos_detalhe' turma.id aluno.id %}" class="btn btn-info px-3 py-2">
+                                <i class="fa-solid fa-chart-simple text-white"></i>
+                            </a>
+                            <a href="{% url 'educacao:alunos_update' turma.id aluno.id %}" class="btn btn-warning px-3 py-2">
+                                <i class="fa-solid fa-pen-to-square text-white"></i>
+                            </a>
+                            {% if not pessoa.is_professor %}
+                            <a href="{% url 'educacao:alunos_delete' turma.id aluno.id %}" class="btn btn-danger px-3 py-2">
+                                <i class="fa-solid fa-trash-can fa-lg text-white"></i>
+                            </a>
+                            {% endif %}
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -65,5 +77,14 @@
         
     </div>
 </div>
-    {% endblock %}
+
+<script>
+    function detalhes(aluno_id) {
+        const turma_id = "{{ turma.id }}";
+        const url = `/turmas/${turma_id}/alunos/${aluno_id}/`;
+        window.location.href = url;
+    }
+
+</script>
+{% endblock %}
     

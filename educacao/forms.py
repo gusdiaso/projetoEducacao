@@ -207,3 +207,20 @@ class AlunosForm(forms.ModelForm):
             'user_inclusao': forms.HiddenInput(),
             'user_edicao': forms.HiddenInput(),
         }
+
+
+class AlunosEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Alunos
+        fields = ['nome', 'avaliacao1', 'avaliacao2', 'avaliacao3', 'avaliacao4', 'detalhe', 'user_inclusao', 'user_edicao']
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'avaliacao1': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': '0.00', 'max': '10.00'}),
+            'avaliacao2': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': '0.00', 'max': '10.00'}),
+            'avaliacao3': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': '0.00', 'max': '10.00'}),
+            'avaliacao4': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': '0.00', 'max': '10.00'}),
+            'detalhe': forms.TextInput(attrs={'class': 'form-control'}),
+            'user_inclusao': forms.HiddenInput(),
+            'user_edicao': forms.HiddenInput(),
+        }

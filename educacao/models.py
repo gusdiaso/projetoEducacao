@@ -1,5 +1,6 @@
 from django.db import models
 from autenticacao.models import Pessoa, User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class BaseModel(models.Model):
     dt_inclusao = models.DateTimeField(auto_now_add=True)
@@ -71,6 +72,12 @@ class Turmas(BaseModel):
 class Alunos(BaseModel):
     nome = models.CharField(max_length=100)        
     turma = models.ForeignKey(Turmas, on_delete=models.CASCADE, related_name='alunos')
+    avaliacao1 = models.DecimalField(max_digits=4, decimal_places=2,default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(10.00),])
+    avaliacao2 = models.DecimalField(max_digits=4, decimal_places=2,default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(10.00),])
+    avaliacao3 = models.DecimalField(max_digits=4, decimal_places=2,default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(10.00),])
+    avaliacao4 = models.DecimalField(max_digits=4, decimal_places=2,default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(10.00),])
+    detalhe = models.CharField(max_length=1000, default="Nenhum detalhe declarado.")        
+
 
     class Meta:
         ordering = ['nome']
