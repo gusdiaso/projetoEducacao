@@ -1,14 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from io import BytesIO
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos, Componente_Curricular
 from .forms import TipoAvaliacoesForm, EscolasEditForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm, AlunosEditForm, ComponenteCurricularForm
-from django.http import FileResponse, Http404
-from autenticacao.models import Pessoa
-from django.http import FileResponse
-import os
 from autenticacao.decorators import required_nivel_administrador, required_nivel_assistente_administrativo, required_nivel_diretor, required_nivel_professor
 
 @login_required
@@ -324,26 +319,7 @@ def alunos_detalhe(request, pk, turma_id):
     turma = get_object_or_404(Turmas, pk=turma_id)
     aluno = get_object_or_404(Alunos, pk=pk)
 
-    
-    # Definir as avaliações
-    avaliacoes = [aluno.avaliacao1, aluno.avaliacao2, aluno.avaliacao3, aluno.avaliacao4]
-    labels = ['Avaliação 1', 'Avaliação 2', 'Avaliação 3', 'Avaliação 4']
-
-    # Criar o gráfico
-    fig, ax = plt.subplots()
-    ax.bar(labels, avaliacoes, color='blue')
-    ax.set_xlabel('Avaliações')
-    ax.set_ylabel('Notas')
-    ax.set_title(f'Notas do aluno: {aluno.nome}')
-    
-    # Salvar o gráfico em um objeto BytesIO para exibir como imagem
-    img_buf = BytesIO()
-    fig.savefig(img_buf, format='png')
-    img_buf.seek(0)  # Rewind the buffer to the beginning
-    gráfico_url = img_buf.getvalue()  # Obter o conteúdo da imagem como bytes
-
-
-    return render(request, 'educacao/alunos/alunos_detalhe.html', {'aluno': aluno, 'turma': turma, 'grafico': gráfico_url})
+    return render(request, 'educacao/alunos/alunos_detalhe.html', {'aluno': aluno, 'turma': turma})
 
 
 @login_required
