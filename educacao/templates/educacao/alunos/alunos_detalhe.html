@@ -6,32 +6,34 @@
 
 <div class="row mb-4 rounded-4 shadow-sm" style="background-color: white;">
     <div class="col d-flex py-3 px-4">
-        <h2 class="my-auto">Aluno: {{ aluno.nome }}</h2>
+        <h2 class="my-auto">Aluno: {{ observacao.aluno.nome }}</h2>
     </div>
 </div>
 <div class="row rounded-4 shadow-sm" style="background-color: white;">
     <div class="col pt-4 pb-3 px-4">
-        <div class="w-100 d-flex">
-            <h4 class="mb-3">Observações:</h4>
-        </div>
-        
-        <p class="mb-4">{{ aluno.detalhe }}</p>
+        <h5>Observações:</h5>
+        <p>Tipo da Observação: {{ observacao.get_tipo_display }}</p>
+        <p class="mb-4">Descrição: {{ observacao.descricao }}</p>
 
-        <div class="mb-3">
-            <h5>Gráfico de Notas</h5>
-            <canvas id="graficoNotas" width="200" height="100"></canvas>
+        <h5>Desempenho do Aluno:</h5>
+        <p>Status Atual: {{ status |default:'Não Definido' }}</p>
+        <p>Média das Avaliações: {{ resultado.media_final|default:'0' }}</p>
+
+
+        <div class="mb-5">
+            <canvas id="graficoNotas" style="max-width: 100%; max-height: 230px;"></canvas>
         </div>
     
         <a href="{% url 'educacao:turma' turma.id %}" class="btn btn-secondary">Voltar</a>
     </div>
 </div>
 
-<script id="notas-json" type="application/json">
+<script id="resultado-json" type="application/json">
     {
-        "avaliacao1": "{{ aluno.avaliacao1|default:'0' }}",
-        "avaliacao2": "{{ aluno.avaliacao2|default:'0' }}",
-        "avaliacao3": "{{ aluno.avaliacao3|default:'0' }}",
-        "avaliacao4": "{{ aluno.avaliacao4|default:'0' }}"
+        "avaliacao1": "{{ resultado.avaliacao1|default:'0' }}",
+        "avaliacao2": "{{ resultado.avaliacao2|default:'0' }}",
+        "avaliacao3": "{{ resultado.avaliacao3|default:'0' }}",
+        "avaliacao4": "{{ resultado.avaliacao4|default:'0' }}"
     }
 </script>
     
@@ -39,36 +41,39 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    const notas = JSON.parse(document.getElementById('notas-json').textContent);
-const dataNotas = [
-    parseFloat(notas.avaliacao1),
-    parseFloat(notas.avaliacao2),
-    parseFloat(notas.avaliacao3),
-    parseFloat(notas.avaliacao4)
-];
+    const resultado = JSON.parse(document.getElementById('resultado-json').textContent);
+    const dataNotas = [
+        parseFloat(resultado.avaliacao1),
+        parseFloat(resultado.avaliacao2),
+        parseFloat(resultado.avaliacao3),
+        parseFloat(resultado.avaliacao4)
+    ];
 
-const ctx = document.getElementById('graficoNotas').getContext('2d');
-const grafico = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ['Avaliação 1', 'Avaliação 2', 'Avaliação 3', 'Avaliação 4'],
-        datasets: [{
-            label: 'Notas do Aluno',
-            data: dataNotas,
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                suggestedMin: 0,
-                suggestedMax: 10
+    const ctx = document.getElementById('graficoNotas').getContext('2d');
+    
+    const grafico = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Avaliação 1', 'Avaliação 2', 'Avaliação 3', 'Avaliação 4'],
+            datasets: [{
+                label: 'Notas do Aluno',
+                data: dataNotas,
+                backgroundColor: 'rgba(0, 51, 102, 0.3)',
+                borderColor: 'rgba(0, 51, 102, 1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    suggestedMin: 0,
+                    suggestedMax: 6,
+                }
             }
         }
-    }
-});
+    });
 
 </script>
 

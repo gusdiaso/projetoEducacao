@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from io import BytesIO
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos, Componente_Curricular
-from .forms import TipoAvaliacoesForm, EscolasEditForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm, AlunosEditForm, ComponenteCurricularForm
+
+from .models import Tipo_Avaliacoes, Escolas, Nivel_Ensino, Avaliacoes, Turmas, Alunos, Componente_Curricular, Aluno_Turma, Resultado_Avaliacoes, Observacoes_Aluno
+
+from .forms import TipoAvaliacoesForm, EscolasEditForm, EscolasForm, NivelEnsinoForm, AvaliacoesForm, TurmasForm, AlunosForm, ObservacoesAlunoForm, ResultadoAvaliacoesForm, ComponenteCurricularForm, AlunosTurmasForm
+
 from autenticacao.decorators import required_nivel_administrador, required_nivel_assistente_administrativo, required_nivel_diretor, required_nivel_professor
 
 @login_required
@@ -233,6 +236,7 @@ def avaliacoes_delete(request, pk):
     return render(request, 'educacao/avaliacoes/avaliacoes_confirm_delete.html', {'avaliacao': avaliacao})
 
 
+
 #TURMAS
 @login_required
 @required_nivel_professor
@@ -252,8 +256,9 @@ def escola_list_turmas(request, escola_id):
 @required_nivel_professor
 def turma(request, turma_id):
     turma = get_object_or_404(Turmas, pk=turma_id)
-    alunos = Alunos.objects.filter(turma=turma)
-    return render(request, 'educacao/turmas/turma.html', {'turma': turma, 'alunos': alunos})
+    resultado_avaliacoes = Resultado_Avaliacoes.objects.filter(aluno_turma__turma=turma)
+    return render(request, 'educacao/turmas/turma.html', {'turma': turma, 'resultado_avaliacoes': resultado_avaliacoes})
+
 
 @login_required
 @required_nivel_professor
@@ -261,10 +266,7 @@ def turmas_create(request):
     if request.method == 'POST':
         form = TurmasForm(request.POST, user=request.user)
         if form.is_valid():
-            turma = form.save()         
-            # pessoa = Pessoa.objects.get(user=request.user)
-            # turma.professor = pessoa if pessoa.is_professor() else None
-            # turma.save()
+            turma = form.save()  
             return redirect('educacao:turma', turma_id=turma.id)
     else:
         form = TurmasForm(user=request.user)
@@ -296,49 +298,133 @@ def turmas_delete(request, pk):
         return redirect('educacao:index')
     return render(request, 'educacao/turmas/turmas_confirm_delete.html', {'turma': turma})
 
+
 #ALUNOS
 @login_required
 @required_nivel_professor
 def alunos_create(request, turma_id):
     turma = get_object_or_404(Turmas, pk=turma_id)
+    
     if request.method == 'POST':
-        form = AlunosForm(request.POST)
-        if form.is_valid():
-            aluno = form.save(commit=False)
-            aluno.turma = turma
+        form_aluno = AlunosForm(request.POST)
+        form_vinculo = AlunosTurmasForm(request.POST)
+        form_resultado = ResultadoAvaliacoesForm(request.POST)
+        form_observacao = ObservacoesAlunoForm(request.POST)
+
+        if form_aluno.is_valid() and form_vinculo.is_valid() and form_resultado.is_valid() and form_observacao.is_valid():
+
+            aluno = form_aluno.save(commit=False)
+            aluno.user_inclusao = request.user
             aluno.save()
+
+            observacao = form_observacao.save(commit=False)
+            observacao.aluno = aluno
+            observacao.user_inclusao = request.user
+            observacao.save()
+            
+            vinculo = form_vinculo.save(commit=False)
+            vinculo.aluno = aluno 
+            vinculo.turma = turma
+            vinculo.save()
+
+            resultado = form_resultado.save(commit=False)
+            resultado.user_inclusao = request.user
+            resultado.aluno_turma = vinculo 
+            resultado.calcular_media()
+
+
             return redirect('educacao:turma', turma_id=turma.id)
     else:
-        form = AlunosForm(initial={'user_inclusao': request.user})
-    return render(request, 'educacao/alunos/alunos_form.html', {'form': form, 'turma': turma})
+        form_aluno = AlunosForm(initial={'user_inclusao': request.user})
+        form_observacao = ObservacoesAlunoForm(initial={'user_inclusao': request.user})
+        form_vinculo = AlunosTurmasForm(initial={'user_inclusao': request.user})
+        form_resultado = ResultadoAvaliacoesForm()
+
+
+    return render(request, 'educacao/alunos/alunos_form.html', {
+        'form_aluno': form_aluno, 
+        'form_vinculo': form_vinculo,
+        'form_resultado': form_resultado,
+        'form_observacao': form_observacao,
+        'turma': turma
+    })
+
+
+@login_required
+@required_nivel_professor
+def alunos_update(request, pk, turma_id):
+    aluno = get_object_or_404(Alunos, pk=pk, vinculos__turma=turma_id)
+    turma = get_object_or_404(Turmas, pk=turma_id)
+    vinculo = get_object_or_404(Aluno_Turma, aluno=aluno, turma=turma)
+    resultado = get_object_or_404(Resultado_Avaliacoes, aluno_turma=vinculo)
+    observacao = get_object_or_404(Observacoes_Aluno, aluno=aluno)
+
+    if request.method == 'POST':
+
+        form_aluno = AlunosForm(request.POST, instance=aluno)
+        form_vinculo = AlunosTurmasForm(request.POST, instance=vinculo)
+        form_resultado = ResultadoAvaliacoesForm(request.POST, instance=resultado)
+        form_observacao = ObservacoesAlunoForm(request.POST, instance=observacao)
+
+        if form_aluno.is_valid() and form_vinculo.is_valid() and form_resultado.is_valid() and form_observacao.is_valid():
+            
+            aluno = form_aluno.save(commit=False)
+            aluno.user_edicao = request.user
+            aluno.save()
+
+            observacao = form_observacao.save(commit=False)
+            observacao.aluno = aluno
+            observacao.save()
+
+            vinculo = form_vinculo.save(commit=False)
+            vinculo.aluno = aluno
+            vinculo.save()
+
+            resultado = form_resultado.save(commit=False)
+            resultado.aluno_turma = vinculo
+            resultado.calcular_media()
+
+            return redirect('educacao:turma', turma_id=turma.id)
+    else:
+        form_aluno = AlunosForm(instance=aluno)
+        form_observacao = ObservacoesAlunoForm(instance=observacao)
+        form_vinculo = AlunosTurmasForm(instance=vinculo)
+        form_resultado = ResultadoAvaliacoesForm(instance=resultado)
+
+    return render(request, 'educacao/alunos/alunos_form.html', {
+        'form_aluno': form_aluno, 
+        'form_observacao': form_observacao,
+        'form_vinculo': form_vinculo , 
+        'form_resultado': form_resultado,
+        'turma': turma,
+        
+    })
+
 
 
 @login_required
 @required_nivel_professor
 def alunos_detalhe(request, pk, turma_id):
     turma = get_object_or_404(Turmas, pk=turma_id)
-    aluno = get_object_or_404(Alunos, pk=pk)
+    aluno = get_object_or_404(Alunos, pk=pk, vinculos__turma=turma_id)
+    vinculo = get_object_or_404(Aluno_Turma, aluno=aluno, turma=turma)
+    resultado = get_object_or_404(Resultado_Avaliacoes, aluno_turma=vinculo)
+    observacao = get_object_or_404(Observacoes_Aluno, aluno=aluno)
 
-    return render(request, 'educacao/alunos/alunos_detalhe.html', {'aluno': aluno, 'turma': turma})
+     
+    if resultado.media_final >= 6.00:
+        status = 'Capacitado'
+    else:   
+        status = 'Não Capacitado'
+
+    return render(request, 'educacao/alunos/alunos_detalhe.html', {
+        'observacao': observacao, 
+        'turma': turma,
+        'resultado': resultado,
+        'status': status,
+    })
 
 
-@login_required
-@required_nivel_professor
-def alunos_update(request, pk, turma_id):
-    aluno = get_object_or_404(Alunos, pk=pk)
-    turma = get_object_or_404(Turmas, pk=turma_id)
-
-    if request.method == 'POST':
-        form = AlunosEditForm(request.POST, instance=aluno)
-        if form.is_valid():
-            aluno = form.save(commit=False)
-            aluno.user_edicao = request.user
-            aluno.turma = turma
-            aluno.save()
-            return redirect('educacao:turma', turma_id=turma.id)
-    else:
-        form = AlunosEditForm(instance=aluno, initial={'user_edicao': request.user})
-    return render(request, 'educacao/alunos/alunos_form.html', {'form': form, 'turma': turma})
 
 @login_required
 @required_nivel_diretor
@@ -364,3 +450,15 @@ def avaliacoes_list_educacao(request, ensino_id):
     nivel_ensino = Nivel_Ensino.objects.get(id=ensino_id)
     avaliacoes_selected = Avaliacoes.objects.filter(nivel_ensino=nivel_ensino)
     return render(request, 'educacao/avaliacoes/avaliacao_list_educacao.html', {'avaliacoes': avaliacoes_selected})
+
+
+
+
+
+
+
+def calcular_media(self):
+    avaliacoes = [self.avaliacao1, self.avaliacao2, self.avaliacao3, self.avaliacao4]
+    self.media_final = sum(avaliacoes) / len(avaliacoes)
+    self.aprovado = self.media_final >= 6.00
+    self.save()

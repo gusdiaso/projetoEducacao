@@ -6,7 +6,11 @@
 <h2 class="mb-4 row mb-4 rounded-4 shadow-sm bg-white px-4 py-3">Formulário de Aluno - Turma {{ turma.nome }}</h2>
 <form method="post" class="row mb-4 rounded-4 shadow-sm bg-white px-3 py-3">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form_aluno.as_p }}
+    {{ form_vinculo.as_p }}
+    {{ form_resultado.as_p }}
+    {{ form_observacao.as_p }}
+
     <div class="col d-flex justify-content-start gap-2 mt-2">
         <button type="submit" class="btn btn-success text-white">Adicionar</button>
         <a href="{% url 'educacao:turma' turma.id %}" class="btn btn-secondary">Voltar</a>
