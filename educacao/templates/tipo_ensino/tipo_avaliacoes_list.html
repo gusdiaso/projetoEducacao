@@ -36,7 +36,7 @@
             <tbody>
                 {% for tipo in tipos %}
                 <tr class="align-middle">
-                    <td>{{ tipo.nome }}</td>
+                    <td>{{ tipo.nome }} ({{tipo.componente_curricular.nome}})</td>
                     <td class="text-end">
                         <a href="{% url 'educacao:tipo_avaliacoes_update' tipo.pk %}" class="btn btn-warning btn-sm me-1"><i class="fa-solid text-white fa-pen"></i></a>
                         <a href="{% url 'educacao:tipo_avaliacoes_delete' tipo.pk %}" class="btn btn-danger btn-sm"><i class="fa-solid text-white fa-trash"></i></a>
