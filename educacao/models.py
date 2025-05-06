@@ -36,7 +36,7 @@ class Escolas(Base_Model):
     professor = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='escolas_professor', null=True)
 
     def __str__(self):
-        return f"Escola {self.nome}"
+        return f"{self.nome}"
     
     def save(self, *args, **kwargs):
         if self.diretor.tipo_conta != 'dir':
