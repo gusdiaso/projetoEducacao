@@ -223,15 +223,19 @@ class AlunosEditForm(forms.ModelForm):
 class ResultadoAvaliacoesForm(forms.ModelForm):
     class Meta:
         model = Resultado_Avaliacoes
-        fields = ['aluno_turma', 'avaliacao1', 'avaliacao2', 'avaliacao3', 'avaliacao4', 'media_final']
+        fields = ['aluno_turma', 'avaliacao1', 'tipo_avaliacao1', 'avaliacao2', 'tipo_avaliacao2', 'avaliacao3', 'tipo_avaliacao3', 'avaliacao4', 'tipo_avaliacao4', 'media_final']
         exclude = ['aluno_turma']  
 
         widgets = {
             'aluno_turma': forms.Select(attrs={'class': 'form-control'}),
             'avaliacao1': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': 0, 'max': 10}),
+            'tipo_avaliacao1': forms.Select(attrs={'class': 'form-control'}),
             'avaliacao2': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': 0, 'max': 10}),
+            'tipo_avaliacao2': forms.Select(attrs={'class': 'form-control'}),
             'avaliacao3': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': 0, 'max': 10}),
+            'tipo_avaliacao3': forms.Select(attrs={'class': 'form-control'}),
             'avaliacao4': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': 0, 'max': 10}),
+            'tipo_avaliacao4': forms.Select(attrs={'class': 'form-control'}),
             'media_final': forms.NumberInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
         }
 

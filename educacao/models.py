@@ -63,6 +63,9 @@ class Avaliacoes(Base_Model):
     nivel_ensino = models.ForeignKey(Nivel_Ensino, on_delete=models.CASCADE, related_name='avaliacoes')
     arquivo = models.FileField(upload_to='caminho/desejado/', null=True)
 
+    def __str__(self):
+        return f"{self.tipo_avaliacao.nome} ({self.tipo_avaliacao.componente_curricular} - {self.ano}.{self.semestre})"
+
 
 class Turmas(Base_Model):
     nome = models.CharField(max_length=100)
@@ -112,22 +115,32 @@ class Aluno_Turma(Base_Model):
 
 
 class Resultado_Avaliacoes(Base_Model):
-    aluno_turma = models.ForeignKey('Aluno_Turma', on_delete=models.CASCADE, related_name='resultados')
-    
-    # Campos para as avaliações
-    avaliacao1 = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[
-        MinValueValidator(0.00), MaxValueValidator(10.00)],verbose_name="Nota da 1° avaliação")
-    avaliacao2 = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[
-        MinValueValidator(0.00), MaxValueValidator(10.00)], verbose_name="Nota da 2° avaliação")
-    avaliacao3 = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[
-        MinValueValidator(0.00), MaxValueValidator(10.00)], verbose_name="Nota da 3° avaliação")
-    avaliacao4 = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[
-        MinValueValidator(0.00), MaxValueValidator(10.00)], verbose_name="Nota da 4° avaliação")
-    
-    media_final = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[
-        MinValueValidator(0.00), MaxValueValidator(10.00)], verbose_name="Média Final")
 
+    STATUS_CHOICES = [
+        ('capacitado', 'Capacitado'),
+        ('naocapacitado', 'Não Capacitado'),
+    ]
+
+    aluno_turma = models.ForeignKey('Aluno_Turma', on_delete=models.CASCADE, related_name='resultados')
+    avaliacao1 = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(10.00)],verbose_name="Nota da 1° avaliação")
+    avaliacao2 = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(10.00)], verbose_name="Nota da 2° avaliação")
+    avaliacao3 = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(10.00)], verbose_name="Nota da 3° avaliação")
+    avaliacao4 = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(10.00)], verbose_name="Nota da 4° avaliação")
+    media_final = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(10.00)], verbose_name="Média Final")
+    
+    tipo_avaliacao1 = models.ForeignKey('Avaliacoes', on_delete=models.SET_NULL, null=True, blank=True, related_name='tipo_avaliacao1')
+    tipo_avaliacao2 = models.ForeignKey('Avaliacoes', on_delete=models.SET_NULL, null=True, blank=True, related_name='tipo_avaliacao2')
+    tipo_avaliacao3 = models.ForeignKey('Avaliacoes', on_delete=models.SET_NULL, null=True, blank=True, related_name='tipo_avaliacao3')
+    tipo_avaliacao4 = models.ForeignKey('Avaliacoes', on_delete=models.SET_NULL, null=True, blank=True, related_name='tipo_avaliacao4')
+
+    status_avaliacao1 = models.CharField(max_length=13, choices=STATUS_CHOICES, null=True, editable=False)
+    status_avaliacao2 = models.CharField(max_length=13, choices=STATUS_CHOICES, null=True, editable=False)
+    status_avaliacao3 = models.CharField(max_length=13, choices=STATUS_CHOICES, null=True, editable=False)
+    status_avaliacao4 = models.CharField(max_length=13, choices=STATUS_CHOICES, null=True, editable=False)
+
+    
     data = models.DateField(auto_now_add=True)
+
 
     def calcular_media(self):
         """Método para calcular a média das avaliações"""
@@ -135,6 +148,33 @@ class Resultado_Avaliacoes(Base_Model):
         self.media_final = sum(avaliacoes) / len(avaliacoes)
         self.aprovado = self.media_final >= 6.00  # Considerando que a média de aprovação é 6.00
         self.save()
+
+    
+    def verificar_capacitado(self):
+        if self.avaliacao1 >= 6.00:
+            self.status_avaliacao1 = 'capacitado'
+        else:
+            self.status_avaliacao1 = 'naocapacitado'
+
+        if self.avaliacao2 >= 6.00:
+            self.status_avaliacao2 = 'capacitado'
+        else:
+            self.status_avaliacao2 = 'naocapacitado'
+
+        if self.avaliacao3 >= 6.00:
+            self.status_avaliacao3 = 'capacitado'
+        else:
+            self.status_avaliacao3 = 'naocapacitado'
+        
+        if self.avaliacao4 >= 6.00:
+            self.status_avaliacao4 = 'capacitado'
+        else:
+            self.status_avaliacao4 = 'naocapacitado'
+        
+        print(self.status_avaliacao1, self.status_avaliacao2, self.status_avaliacao3, self.status_avaliacao4)
+        self.save()
+
+
 
     def __str__(self):
         return f"{self.tipo_avaliacoes} - {self.aluno_turma.aluno.nome} - {self.media_final}"

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from io import BytesIO
+import unicodedata
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
@@ -204,6 +204,11 @@ def avaliacoes_list(request):
 @required_nivel_assistente_administrativo
 def avaliacoes_create(request):
     if request.method == 'POST':
+        # Limpa o nome do arquivo, se houver arquivo
+        if 'arquivo' in request.FILES:
+            arquivo = request.FILES['arquivo']
+            arquivo.name = sanitize_filename(arquivo.name)
+
         form = AvaliacoesForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             form.save()
@@ -217,7 +222,11 @@ def avaliacoes_create(request):
 def avaliacoes_update(request, pk):
     avaliacao = get_object_or_404(Avaliacoes, pk=pk)
     if request.method == 'POST':
-        form = AvaliacoesForm(request.POST, instance=avaliacao, user=request.user)
+        if 'arquivo' in request.FILES:
+            arquivo = request.FILES['arquivo']
+            arquivo.name = sanitize_filename(arquivo.name)
+
+        form = AvaliacoesForm(request.POST, request.FILES, instance=avaliacao, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('educacao:avaliacoes_list_educacao', ensino_id=avaliacao.nivel_ensino.id)
@@ -330,6 +339,10 @@ def alunos_create(request, turma_id):
             resultado = form_resultado.save(commit=False)
             resultado.user_inclusao = request.user
             resultado.aluno_turma = vinculo 
+
+            if resultado.avaliacao1 or resultado.avaliacao2 or resultado.avaliacao3 or resultado.avaliacao4:
+                resultado.verificar_capacitado()
+            
             resultado.calcular_media()
 
 
@@ -382,6 +395,9 @@ def alunos_update(request, pk, turma_id):
 
             resultado = form_resultado.save(commit=False)
             resultado.aluno_turma = vinculo
+            if resultado.avaliacao1 or resultado.avaliacao2 or resultado.avaliacao3 or resultado.avaliacao4:
+                resultado.verificar_capacitado()
+            
             resultado.calcular_media()
 
             return redirect('educacao:turma', turma_id=turma.id)
@@ -411,17 +427,10 @@ def alunos_detalhe(request, pk, turma_id):
     resultado = get_object_or_404(Resultado_Avaliacoes, aluno_turma=vinculo)
     observacao = get_object_or_404(Observacoes_Aluno, aluno=aluno)
 
-     
-    if resultado.media_final >= 6.00:
-        status = 'Capacitado'
-    else:   
-        status = 'Não Capacitado'
-
     return render(request, 'educacao/alunos/alunos_detalhe.html', {
         'observacao': observacao, 
         'turma': turma,
         'resultado': resultado,
-        'status': status,
     })
 
 
@@ -455,10 +464,9 @@ def avaliacoes_list_educacao(request, ensino_id):
 
 
 
+#############################   Funções   #######################################
+
+def sanitize_filename(filename):
+    return unicodedata.normalize('NFKD', filename).encode('ASCII', 'ignore').decode('ASCII')
 
 
-def calcular_media(self):
-    avaliacoes = [self.avaliacao1, self.avaliacao2, self.avaliacao3, self.avaliacao4]
-    self.media_final = sum(avaliacoes) / len(avaliacoes)
-    self.aprovado = self.media_final >= 6.00
-    self.save()
