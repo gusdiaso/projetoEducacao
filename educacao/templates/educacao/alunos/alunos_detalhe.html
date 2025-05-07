@@ -17,22 +17,22 @@
 
         <h5>Desempenho do Aluno:</h5>
         {% if resultado.tipo_avaliacao1 %}
-            <p>Status da avaliação 01 {{resultado.tipo_avaliacao1}}: {{ resultado.get_status_avaliacao1_display}}</p>
+            <p>Status da avaliação 01 {{resultado.tipo_avaliacao1}}: {{resultado.avaliacao1}} ({{ resultado.get_status_avaliacao1_display}})</p>
         {% else %}
             <p>Status da avaliação 01: Não Avaliado</p>
         {% endif %}
         {% if resultado.tipo_avaliacao2 %}
-            <p>Status da avaliação 02 {{resultado.tipo_avaliacao2}}: {{ resultado.get_status_avaliacao2_display}}</p>
+            <p>Status da avaliação 02 {{resultado.tipo_avaliacao2}}: {{resultado.avaliacao2}} ({{ resultado.get_status_avaliacao2_display}})</p>
         {% else %}
             <p>Status da avaliação 02: Não Avaliado</p>
         {% endif %}
         {% if resultado.tipo_avaliacao3 %}
-            <p>Status da avaliação 03 {{resultado.tipo_avaliacao3}}: {{ resultado.get_status_avaliacao3_display}}</p>
+            <p>Status da avaliação 03 {{resultado.tipo_avaliacao3}}: {{resultado.avaliacao3}} ({{ resultado.get_status_avaliacao3_display}})</p>
         {% else %}
             <p>Status da avaliação 03: Não Avaliado</p>
         {% endif %}
         {% if resultado.tipo_avaliacao4 %}
-            <p>Status da avaliação 04 {{resultado.tipo_avaliacao4}}: {{ resultado.get_status_avaliacao4_display}}</p>
+            <p>Status da avaliação 04 {{resultado.tipo_avaliacao4}}: {{resultado.avaliacao4}} ({{ resultado.get_status_avaliacao4_display}})</p>
         {% else %}
             <p>Status da avaliação 04: Não Avaliado</p>
         {% endif %}
