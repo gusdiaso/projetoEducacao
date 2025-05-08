@@ -3,7 +3,11 @@
  * Copyright 2011-2023 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ 
 :root, [data-bs-theme=light] {
+    --bs-color-app: #ffc107;
+    --bs-green-white: #A8E6A1;
+    --bs-green-black: #2E7D32;
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;
     --bs-purple: #6f42c1;
@@ -65,8 +69,8 @@
     --bs-dark-border-subtle: #adb5bd;
     --bs-white-rgb: 255, 255, 255;
     --bs-black-rgb: 0, 0, 0;
-    --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --bs-font-sans-serif: "Poppins", sans-serif;
+    --bs-font-monospace: "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
     --bs-body-font-family: var(--bs-font-sans-serif);
     --bs-body-font-size: 1rem;
@@ -241,7 +245,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     font-weight: 500;
     line-height: 1.2;
     color: var(--bs-heading-color);
-    font-family: "Inter", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
 }
 
 h1, .h1 {
@@ -295,7 +299,7 @@ h6, .h6 {
 p {
     /* margin-top: 0; */
     margin-bottom: 1rem;
-    font-family: "Inter", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
 }
 
 abbr[title] {
@@ -467,7 +471,7 @@ button:focus:not(:focus-visible) {
 
 input, button, select, optgroup, textarea {
     margin: 0;
-    font-family: inherit;
+    font-family: "Poppins", sans-serif;
     font-size: inherit;
     line-height: inherit
 }
@@ -3242,7 +3246,7 @@ textarea.form-control-lg {
 .btn {
     --bs-btn-padding-x: 0.75rem;
     --bs-btn-padding-y: 0.375rem;
-    --bs-btn-font-family: ;
+    --bs-btn-font-family: "Poppins", sans-serif;
     --bs-btn-font-size: 1rem;
     --bs-btn-font-weight: 400;
     --bs-btn-line-height: 1.5;
@@ -13704,7 +13708,7 @@ button.close:focus {
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
     border-bottom: 1px solid #e7e9ed;
     height: 56px;
-    background: #00528A;
+    background: var(--bs-color-app);
     /* background: var(--bs-body-bg); */
 }
 
@@ -14014,7 +14018,7 @@ button.close:focus {
     height: 60px;
     padding-top: 1rem;
     padding-left: 1rem;
-    margin-bottom: .5rem
+    padding-bottom: .5rem;
 }
 
 .app-branding .logo-icon {
@@ -14048,11 +14052,13 @@ button.close:focus {
 
 .app-nav .nav-link {
     display: block;
-    padding: .875rem 1rem;
+    padding: .5rem 0rem;
     color: #252930;
     position: relative;
     display: block;
     padding-left: 3rem;
+    margin: 10px;
+    
 }
 
 .app-nav .nav-link.active {
@@ -14068,13 +14074,22 @@ button.close:focus {
 }
 
 .app-nav .nav-link:hover {
-    color: #15a362
+    color: var(--bs-white);
+    background-color: var(--bs-color-app);
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: 0.1s ease-in-out;
+}
+
+.app-nav .nav-link:hover .submenu-arrow {
+    color: #fff;
 }
 
 .app-nav .nav-icon {
     position: absolute;
     left: 1rem;
-    top: .7rem
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .app-nav .nav-icon .bi {
@@ -14085,9 +14100,11 @@ button.close:focus {
 .app-nav .submenu-arrow {
     position: absolute;
     right: 1rem;
-    top: .7rem;
-    color: #828d9f
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000;
 }
+
 
 .app-nav .submenu-arrow svg {
     width: 14px;
@@ -14105,7 +14122,11 @@ button.close:focus {
 }
 
 .app-nav .submenu-toggle[aria-expanded=true] .submenu-arrow {
-    color: #252930
+    color: #000
+}
+
+.app-nav .submenu-toggle:hover .submenu-arrow {
+    color: white
 }
 
 .app-nav .submenu-toggle[aria-expanded=true] .submenu-arrow svg {
@@ -14154,29 +14175,53 @@ button.close:focus {
 
 
 .app-nav .submenu-link .submenu-adicionar{
-    background-color:  #15a362;
-    color: #fff;
+    background-color:  var(--bs-green-white);
+    color: #000;
     border-radius: 8px;
-    padding: 5px 10px 5px 5px;
+    padding: 5px 10px 5px;
     width: 100%;
+}
+
+.app-nav .submenu-link .submenu-adicionar:hover{
+    background-color:  var(--bs-green-black);
+    color: #fff;
+    transition: 0.1s ease-in-out;
 }
 
 .app-nav .submenu-link .submenu-sub{
     background-color:  #cccccc;
     color: #000;
-    border-radius: 8px;
-    padding: 5px 10px 5px 5px;
+    border-radius: 8px;    
+    padding: 5px 10px 5px;
     white-space: nowrap;
     width: 100%;
+    margin:
 }
+
+.app-nav .submenu-link .submenu-sub:hover{
+    background-color:  #888888;
+    color: #fff;
+    transition: 0.1s ease-in-out;
+}
+
+.app-nav .submenu-link .submenu-sub:hover .submenu-arrow{
+    color: white;
+    transition: 0.1s ease-in-out;
+}
+
 
 .app-nav .submenu-link-2 .submenu-subsub{
     background-color:  #999999;
     color: #fff;
     border-radius: 8px;
-    padding: 5px 10px 5px 5px;
+    padding: 5px 10px 5px;
     width: 100%;
     white-space: nowrap;
+}
+
+.app-nav .submenu-link-2 .submenu-subsub:hover{
+    background-color:  #444444;
+    transition: 0.1s ease-in-out;
 }
 
 
