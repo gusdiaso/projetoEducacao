@@ -238,7 +238,17 @@ class ResultadoAvaliacoesForm(forms.ModelForm):
             'tipo_avaliacao4': forms.Select(attrs={'class': 'form-control'}),
             'media_final': forms.NumberInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
         }
+    
+def __init__(self, *args, **kwargs):
+    aluno_turma = kwargs.pop('aluno_turma', None)
+    super().__init__(*args, **kwargs)
 
+    if aluno_turma:
+        nivel_ensino = aluno_turma.turma.nivel_ensino
+        self.fields['tipo_avaliacao1'].queryset = self.fields['tipo_avaliacao1'].queryset.filter(nivel_ensino=nivel_ensino)
+        self.fields['tipo_avaliacao2'].queryset = self.fields['tipo_avaliacao2'].queryset.filter(nivel_ensino=nivel_ensino)
+        self.fields['tipo_avaliacao3'].queryset = self.fields['tipo_avaliacao3'].queryset.filter(nivel_ensino=nivel_ensino)
+        self.fields['tipo_avaliacao4'].queryset = self.fields['tipo_avaliacao4'].queryset.filter(nivel_ensino=nivel_ensino)
 
 class AlunosTurmasForm(forms.ModelForm):
     class Meta:
