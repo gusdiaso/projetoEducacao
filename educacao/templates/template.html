@@ -28,16 +28,16 @@
 
 <body class="app">   
 	
-	<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="background-color: #ffc107 !important;">
+	<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="background-color: #ffc107 !important; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
 		<div class="container-fluid" style="margin: 0 20px 0;">
-			<a class="navbar-brand" href="/">
-				<img class="logo-icon me-2" src="{% static '/brasao.ico' %}" alt="logo" style="width: 40px;">
-			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-
+			
 			<div class="collapse navbar-collapse" id="navbarNavDropdown" style="display: flex; justify-content: space-between;">
+				<a class="navbar-brand" href="/">
+					<img class="logo-icon me-2" src="{% static '/brasao.ico' %}" alt="logo" style="width: 40px;">
+				</a>
 				<ul class="navbar-nav gap-2">
 					<li class="nav-item">
 						<a class="nav-link btn-menutop active" aria-current="page" href="/">Home</a>
@@ -46,7 +46,7 @@
 						<a class="nav-link dropdown-toggle btn-menutop active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						  Turmas
 						</a>
-						<ul class="dropdown-menu" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);border-radius: 0.5rem;">
+						<ul class="dropdown-menu" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);border-radius: 0.5rem;">
 							<li>
 								<a class="dropdown-item" href="#">
 									Adicionar Turma
@@ -79,7 +79,7 @@
 						<a class="nav-link dropdown-toggle btn-menutop active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Avaliações
 						</a>
-						<ul class="dropdown-menu" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);border-radius: 0.5rem;">
+						<ul class="dropdown-menu" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);border-radius: 0.5rem;">
 							<li class="submenu-item">
 								<li>
 									<a class="dropdown-item" href="{% url 'educacao:avaliacoes_create' %}">
