@@ -177,8 +177,7 @@
 }
 
 *, *::before, *::after {
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+    box-sizing: border-box
 }
 
 @media(prefers-reduced-motion: no-preference) {
@@ -198,49 +197,6 @@ body {
     background-color: var(--bs-body-bg);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    
-}
-
-.btn-menutop{
-    border-radius: 10px;
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
-}
-
-.btn-menutop:hover{
-    background-color: #fff3d0 !important;
-    transition: 0.2s ease-in-out;
-}
-
-/* Estilo para submenu */
-.dropdown-submenu {
-    position: relative;
-}
-
-.dropdown-item:hover{
-    background-color: #cbcbcb !important;
-    border-radius: 8px;
-}
-
-.dropdown-submenu > .dropdown-menu > li {
-    margin-inline: 5px !important;
-}
-
-.dropdown-menu > li {
-    margin-inline: 5px !important;
-}
-  
-.dropdown-submenu .dropdown-menu {
-top: -10px;
-left: 100%;
-margin-left: -5px !important;
-display: none;
-position: absolute;
-box-shadow: 3px 0px 6px rgba(0, 0, 0, 0.6);
-border-radius: 0.5rem;
-}
-
-.dropdown-submenu:hover .dropdown-menu {
-display: block;
 }
 
 .turma-card-container {
@@ -14363,7 +14319,7 @@ button.close:focus {
 
 @media(min-width: 1200px) {
     .app-wrapper {
-        margin-left: 0;        
+        margin-left: 250px;        
     }
 }
 
@@ -14372,7 +14328,8 @@ button.close:focus {
     height: 100%;
     width: 100%;
     background: #f5f6fe;
-    padding-top: 80px;
+    /* background-color: #43ff1918; */
+    padding-top: 56px;
     overflow-x: hidden
 }
 

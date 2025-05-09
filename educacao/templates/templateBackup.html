@@ -1,0 +1,351 @@
+{% load static %}
+<!DOCTYPE html> 
+<head>
+    <title>Educação PMNF - Bem-vindo</title>
+    
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="Intranet da Prefeitura Municipal de Nova Friburgo">
+    <meta name="author" content="eduardo salarini">    
+    <link rel="shortcut icon" href="{% static '/favicon.ico' %}"> 
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome JS-->
+    <script defer src="{% static '/css/fontawesome.min.css' %}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- App CSS -->  
+    <link id="theme-style" rel="stylesheet" href="{% static '/css/template-educacao.css' %}">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+	</style>
+</head> 
+
+<body class="app">   
+	<div id="preloader" class="preloader">
+		<img class="logo-icon me-2" src="{% static '/brasao.ico' %}" alt="logo"><span class="logo-text">Educação</span>
+		<div class="spinner"></div>
+	  </div>	
+    <header class="app-header fixed-top">	   	            
+        <div class="app-header-inner">  
+	        <div class="container-fluid py-2">
+		        <div class="app-header-content"> 
+		            <div class="row justify-content-between align-items-center">
+			        
+				    <div class="col-auto ver-menu-lateral-mobile">
+					    <a id="sidepanel-toggler" class="sidepanel-toggler d-inline-block d-xl-none" href="#">						
+						    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+					    </a>
+				    </div>	
+		            <div class="app-search-box col ver-menu-lateral-web">
+						<button class="my-auto btn p-4 py-2 text-white" id="mButton"  onclick="hiddenMenu()">
+							<i class="fa-solid fa-angle-left"></i>							
+						</button>
+		                
+		            </div>
+		            <script>
+						const csrfToken = "{{ csrf_token }}";
+					</script>
+		            <div class="app-utilities col-auto" style="display: flex;align-items: center;">
+						
+						<h5 class="app-utility-item my-auto text-end nome-servidor-web" style="color: #fff8ec;">
+							{{pessoa.get_tipo_conta_display}} - {{pessoa.nome}}</h5>
+			            <div class="app-utility-item app-notifications-dropdown dropdown">    
+				            <a onclick="markAllAsRead()" class="dropdown-toggle no-toggle-arrow text-white" id="notifications-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Notifications">
+					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
+                                <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+                                </svg>
+					            <span class="icon-badge" id="notification-count">0</span>
+					        </a>
+					        
+					        <div class="dropdown-menu p-0" aria-labelledby="notifications-dropdown-toggle">
+					            <div class="dropdown-menu-header p-3">
+						            <h5 class="dropdown-menu-title mb-0">Notificações</h5>
+						        </div>
+						        <div class="dropdown-menu-content" id="notifications-content">
+								
+						        </div>
+						        
+						        <div class="dropdown-menu-footer p-2 text-center">
+							        <a href="#">Ver tudo</a>
+						        </div>
+															
+							</div>					        
+				        </div>
+			            <div class="app-utility-item">
+				            <a class="text-white" href="#" title="Settings">					            
+					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-gear icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"/>
+                                <path fill-rule="evenodd" d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"/>
+                                </svg>
+					        </a>
+					    </div>
+			            
+			            <div class="app-utility-item app-user-dropdown dropdown">
+				            <a class="dropdown-toggle text-white" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img class="rounded-circle" src="/static/images/user.png" alt="user profile"></a>
+				            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
+								<li><a class="dropdown-item" href="#">Configurações</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/logout">Logout</a></li>
+							</ul>
+			            </div>
+		            </div>
+		        </div>
+	            </div>
+	        </div>
+        </div>
+        <div id="app-sidepanel" class="app-sidepanel"> 
+	        <div id="sidepanel-drop" class="sidepanel-drop"></div>
+	        <div class="sidepanel-inner d-flex flex-column">
+		        <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+		        <div class="app-branding">
+		            <a class="app-logo" href="/ "><img class="logo-icon me-2" src="{% static '/brasao.ico' %}" alt="logo"><span class="logo-text">Educação</span></a>							
+		            <!-- <a class="app-logo" href="/ "><span class="logo-text">Educação</span></a> -->
+	
+		        </div>
+
+				<div class="welcome-servidor-mobile">
+					<span class="welcome-servidor-mobile-text">Olá, [NOME DO USUÁRIO]</span>
+				</div>
+		        
+			    <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+				    <ul class="app-menu list-unstyled accordion" id="menu-accordion">
+					    <li class="nav-item">					        
+					        <a class="nav-link" href="/">
+						        <span class="nav-icon">
+                                    <i class="fa-solid fa-house"></i>
+						         </span>
+		                         <span class="nav-link-text">Página Inicial</span>
+					        </a>
+					    </li>
+				
+					
+						<li class="nav-item has-submenu">
+					        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-softwares" aria-expanded="false" aria-controls="submenu-1">
+						        <span class="nav-icon">
+                                    <i class="mt-2 fa-solid fa-laptop-file"></i>
+						         </span>
+		                         <span class="nav-link-text">Turmas</span>
+		                         <span class="submenu-arrow">
+		                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+	                             </span>
+					        </a>
+					        <div id="submenu-softwares" class="collapse submenu submenu-softwares" data-bs-parent="#menu-accordion">
+								<ul class="submenu-list list-unstyled">						        
+							        <li class="submenu-item">										
+										<a class="submenu-link" href="{% url 'educacao:turmas_create' %}">											
+											<div class="submenu-adicionar">
+												<i class="fa-solid fa-plus-circle me-2"></i>
+												Adicionar Turma
+											</div>
+										</a>
+									</li>	
+									{% for nivel_ensino in niveis_ensino %}
+									<li class="submenu-item">
+										<a  class="submenu-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-turmas-{{ nivel_ensino.nivel.id }}" aria-expanded="false" aria-controls="submenu-1">
+											<div class="submenu-sub">
+
+												<i class="fa-solid fa-users me-2"></i>
+												{{nivel_ensino.nivel.nome}}
+												<span class="submenu-arrow">
+													<svg width="1em" height="1em" viewBox="0 0 16 16" class="align-middle bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+														<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+													</svg>
+												</span>
+											</div>
+										</a>
+										<div id="submenu-turmas-{{ nivel_ensino.nivel.id }}" class="collapse submenu submenu-turmas-{{ nivel_ensino.nivel.id }}" data-bs-parent="#submenu-turmas-{{ nivel_ensino.nivel.id }}">
+											<ul class="submenu-list list-unstyled">
+												{% for turma in nivel_ensino.turmas %}
+												<li class="submenu-item">
+													<a  class="submenu-link-2" href="{% url 'educacao:turma' turma.id %}">
+														<div class="submenu-subsub">
+															<i class="fa-solid fa-graduation-cap me-2"></i>
+															{{turma}}
+														</div>
+													</a>
+												</li>
+												{% endfor %}
+											</ul>
+										</div>
+									</li>						        
+									{% endfor %}
+						        </ul>
+					        </div>
+					    </li>	
+                     
+				
+						<li class="nav-item has-submenu">
+					        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-gestao" aria-expanded="false" aria-controls="submenu-1">
+						        <span class="nav-icon">
+									<i class="fa-solid fa-check-double"></i>
+						         </span>
+		                         <span class="nav-link-text">Avaliações</span>
+		                         <span class="submenu-arrow">
+		                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+	                             </span>
+                                </a>
+					        <div id="submenu-gestao" class="collapse submenu submenu-gestao" data-bs-parent="#menu-accordion">
+						        <ul class="submenu-list list-unstyled">
+							        <li class="submenu-item">
+										{% if pessoa.is_administrador or pessoa.is_assistente_administrativo %}
+											
+										<a class="submenu-link" href="{% url 'educacao:avaliacoes_create' %}">
+											<div class="submenu-adicionar">
+												<i class="fa-solid fa-plus-circle me-2"></i>
+												Adicionar Avaliação
+											</div>
+										</a>
+										{% endif %}
+									</li>						        
+									{% for nivel_ensino in niveis_ensino %}
+									<li class="submenu-item">
+										<a class="submenu-link" href="{% url 'educacao:avaliacoes_list_educacao' nivel_ensino.nivel.id  %}">
+											<div class="submenu-sub">
+												<i class="fa-solid fa-users me-2"></i>
+												{{nivel_ensino.nivel.nome}}
+											</div>
+										</a>
+									</li>					        
+									{% endfor %}					        
+						        </ul>
+					        </div>
+					    </li>		
+						{% if pessoa.is_administrador or pessoa.is_assistente_administrativo %}
+						<li class="nav-item">					        
+							<a class="nav-link" href="{% url 'educacao:escolas_list' %}">
+								<span class="nav-icon">
+									<i class="fa-solid fa-university"></i>
+								</span>
+								<span class="nav-link-text">Escolas</span>
+					        </a>
+					    </li>
+						{% endif %}
+						{% if pessoa.is_administrador or pessoa.is_assistente_administrativo %}
+						<li class="nav-item">					        
+					        <a class="nav-link" href="{% url 'educacao:nivel_ensino_list' %}">
+						        <span class="nav-icon">
+                                    <i class="fa-solid fa-book"></i>
+						         </span>
+		                         <span class="nav-link-text">Níveis de Ensino</span>
+					        </a>
+					    </li>
+						{% endif %}
+						{% if pessoa.is_administrador or pessoa.is_assistente_administrativo %}
+						<li class="nav-item">					        
+					        <a class="nav-link" href="{% url 'educacao:tipo_avaliacoes_list' %}">
+						        <span class="nav-icon">
+                                    <i class="fa-solid fa-file-lines"></i>
+						         </span>
+		                         <span class="nav-link-text">Tipo de Avaliação</span>
+					        </a>
+					    </li>
+						{% endif %}
+						{% if pessoa.is_administrador or pessoa.is_assistente_administrativo %}
+						<li class="nav-item">					        
+							<a class="nav-link" href="{% url 'autenticacao:usuarios' %}">
+								<span class="nav-icon">
+									<i class="fa-solid fa-user"></i>
+								</span>
+								<span class="nav-link-text">Usuários</span>
+					        </a>
+					    </li>	
+						{% endif %}
+				    </ul>
+			    </nav>
+			    <div class="app-sidepanel-footer">
+				    <nav class="app-nav app-nav-footer">
+					    <ul class="app-menu footer-menu list-unstyled">
+						    <li class="nav-item">
+						        
+						        <a class="nav-link" href="{% url 'autenticacao:painel_administrativo' %}">
+							        <span class="nav-icon">
+							            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-gear" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"/>
+										<path fill-rule="evenodd" d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"/>
+										</svg>
+							        </span>
+			                        <span class="nav-link-text">Configurações</span>
+						        </a>
+						    </li>
+						    <li class="nav-item">
+						       
+						        <a class="nav-link" href="/">
+							        <span class="nav-icon">
+							            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M12 1H4a1 1 0 0 0-1 1v10.755S4 11 8 11s5 1.755 5 1.755V2a1 1 0 0 0-1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
+										<path fill-rule="evenodd" d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+										</svg>
+							        </span>
+			                        <span class="nav-link-text">Termos de uso</span>
+						        </a>
+						    </li>
+					    </ul>
+				    </nav>
+			    </div>
+	        </div>
+	    </div>
+    </header>
+    
+
+    
+    <div class="app-wrapper">
+        
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+            <div class="container-xl" >
+                
+                {% block content %}{% endblock %}
+
+            </div> 
+	    </div>
+	    
+	    <footer class="app-footer w-100">
+		    <div class="container text-center py-3">	         
+            <small class="copyright">© Subsecretaria de Tecnologia da Informação e Comunicação - 2024</small>			
+		    </div>
+	    </footer>
+	    
+    </div> 					
+
+ 
+    <!-- Javascript -->          
+    <script src="{% static '/plugins/popper.min.js' %}"></script>
+    <script src="{% static '/plugins/bootstrap/js/bootstrap.min.js' %}"></script>  
+    <script src="{% static '/js/app.js' %}"></script> 
+	<script src="{% static '/js/notifications.js' %}"></script>
+
+	<script>
+		function hiddenMenu(){
+			var sidepanel = document.getElementById('app-sidepanel');
+			if (sidepanel.style.left == '-250px') {
+				sidepanel.style.left = '0px';
+				document.querySelector('.app-wrapper').style.marginLeft = '250px';
+				document.querySelector('.app-header-inner').style.marginLeft = '250px';
+				document.querySelector('#mButton').innerHTML = '<i class="fa-solid fa-angle-left"></i>';
+				
+			} else {
+				sidepanel.style.left = '-250px';
+				document.querySelector('.app-wrapper').style.marginLeft = '0px';
+				document.querySelector('.app-header-inner').style.marginLeft = '0px';
+				document.querySelector('#mButton').innerHTML = '<i class="fa-solid fa-angle-right"></i>';
+			}						
+
+		};
+		window.onload = function() {
+			var preloader = document.getElementById('preloader');
+			preloader.style.display = 'none';
+		};
+	</script>
+</body>
+</html> 
+
