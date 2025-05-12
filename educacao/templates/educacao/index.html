@@ -3,13 +3,15 @@
 
 {% block content %}
 
-    <div class="container text-center">
-        <h1 class="mb-4">Educação - Prefeitura Municipal de Nova Friburgo</h1>
-        <p class="mb-4">
-            Bem-vindo à página de Educação da Prefeitura Municipal de Nova Friburgo. Aqui você encontra informações sobre as escolas, turmas, projetos educacionais e muito mais.
-        </p>
-
+    <div class="row rounded-4 shadow-sm" style="background-color: white;">
+    <div class="col pt-4 pb-3 px-4">
+        <div class="w-100 d-flex">
+            <h4 class="mb-3">Educação - Prefeitura Municipal de Nova Friburgo</h4>
         </div>
+                
+        <div class="w-100 d-flex">
+            <p class="mb-3">Bem-vindo à página de Educação da Prefeitura Municipal de Nova Friburgo. Aqui você encontra informações sobre as escolas, turmas, projetos educacionais e muito mais.</p>
     </div>
+</div>
     {{turmas}}
 {% endblock %}

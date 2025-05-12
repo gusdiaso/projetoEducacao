@@ -195,10 +195,14 @@ body {
     line-height: var(--bs-body-line-height);
     color: var(--bs-body-color);
     text-align: var(--bs-body-text-align);
-    background-color: var(--bs-body-bg);
     -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+                url(../images/bg-login-educacao-2.png) no-repeat center center/cover !important;
+    background-attachment: fixed !important;
+    background-size: cover !important;
 }
+
 
 .btn-menutop{
     border-radius: 10px;
@@ -207,7 +211,7 @@ body {
 }
 
 .btn-menutop:hover{
-    background-color: #fff3d0 !important;
+    background-color: #cbcbcb !important;
     transition: 0.2s ease-in-out;
 }
 
@@ -13611,6 +13615,7 @@ a.app-link {
     text-decoration-color: rgba(37, 41, 48, .3)
 }
 
+
 a.app-link:hover {
     color: #15a362;
     text-decoration-color: rgba(21, 163, 98, .8)
@@ -13752,7 +13757,7 @@ button.close:focus {
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
     border-bottom: 1px solid #e7e9ed;
     height: 56px;
-    background: var(--bs-color-app);
+    background: var(--bs-dropdown-header-color);
     /* background: var(--bs-body-bg); */
 }
 
@@ -14119,7 +14124,7 @@ button.close:focus {
 
 .app-nav .nav-link:hover {
     color: var(--bs-white);
-    background-color: var(--bs-color-app);
+    background-color: var(--bs-dropdown-link-color);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     transition: 0.1s ease-in-out;
 }
@@ -14377,7 +14382,8 @@ button.close:focus {
 }
 
 .app-footer .copyright {
-    font-size: .8125rem
+    font-size: .8125rem;
+    color: var(--bs-black);
 }
 
 .app-wrapper {

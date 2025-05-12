@@ -63,7 +63,6 @@
             
 <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 <div id="login-screen">    
-    <h3 class="">Login</h3>
     <form method="post">
         
         {% if messages %}
@@ -101,8 +100,9 @@
         </button>
 
     </form>
-    <a href="/passwd_reset/">Esqueci minha senha</a>
-    <a href="/cadastro/">Quero me cadastrar</a>
+    <div class="divisor">
+        <a href="/passwd_reset/">Esqueci minha senha</a>
+    </div>
 </div>
 <style>
         .btn:focus{            

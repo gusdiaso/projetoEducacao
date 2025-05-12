@@ -1,34 +1,29 @@
-html, body{
-    height: 100%;    
-    min-width: 100%;
-    /* min-width: 700px !important;
-    min-width: 630px !important;    */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-html{
-    background-image: url(../images/bg-login-educacao.png);
-    background-position: center;
-    background-attachment: fixed;
+body {
+    min-height: 100vh;
+    background: linear-gradient(rgba(255, 255, 255, .4), rgba(255, 255, 255, 0.4)), 
+                url(../images/bg-login-educacao.png) no-repeat center center fixed;
     background-size: cover;
-    background-repeat: no-repeat;
-}
-body{
-    background-color: rgba(255, 255, 255, 0.596);
-    background-attachment: fixed;
-    background-size: cover;
-    background-repeat: no-repeat;    
-    
-}
-.container-fluid{
     display: flex;
     flex-direction: column;
-    min-height: 100%;
 }
+
+.container-fluid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 #header{
     display: flex;
     margin: auto auto 1px auto;
     background-color: #ffffff;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 20px 20px 0px 0px;
     padding: 10px 0px;
     width: 500px;
     box-shadow: 5px 5px 5px rgba(80, 80, 80, 0.678);    
@@ -37,9 +32,14 @@ body{
     display: flex;
 }
 #header img{
-    width: auto;
+    width: 50%;
     height: auto;
     margin: auto;
+}
+.divisor{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 #login-screen{
@@ -49,7 +49,7 @@ body{
     display: flex;
     flex-direction: column;
     background-color: white;
-    border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 20px 20px;
     width: 500px;
     padding: 30px 100px;
     box-shadow: 5px 5px 5px rgba(80, 80, 80, 0.678);   
